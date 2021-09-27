@@ -1,14 +1,27 @@
-name: Flutter Analyze & Test
-on: pull_request
+name: very_good_slide_puzzle
+
+on: [pull_request, push]
+
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.12.13+hotfix.6'
-          channel: beta
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.5.3
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
