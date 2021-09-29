@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 /// {@template position}
 /// 2-dimensional position model.
+/// (0, 0) equates to the top left corner of the board.
 /// {@endtemplate}
 class Position extends Equatable {
   /// {@macro position}
@@ -14,5 +15,5 @@ class Position extends Equatable {
   final int y;
 
   @override
-  List<Object?> get props => [x, y];
+  List<Object> get props => [x, y];
 }
