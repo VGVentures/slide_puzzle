@@ -1,4 +1,4 @@
-import 'package:very_good_slide_puzzle/models/position.dart';
+import 'package:very_good_slide_puzzle/models/models.dart';
 
 /// {@template tile}
 /// Model for a puzzle tile.
