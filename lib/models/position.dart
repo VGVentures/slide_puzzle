@@ -2,9 +2,10 @@ import 'package:equatable/equatable.dart';
 
 /// {@template position}
 /// 2-dimensional position model.
-/// (0, 0) equates to the top left corner of the board.
+///
+/// (1, 1) is the top left corner of the board.
 /// {@endtemplate}
-class Position extends Equatable {
+class Position extends Equatable implements Comparable<Position> {
   /// {@macro position}
   const Position({required this.x, required this.y});
 
@@ -16,4 +17,19 @@ class Position extends Equatable {
 
   @override
   List<Object> get props => [x, y];
+
+  @override
+  int compareTo(Position other) {
+    if (y < other.y) {
+      return -1;
+    } else if (y > other.y) {
+      return 1;
+    } else {
+      if (x < other.x) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  }
 }
