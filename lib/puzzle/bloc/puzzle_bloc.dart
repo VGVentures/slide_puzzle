@@ -78,6 +78,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     ];
 
     // Assign new current positions until the tile arrangement is solvable.
+    // coverage:ignore-start
     while (!isSolvable(size: size, tiles: tiles)) {
       currentPositions.shuffle();
       tiles = [
@@ -96,6 +97,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             )
       ];
     }
+    // coverage:ignore-end
 
     return tiles;
   }
