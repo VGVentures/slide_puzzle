@@ -22,7 +22,10 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   void _onPuzzleInitialized(
       PuzzleInitialized event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
-    emit(state.copyWith(puzzle: puzzle));
+    emit(state.copyWith(
+      puzzle: puzzle,
+      numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+    ));
   }
 
   void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
@@ -33,6 +36,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       emit(state.copyWith(
         puzzle: puzzle,
         tileMovementStatus: TileMovementStatus.moved,
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
         numberOfMoves: state.numberOfMoves + 1,
       ));
     } else {

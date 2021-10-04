@@ -94,7 +94,12 @@ void main() {
         'emits solvable 3x3 puzzle when initialized with size 3',
         build: () => PuzzleBloc(3, random: random),
         act: (bloc) => bloc.add(PuzzleInitialized()),
-        expect: () => <PuzzleState>[PuzzleState(puzzle: puzzleSize3)],
+        expect: () => <PuzzleState>[
+          PuzzleState(
+            puzzle: puzzleSize3,
+            numberOfCorrectTiles: 1,
+          )
+        ],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });
@@ -198,6 +203,7 @@ void main() {
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: 5,
             numberOfMoves: 1,
           ),
         ],
@@ -236,6 +242,7 @@ void main() {
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: 4,
             numberOfMoves: 1,
           ),
         ],

@@ -94,14 +94,28 @@ class PuzzleControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tiles = context.select((PuzzleBloc bloc) => bloc.state.puzzle.tiles);
     final moves = context.select((PuzzleBloc bloc) => bloc.state.numberOfMoves);
+    final numberOfCorrectTiles =
+        context.select((PuzzleBloc bloc) => bloc.state.numberOfCorrectTiles);
+    final numberOfTilesLeft = tiles.length - numberOfCorrectTiles - 1;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         SizedBox(
           height: 30,
           child: Text(
             '$moves Moves',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+          child: Text(
+            '$numberOfTilesLeft Tiles left',
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

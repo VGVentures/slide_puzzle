@@ -8,6 +8,7 @@ class PuzzleState extends Equatable {
   const PuzzleState({
     this.puzzle = const Puzzle(tiles: []),
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
+    this.numberOfCorrectTiles = 0,
     this.numberOfMoves = 0,
   });
 
@@ -16,6 +17,10 @@ class PuzzleState extends Equatable {
 
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
+
+  /// Value representing the number of tiles currently in their correct
+  /// position.
+  final int numberOfCorrectTiles;
 
   /// Number representing how many moves the player has made on the current
   /// puzzle.
@@ -28,15 +33,22 @@ class PuzzleState extends Equatable {
   PuzzleState copyWith({
     Puzzle? puzzle,
     TileMovementStatus? tileMovementStatus,
+    int? numberOfCorrectTiles,
     int? numberOfMoves,
   }) {
     return PuzzleState(
       puzzle: puzzle ?? this.puzzle,
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
+      numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
     );
   }
 
   @override
-  List<Object> get props => [puzzle, tileMovementStatus, numberOfMoves];
+  List<Object> get props => [
+        puzzle,
+        tileMovementStatus,
+        numberOfCorrectTiles,
+        numberOfMoves,
+      ];
 }

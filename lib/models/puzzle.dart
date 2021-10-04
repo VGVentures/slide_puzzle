@@ -25,6 +25,20 @@ class Puzzle extends Equatable {
     return tiles.singleWhere((tile) => tile.value == 0);
   }
 
+  /// Gets the number of tiles that are currently in their correct position.
+  int getNumberOfCorrectTiles() {
+    final whitespaceTile = getWhitespaceTile();
+    var numberOfCorrectTiles = 0;
+    for (final tile in tiles) {
+      if (tile != whitespaceTile) {
+        if (tile.currentPosition == tile.correctPosition) {
+          numberOfCorrectTiles++;
+        }
+      }
+    }
+    return numberOfCorrectTiles;
+  }
+
   /// Determines if the tapped tile can move in the direction of the whitespace
   /// tile.
   bool isTileMovable(Tile tile) {
