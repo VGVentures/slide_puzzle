@@ -13,7 +13,7 @@ bool isSolvable({required int size, required List<Tile> tiles}) {
   final whitespace = tiles.singleWhere((tile) => tile.value == 0);
   final whitespaceRow = whitespace.currentPosition.y;
 
-  if ((height - whitespaceRow).isOdd) {
+  if (((height - whitespaceRow) + 1).isOdd) {
     return inversions.isEven;
   } else {
     return inversions.isOdd;
@@ -46,9 +46,9 @@ int countInversions(int size, List<Tile> tiles) {
 bool isInversion(Tile a, Tile b) {
   if (b.value != 0 && a.value != b.value) {
     if (b.value < a.value) {
-      if (b.currentPosition.compareTo(a.currentPosition) > 0) return true;
+      return b.currentPosition.compareTo(a.currentPosition) > 0;
     } else {
-      if (a.currentPosition.compareTo(b.currentPosition) > 0) return true;
+      return a.currentPosition.compareTo(b.currentPosition) > 0;
     }
   }
   return false;
