@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/models/position.dart';
-import 'package:very_good_slide_puzzle/models/tile.dart';
+import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/util/util.dart';
 
 void main() {
