@@ -198,6 +198,7 @@ void main() {
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfMoves: 1,
           ),
         ],
       );
@@ -235,6 +236,7 @@ void main() {
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfMoves: 1,
           ),
         ],
       );

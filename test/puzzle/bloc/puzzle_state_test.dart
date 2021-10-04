@@ -38,5 +38,14 @@ void main() {
         );
       });
     });
+
+    test(
+        'returns object with updated number of moves when number of moves is '
+        'passed', () {
+      expect(
+        PuzzleState().copyWith(numberOfMoves: 1),
+        equals(PuzzleState(numberOfMoves: 1)),
+      );
+    });
   });
 }

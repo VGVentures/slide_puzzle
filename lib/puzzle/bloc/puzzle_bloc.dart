@@ -33,6 +33,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       emit(state.copyWith(
         puzzle: puzzle,
         tileMovementStatus: TileMovementStatus.moved,
+        numberOfMoves: state.numberOfMoves + 1,
       ));
     } else {
       emit(

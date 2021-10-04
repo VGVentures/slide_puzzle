@@ -2,6 +2,7 @@
 // coverage:ignore-file
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
@@ -15,7 +16,7 @@ class PuzzlePage extends StatelessWidget {
 
     return Scaffold(
       body: const Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 190),
         child: Center(child: PuzzleBoard()),
       ),
       backgroundColor: Colors.blue.shade100,
@@ -28,19 +29,34 @@ class PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: const [PuzzleGrid(), PuzzleControls()],
+    );
+  }
+}
+
+class PuzzleGrid extends StatelessWidget {
+  const PuzzleGrid({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
+    final tiles = puzzle.tiles;
     final size = puzzle.getDimension();
-    final orderedTiles = puzzle.tiles.toList()
-      ..sort((tileA, tileB) =>
-          tileA.currentPosition.compareTo(tileB.currentPosition));
     if (size == 0) {
       return const CircularProgressIndicator();
     } else {
-      return GridView.count(
-        crossAxisCount: size,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        children: [for (var tile in orderedTiles) TileWidget(tile: tile)],
+      final orderedTiles = tiles.toList()
+        ..sort((tileA, tileB) =>
+            tileA.currentPosition.compareTo(tileB.currentPosition));
+      return SizedBox(
+        height: 500,
+        child: GridView.count(
+          crossAxisCount: size,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          children: [for (var tile in orderedTiles) TileWidget(tile: tile)],
+        ),
       );
     }
   }
@@ -69,6 +85,30 @@ class TileWidget extends StatelessWidget {
               : const SizedBox(),
         ),
       ),
+    );
+  }
+}
+
+class PuzzleControls extends StatelessWidget {
+  const PuzzleControls({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final moves = context.select((PuzzleBloc bloc) => bloc.state.numberOfMoves);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 30,
+          child: Text(
+            '$moves Moves',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
