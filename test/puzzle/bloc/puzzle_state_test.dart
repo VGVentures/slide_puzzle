@@ -16,24 +16,26 @@ void main() {
       expect(PuzzleState(), PuzzleState());
     });
 
-    test('returns same object when no properties are passed', () {
-      expect(PuzzleState().copyWith(), equals(PuzzleState()));
-    });
+    group('copyWith', () {
+      test('returns same object when no properties are passed', () {
+        expect(PuzzleState().copyWith(), equals(PuzzleState()));
+      });
 
-    test('returns object with updated tiles when tiles are passed', () {
-      expect(
-        PuzzleState().copyWith(tiles: [tile]),
-        equals(PuzzleState(tiles: [tile])),
-      );
-    });
+      test('returns object with updated tiles when tiles are passed', () {
+        expect(
+          PuzzleState().copyWith(tiles: [tile]),
+          equals(PuzzleState(tiles: [tile])),
+        );
+      });
 
-    test(
-        'returns object with updated tile movement status when tile movement '
-        'status is passed', () {
-      expect(
-        PuzzleState().copyWith(tileMovementStatus: TileMovementStatus.moved),
-        equals(PuzzleState(tileMovementStatus: TileMovementStatus.moved)),
-      );
+      test(
+          'returns object with updated tile movement status when tile movement '
+          'status is passed', () {
+        expect(
+          PuzzleState().copyWith(tileMovementStatus: TileMovementStatus.moved),
+          equals(PuzzleState(tileMovementStatus: TileMovementStatus.moved)),
+        );
+      });
     });
   });
 }

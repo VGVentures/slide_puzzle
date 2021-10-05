@@ -67,7 +67,7 @@ class TileWidget extends StatelessWidget {
                   '${tile.value}',
                   style: const TextStyle(fontSize: 30),
                 )
-              : Container(),
+              : const SizedBox(),
         ),
       ),
     );
