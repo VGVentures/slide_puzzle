@@ -6,10 +6,11 @@ import 'package:very_good_slide_puzzle/models/models.dart';
 /// {@endtemplate}
 class Tile extends Equatable {
   /// {@macro tile}
-  const Tile(
-      {required this.value,
-      required this.correctPosition,
-      required this.currentPosition});
+  const Tile({
+    required this.value,
+    required this.correctPosition,
+    required this.currentPosition,
+  });
 
   /// Value representing the correct position of [Tile] in a list.
   final int value;

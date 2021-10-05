@@ -27,8 +27,10 @@ class Position extends Equatable implements Comparable<Position> {
     } else {
       if (x < other.x) {
         return -1;
-      } else {
+      } else if (x > other.x) {
         return 1;
+      } else {
+        return 0;
       }
     }
   }
