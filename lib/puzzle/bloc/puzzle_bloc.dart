@@ -10,13 +10,13 @@ part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc(this._size) : super(const PuzzleState()) {
-    on<Initialize>(_onInitialize);
+    on<PuzzleInitialized>(_onInitialize);
     on<TileTapped>(_onTileTapped);
   }
 
   final int _size;
 
-  void _onInitialize(Initialize event, Emitter<PuzzleState> emit) {
+  void _onInitialize(PuzzleInitialized event, Emitter<PuzzleState> emit) {
     final tiles = _generatePuzzle(_size);
     emit(state.copyWith(tiles: tiles));
   }

@@ -12,7 +12,7 @@ class PuzzlePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<PuzzleBloc>().add(const Initialize());
+    context.read<PuzzleBloc>().add(const PuzzleInitialized());
 
     return Scaffold(
       body: const Padding(

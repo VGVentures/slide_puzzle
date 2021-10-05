@@ -25,7 +25,7 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits 1 tile when initialized with size 1',
         build: () => PuzzleBloc(size),
-        act: (bloc) => bloc.add(Initialize()),
+        act: (bloc) => bloc.add(PuzzleInitialized()),
         expect: () => <PuzzleState>[
           PuzzleState(tiles: [tile])
         ],

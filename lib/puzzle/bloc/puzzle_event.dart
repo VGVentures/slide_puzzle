@@ -9,8 +9,8 @@ abstract class PuzzleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Initialize extends PuzzleEvent {
-  const Initialize();
+class PuzzleInitialized extends PuzzleEvent {
+  const PuzzleInitialized();
 }
 
 class TileTapped extends PuzzleEvent {

@@ -19,7 +19,7 @@ void main() {
   group('PuzzleEvent', () {
     group('Initialize', () {
       test('supports value comparisons', () {
-        expect(Initialize(), equals(Initialize()));
+        expect(PuzzleInitialized(), equals(PuzzleInitialized()));
       });
     });
 
