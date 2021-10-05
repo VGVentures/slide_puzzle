@@ -1,10 +1,16 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:math';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 void main() {
+  const seed = 2;
+  final random = Random(seed);
+
   group('PuzzleBloc', () {
     test('initial state is PuzzleState', () {
       expect(
@@ -14,18 +20,83 @@ void main() {
     });
 
     group('Initialize', () {
-      final tile1 = Tile(
+      final size1Tile = Tile(
         value: 0,
         correctPosition: Position(x: 1, y: 1),
         currentPosition: Position(x: 1, y: 1),
       );
-      final puzzleSize1 = Puzzle(tiles: [tile1]);
+      final puzzleSize1 = Puzzle(tiles: [size1Tile]);
+
+      final size3Tile0 = Tile(
+        value: 0,
+        correctPosition: Position(x: 3, y: 3),
+        currentPosition: Position(x: 1, y: 3),
+      );
+      final size3Tile1 = Tile(
+        value: 1,
+        correctPosition: Position(x: 1, y: 1),
+        currentPosition: Position(x: 1, y: 1),
+      );
+      final size3Tile2 = Tile(
+        value: 2,
+        correctPosition: Position(x: 2, y: 1),
+        currentPosition: Position(x: 2, y: 3),
+      );
+      final size3Tile3 = Tile(
+        value: 3,
+        correctPosition: Position(x: 3, y: 1),
+        currentPosition: Position(x: 2, y: 1),
+      );
+      final size3Tile4 = Tile(
+        value: 4,
+        correctPosition: Position(x: 1, y: 2),
+        currentPosition: Position(x: 3, y: 2),
+      );
+      final size3Tile5 = Tile(
+        value: 5,
+        correctPosition: Position(x: 2, y: 2),
+        currentPosition: Position(x: 1, y: 2),
+      );
+      final size3Tile6 = Tile(
+        value: 6,
+        correctPosition: Position(x: 3, y: 2),
+        currentPosition: Position(x: 3, y: 3),
+      );
+      final size3Tile7 = Tile(
+        value: 7,
+        correctPosition: Position(x: 1, y: 3),
+        currentPosition: Position(x: 2, y: 2),
+      );
+      final size3Tile8 = Tile(
+        value: 8,
+        correctPosition: Position(x: 2, y: 3),
+        currentPosition: Position(x: 3, y: 1),
+      );
+      final puzzleSize3 = Puzzle(tiles: [
+        size3Tile0,
+        size3Tile1,
+        size3Tile2,
+        size3Tile3,
+        size3Tile4,
+        size3Tile5,
+        size3Tile6,
+        size3Tile7,
+        size3Tile8,
+      ]);
 
       blocTest<PuzzleBloc, PuzzleState>(
-        'emits 1 tile when initialized with size 1',
+        'emits 1x1 puzzle when initialized with size 1',
         build: () => PuzzleBloc(1),
         act: (bloc) => bloc.add(PuzzleInitialized()),
         expect: () => <PuzzleState>[PuzzleState(puzzle: puzzleSize1)],
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'emits solvable 3x3 puzzle when initialized with size 3',
+        build: () => PuzzleBloc(3, random: random),
+        act: (bloc) => bloc.add(PuzzleInitialized()),
+        expect: () => <PuzzleState>[PuzzleState(puzzle: puzzleSize3)],
+        verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });
 

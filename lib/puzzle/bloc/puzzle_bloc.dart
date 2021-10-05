@@ -50,8 +50,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     final whitespacePosition = Position(x: size, y: size);
 
     // Create all possible board positions.
-    for (var x = 1; x <= size; x++) {
-      for (var y = 1; y <= size; y++) {
+    for (var y = 1; y <= size; y++) {
+      for (var x = 1; x <= size; x++) {
         if (x == size && y == size) {
           correctPositions.add(whitespacePosition);
           currentPositions.add(whitespacePosition);
@@ -74,7 +74,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     var puzzle = Puzzle(tiles: tiles);
 
     // Assign the tiles new current positions until the puzzle is solvable.
-    // coverage:ignore-start
     while (!puzzle.isSolvable()) {
       currentPositions.shuffle(random);
       tiles = _getTileListFromPositions(
@@ -84,7 +83,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       );
       puzzle = Puzzle(tiles: tiles);
     }
-    // coverage:ignore-end
 
     return puzzle;
   }
