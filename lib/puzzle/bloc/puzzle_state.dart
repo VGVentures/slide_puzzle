@@ -6,26 +6,26 @@ enum TileMovementStatus { nothingTapped, cannotBeMoved, moved }
 
 class PuzzleState extends Equatable {
   const PuzzleState({
-    this.tiles = const <Tile>[],
+    this.puzzle = const Puzzle(tiles: []),
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
   });
 
-  /// List of [Tile]s representing the puzzle's current arrangement.
-  final List<Tile> tiles;
+  /// [Puzzle] containing the current tile arrangement.
+  final Puzzle puzzle;
 
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
 
   PuzzleState copyWith({
-    List<Tile>? tiles,
+    Puzzle? puzzle,
     TileMovementStatus? tileMovementStatus,
   }) {
     return PuzzleState(
-      tiles: tiles ?? this.tiles,
+      puzzle: puzzle ?? this.puzzle,
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
     );
   }
 
   @override
-  List<Object> get props => [tiles, tileMovementStatus];
+  List<Object> get props => [puzzle, tileMovementStatus];
 }

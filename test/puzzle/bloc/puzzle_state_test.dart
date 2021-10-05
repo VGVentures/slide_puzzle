@@ -10,6 +10,7 @@ void main() {
     correctPosition: position,
     currentPosition: position,
   );
+  final puzzle = Puzzle(tiles: [tile]);
 
   group('PuzzleState', () {
     test('supports value comparisons', () {
@@ -21,10 +22,10 @@ void main() {
         expect(PuzzleState().copyWith(), equals(PuzzleState()));
       });
 
-      test('returns object with updated tiles when tiles are passed', () {
+      test('returns object with updated puzzle when puzzle is passed', () {
         expect(
-          PuzzleState().copyWith(tiles: [tile]),
-          equals(PuzzleState(tiles: [tile])),
+          PuzzleState().copyWith(puzzle: puzzle),
+          equals(PuzzleState(puzzle: puzzle)),
         );
       });
 

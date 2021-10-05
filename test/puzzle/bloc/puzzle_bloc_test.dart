@@ -14,23 +14,21 @@ void main() {
     });
 
     group('Initialize', () {
-      const size = 1;
-      final position = Position(x: size, y: size);
-      final tile = Tile(
+      final tile1 = Tile(
         value: 0,
-        correctPosition: position,
-        currentPosition: position,
+        correctPosition: Position(x: 1, y: 1),
+        currentPosition: Position(x: 1, y: 1),
       );
+      final puzzleSize1 = Puzzle(tiles: [tile1]);
 
       blocTest<PuzzleBloc, PuzzleState>(
         'emits 1 tile when initialized with size 1',
-        build: () => PuzzleBloc(size),
+        build: () => PuzzleBloc(1),
         act: (bloc) => bloc.add(PuzzleInitialized()),
-        expect: () => <PuzzleState>[
-          PuzzleState(tiles: [tile])
-        ],
+        expect: () => <PuzzleState>[PuzzleState(puzzle: puzzleSize1)],
       );
     });
+
     group('TileTapped', () {
       const size = 3;
       final topLeft = Position(x: 1, y: 1);
@@ -99,33 +97,36 @@ void main() {
         bottomCenterTile,
         whitespaceTile,
       ];
+      final puzzle = Puzzle(tiles: tiles);
 
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [moved] when one tile was able to move',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzleState(tiles: tiles),
+        seed: () => PuzzleState(puzzle: puzzle),
         act: (bloc) => bloc.add(TileTapped(middleRightTile)),
         expect: () => <PuzzleState>[
           PuzzleState(
-            tiles: [
-              topLeftTile,
-              topCenterTile,
-              topRightTile,
-              middleLeftTile,
-              middleCenterTile,
-              Tile(
-                value: 6,
-                correctPosition: middleRight,
-                currentPosition: bottomRight,
-              ),
-              bottomLeftTile,
-              bottomCenterTile,
-              Tile(
-                value: 0,
-                correctPosition: bottomRight,
-                currentPosition: middleRight,
-              ),
-            ],
+            puzzle: Puzzle(
+              tiles: [
+                topLeftTile,
+                topCenterTile,
+                topRightTile,
+                middleLeftTile,
+                middleCenterTile,
+                Tile(
+                  value: 6,
+                  correctPosition: middleRight,
+                  currentPosition: bottomRight,
+                ),
+                bottomLeftTile,
+                bottomCenterTile,
+                Tile(
+                  value: 0,
+                  correctPosition: bottomRight,
+                  currentPosition: middleRight,
+                ),
+              ],
+            ),
             tileMovementStatus: TileMovementStatus.moved,
           ),
         ],
@@ -134,33 +135,35 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [moved] when mutiple tiles were able to move',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzleState(tiles: tiles),
+        seed: () => PuzzleState(puzzle: puzzle),
         act: (bloc) => bloc.add(TileTapped(topRightTile)),
         expect: () => <PuzzleState>[
           PuzzleState(
-            tiles: [
-              topLeftTile,
-              topCenterTile,
-              Tile(
-                value: 3,
-                correctPosition: topRight,
-                currentPosition: middleRight,
-              ),
-              middleLeftTile,
-              middleCenterTile,
-              Tile(
-                value: 6,
-                correctPosition: middleRight,
-                currentPosition: bottomRight,
-              ),
-              bottomLeftTile,
-              bottomCenterTile,
-              Tile(
-                value: 0,
-                correctPosition: bottomRight,
-                currentPosition: topRight,
-              ),
-            ],
+            puzzle: Puzzle(
+              tiles: [
+                topLeftTile,
+                topCenterTile,
+                Tile(
+                  value: 3,
+                  correctPosition: topRight,
+                  currentPosition: middleRight,
+                ),
+                middleLeftTile,
+                middleCenterTile,
+                Tile(
+                  value: 6,
+                  correctPosition: middleRight,
+                  currentPosition: bottomRight,
+                ),
+                bottomLeftTile,
+                bottomCenterTile,
+                Tile(
+                  value: 0,
+                  correctPosition: bottomRight,
+                  currentPosition: topRight,
+                ),
+              ],
+            ),
             tileMovementStatus: TileMovementStatus.moved,
           ),
         ],
@@ -169,7 +172,7 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [cannotBeMoved] when tapped tile cannot move to whitespace',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzleState(tiles: tiles),
+        seed: () => PuzzleState(puzzle: puzzle),
         act: (bloc) => bloc.add(TileTapped(topLeftTile)),
         expect: () => [
           isA<PuzzleState>().having(

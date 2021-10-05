@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
-import 'package:very_good_slide_puzzle/util/util.dart';
 
 class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
@@ -29,9 +28,9 @@ class PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tiles = context.select((PuzzleBloc bloc) => bloc.state.tiles);
-    final size = getPuzzleDimension(tiles);
-    final orderedTiles = tiles.toList()
+    final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
+    final size = puzzle.getDimension();
+    final orderedTiles = puzzle.tiles.toList()
       ..sort((tileA, tileB) =>
           tileA.currentPosition.compareTo(tileB.currentPosition));
     if (size == 0) {

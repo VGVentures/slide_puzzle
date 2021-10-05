@@ -1,9 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/util/util.dart';
 
 void main() {
-  const unsolvableOddPuzzle = [
+  const unsolvableOddPuzzle = Puzzle(tiles: [
     Tile(
       value: 1,
       correctPosition: Position(x: 1, y: 1),
@@ -49,9 +48,9 @@ void main() {
       correctPosition: Position(x: 3, y: 3),
       currentPosition: Position(x: 3, y: 3),
     ),
-  ];
+  ]);
 
-  const solvableOddPuzzle = [
+  const solvableOddPuzzle = Puzzle(tiles: [
     Tile(
       value: 1,
       correctPosition: Position(x: 1, y: 1),
@@ -97,9 +96,9 @@ void main() {
       correctPosition: Position(x: 3, y: 3),
       currentPosition: Position(x: 2, y: 2),
     ),
-  ];
+  ]);
 
-  const unsolvableEvenPuzzle = [
+  const unsolvableEvenPuzzle = Puzzle(tiles: [
     Tile(
       value: 1,
       correctPosition: Position(x: 1, y: 1),
@@ -180,9 +179,9 @@ void main() {
       correctPosition: Position(x: 4, y: 4),
       currentPosition: Position(x: 4, y: 4),
     ),
-  ];
+  ]);
 
-  const solvableEvenPuzzle = [
+  const solvableEvenPuzzle = Puzzle(tiles: [
     Tile(
       value: 1,
       correctPosition: Position(x: 1, y: 1),
@@ -203,67 +202,58 @@ void main() {
       correctPosition: Position(x: 2, y: 2),
       currentPosition: Position(x: 1, y: 1),
     ),
-  ];
+  ]);
 
-  group('isInversion', () {
-    const lesserPosition = Position(x: 1, y: 1);
-    const greaterPosition = Position(x: 2, y: 1);
-    test('returns true when the tiles are inverted', () {
-      const tileA = Tile(
+  group('Puzzle', () {
+    group('getPuzzleDimension', () {
+      const tile = Tile(
         value: 1,
-        correctPosition: lesserPosition,
-        currentPosition: greaterPosition,
+        correctPosition: Position(x: 1, y: 1),
+        currentPosition: Position(x: 1, y: 1),
       );
-      const tileB = Tile(
-        value: 2,
-        correctPosition: greaterPosition,
-        currentPosition: lesserPosition,
-      );
-      expect(isInversion(tileA, tileB), isTrue);
-      expect(isInversion(tileB, tileA), isTrue);
+      const puzzleEmpty = Puzzle(tiles: []);
+      const puzzle1x1 = Puzzle(tiles: [tile]);
+      const puzzle2x2 = Puzzle(tiles: [tile, tile, tile, tile]);
+
+      test('returns 0 when given an empty list', () {
+        expect(puzzleEmpty.getDimension(), equals(0));
+      });
+
+      test('returns 1 when given 1x1 list of tiles', () {
+        expect(puzzle1x1.getDimension(), equals(1));
+      });
+
+      test('returns 2 when given 2x2 list of tiles', () {
+        expect(puzzle2x2.getDimension(), equals(2));
+      });
     });
 
-    test('returns false when the tiles are not inverted', () {
-      const tileA = Tile(
-        value: 1,
-        correctPosition: lesserPosition,
-        currentPosition: lesserPosition,
-      );
-      const tileB = Tile(
-        value: 2,
-        correctPosition: greaterPosition,
-        currentPosition: greaterPosition,
-      );
-      expect(isInversion(tileA, tileB), isFalse);
-      expect(isInversion(tileB, tileA), isFalse);
-    });
-  });
+    group('isSolvable', () {
+      test('returns false when given an unsolvable odd puzzle', () {
+        expect(unsolvableOddPuzzle.isSolvable(), isFalse);
+      });
 
-  group('countInversions', () {
-    test('returns 1 when there is 1 inversion', () {
-      expect(countInversions(3, unsolvableOddPuzzle), equals(1));
+      test('returns false when given an unsolvable even puzzle', () {
+        expect(unsolvableEvenPuzzle.isSolvable(), isFalse);
+      });
+
+      test('returns true when given a solvable odd puzzle', () {
+        expect(solvableOddPuzzle.isSolvable(), isTrue);
+      });
+
+      test('returns true when given a solvable even puzzle', () {
+        expect(solvableEvenPuzzle.isSolvable(), isTrue);
+      });
     });
 
-    test('returns 6 when there are 6 inversions', () {
-      expect(countInversions(3, solvableOddPuzzle), equals(6));
-    });
-  });
+    group('countInversions', () {
+      test('returns 1 when there is 1 inversion', () {
+        expect(unsolvableOddPuzzle.countInversions(), equals(1));
+      });
 
-  group('isSolvable', () {
-    test('returns false when given an unsolvable odd puzzle', () {
-      expect(isSolvable(size: 3, tiles: unsolvableOddPuzzle), isFalse);
-    });
-
-    test('returns false when given an unsolvable even puzzle', () {
-      expect(isSolvable(size: 4, tiles: unsolvableEvenPuzzle), isFalse);
-    });
-
-    test('returns true when given a solvable odd puzzle', () {
-      expect(isSolvable(size: 3, tiles: solvableOddPuzzle), isTrue);
-    });
-
-    test('returns true when given a solvable even puzzle', () {
-      expect(isSolvable(size: 2, tiles: solvableEvenPuzzle), isTrue);
+      test('returns 6 when there are 6 inversions', () {
+        expect(solvableOddPuzzle.countInversions(), equals(6));
+      });
     });
   });
 }

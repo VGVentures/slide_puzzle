@@ -1,32 +1,39 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/util/util.dart';
 
 part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
-  PuzzleBloc(this._size) : super(const PuzzleState()) {
+  PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onInitialize);
     on<TileTapped>(_onTileTapped);
   }
 
   final int _size;
 
+  final Random? random;
+
   void _onInitialize(PuzzleInitialized event, Emitter<PuzzleState> emit) {
-    final tiles = _generatePuzzle(_size);
-    emit(state.copyWith(tiles: tiles));
+    final puzzle = _generatePuzzle(_size);
+    emit(state.copyWith(puzzle: puzzle));
   }
 
   void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
     final tappedTile = event.tile;
     if (_isMovable(tappedTile)) {
-      final tiles = _moveTiles([...state.tiles], tappedTile, []);
+      final puzzle = _moveTiles(
+        Puzzle(tiles: [...state.puzzle.tiles]),
+        tappedTile,
+        [],
+      );
       emit(state.copyWith(
-        tiles: tiles,
+        puzzle: puzzle,
         tileMovementStatus: TileMovementStatus.moved,
       ));
     } else {
@@ -36,8 +43,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     }
   }
 
-  /// Build a randomized, solvable tile arrangement of the given size.
-  List<Tile> _generatePuzzle(int size) {
+  /// Build a randomized, solvable puzzle of the given size.
+  Puzzle _generatePuzzle(int size) {
     final correctPositions = <Position>[];
     final currentPositions = <Position>[];
     final whitespacePosition = Position(x: size, y: size);
@@ -57,30 +64,32 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     }
 
     // Randomize only the current tile posistions.
-    currentPositions.shuffle();
+    currentPositions.shuffle(random);
 
     var tiles = _getTileListFromPositions(
       size,
       correctPositions,
       currentPositions,
     );
+    var puzzle = Puzzle(tiles: tiles);
 
-    // Assign new current positions until the tile arrangement is solvable.
+    // Assign the tiles new current positions until the puzzle is solvable.
     // coverage:ignore-start
-    while (!isSolvable(size: size, tiles: tiles)) {
-      currentPositions.shuffle();
+    while (!puzzle.isSolvable()) {
+      currentPositions.shuffle(random);
       tiles = _getTileListFromPositions(
         size,
         correctPositions,
         currentPositions,
       );
+      puzzle = Puzzle(tiles: tiles);
     }
     // coverage:ignore-end
 
-    return tiles;
+    return puzzle;
   }
 
-  /// Build list of tiles - giving each tile their correct position and a
+  /// Build a list of tiles - giving each tile their correct position and a
   /// current position.
   List<Tile> _getTileListFromPositions(
     int size,
@@ -105,12 +114,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     ];
   }
 
-  Tile _getWhitespaceTile(List<Tile> tiles) {
-    return tiles.singleWhere((tile) => tile.value == 0);
+  Tile _getWhitespaceTile(Puzzle puzzle) {
+    return puzzle.tiles.singleWhere((tile) => tile.value == 0);
   }
 
   bool _isMovable(Tile tile) {
-    final whitespaceTile = _getWhitespaceTile(state.tiles);
+    final whitespaceTile = _getWhitespaceTile(state.puzzle);
     if (tile == whitespaceTile) {
       return false;
     }
@@ -123,36 +132,40 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     return true;
   }
 
-  /// Shifts one or many tiles in a row/column with the whitespace.
+  /// Shifts one or many tiles in a row/column with the whitespace and returns
+  /// the modified puzzle.
   ///
   // Recursively stores a list of all tiles that need to be moved and passes the
-  // list to _swapTiles to individually swap them
-  List<Tile> _moveTiles(List<Tile> tiles, Tile tile, List<Tile> tilesToSwap) {
-    final whitespaceTile = _getWhitespaceTile(tiles);
+  // list to _swapTiles to individually swap them.
+  Puzzle _moveTiles(Puzzle puzzle, Tile tile, List<Tile> tilesToSwap) {
+    final whitespaceTile = _getWhitespaceTile(puzzle);
     final deltaX = whitespaceTile.currentPosition.x - tile.currentPosition.x;
     final deltaY = whitespaceTile.currentPosition.y - tile.currentPosition.y;
 
     if ((deltaX.abs() + deltaY.abs()) > 1) {
       final shiftPointX = tile.currentPosition.x + deltaX.sign;
       final shiftPointY = tile.currentPosition.y + deltaY.sign;
-      final tileToSwapWith = tiles.singleWhere((tile) =>
-          tile.currentPosition.x == shiftPointX &&
-          tile.currentPosition.y == shiftPointY);
+      final tileToSwapWith = puzzle.tiles.singleWhere(
+        (tile) =>
+            tile.currentPosition.x == shiftPointX &&
+            tile.currentPosition.y == shiftPointY,
+      );
       tilesToSwap.add(tile);
-      return _moveTiles(tiles, tileToSwapWith, tilesToSwap);
+      return _moveTiles(puzzle, tileToSwapWith, tilesToSwap);
     } else {
       tilesToSwap.add(tile);
-      return _swapTiles(tiles, tilesToSwap);
+      return _swapTiles(puzzle, tilesToSwap);
     }
   }
 
-  /// Returns the new tile arrangement after individually swapping each tile
-  /// in tilesToSwap with the whitespace.
-  List<Tile> _swapTiles(List<Tile> tiles, List<Tile> tilesToSwap) {
+  /// Returns puzzle with new tile arrangement after individually swapping each
+  /// tile in tilesToSwap with the whitespace.
+  Puzzle _swapTiles(Puzzle puzzle, List<Tile> tilesToSwap) {
+    final tiles = puzzle.tiles;
     for (final tileToSwap in tilesToSwap.reversed) {
       final tileIndex = tiles.indexOf(tileToSwap);
       final tile = tiles[tileIndex];
-      final whitespaceTile = _getWhitespaceTile(tiles);
+      final whitespaceTile = _getWhitespaceTile(puzzle);
       final whitespaceTileIndex = tiles.indexOf(whitespaceTile);
 
       // Swap current board positions of the moving tile and the whitespace.
@@ -164,6 +177,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       );
     }
 
-    return tiles;
+    return Puzzle(tiles: tiles);
   }
 }
