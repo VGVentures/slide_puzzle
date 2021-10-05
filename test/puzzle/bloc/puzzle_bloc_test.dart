@@ -171,10 +171,11 @@ void main() {
         build: () => PuzzleBloc(size),
         seed: () => PuzzleState(tiles: tiles),
         act: (bloc) => bloc.add(TileTapped(topLeftTile)),
-        expect: () => <PuzzleState>[
-          PuzzleState(
-            tiles: tiles,
-            tileMovementStatus: TileMovementStatus.cannotBeMoved,
+        expect: () => [
+          isA<PuzzleState>().having(
+            (state) => state.tileMovementStatus,
+            'tileMovementStatus',
+            TileMovementStatus.cannotBeMoved,
           ),
         ],
       );

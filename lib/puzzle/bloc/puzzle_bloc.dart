@@ -59,9 +59,36 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     // Randomize only the current tile posistions.
     currentPositions.shuffle();
 
-    // Build list of tiles - giving each tile their correct position and one of
-    // the randomized current positions.
-    var tiles = [
+    var tiles = _getTileListFromPositions(
+      size,
+      correctPositions,
+      currentPositions,
+    );
+
+    // Assign new current positions until the tile arrangement is solvable.
+    // coverage:ignore-start
+    while (!isSolvable(size: size, tiles: tiles)) {
+      currentPositions.shuffle();
+      tiles = _getTileListFromPositions(
+        size,
+        correctPositions,
+        currentPositions,
+      );
+    }
+    // coverage:ignore-end
+
+    return tiles;
+  }
+
+  /// Build list of tiles - giving each tile their correct position and a
+  /// current position.
+  List<Tile> _getTileListFromPositions(
+    int size,
+    List<Position> correctPositions,
+    List<Position> currentPositions,
+  ) {
+    final whitespacePosition = Position(x: size, y: size);
+    return [
       for (int i = 0; i < size * size; i++)
         if (i == 0)
           Tile(
@@ -76,30 +103,6 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             currentPosition: currentPositions[i],
           )
     ];
-
-    // Assign new current positions until the tile arrangement is solvable.
-    // coverage:ignore-start
-    while (!isSolvable(size: size, tiles: tiles)) {
-      currentPositions.shuffle();
-      tiles = [
-        for (int i = 0; i < size * size; i++)
-          if (i == 0)
-            Tile(
-              value: i,
-              correctPosition: whitespacePosition,
-              currentPosition: currentPositions[i],
-            )
-          else
-            Tile(
-              value: i,
-              correctPosition: correctPositions[i - 1],
-              currentPosition: currentPositions[i],
-            )
-      ];
-    }
-    // coverage:ignore-end
-
-    return tiles;
   }
 
   Tile _getWhitespaceTile(List<Tile> tiles) {
@@ -146,23 +149,17 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   /// Returns the new tile arrangement after individually swapping each tile
   /// in tilesToSwap with the whitespace.
   List<Tile> _swapTiles(List<Tile> tiles, List<Tile> tilesToSwap) {
-    tilesToSwap = tilesToSwap.reversed.toList();
-
-    for (final tileToSwap in tilesToSwap) {
+    for (final tileToSwap in tilesToSwap.reversed) {
       final tileIndex = tiles.indexOf(tileToSwap);
       final tile = tiles[tileIndex];
       final whitespaceTile = _getWhitespaceTile(tiles);
       final whitespaceTileIndex = tiles.indexOf(whitespaceTile);
 
       // Swap current board positions of the moving tile and the whitespace.
-      tiles[tileIndex] = Tile(
-        value: tile.value,
-        correctPosition: tile.correctPosition,
+      tiles[tileIndex] = tile.copyWith(
         currentPosition: whitespaceTile.currentPosition,
       );
-      tiles[whitespaceTileIndex] = Tile(
-        value: whitespaceTile.value,
-        correctPosition: whitespaceTile.correctPosition,
+      tiles[whitespaceTileIndex] = whitespaceTile.copyWith(
         currentPosition: tile.currentPosition,
       );
     }

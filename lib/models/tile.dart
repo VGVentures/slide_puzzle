@@ -22,6 +22,19 @@ class Tile extends Equatable {
   /// The current 2D [Position] of the [Tile].
   final Position currentPosition;
 
+  /// Create a copy of this [Tile] with updated values.
+  Tile copyWith({
+    int? value,
+    Position? correctPosition,
+    Position? currentPosition,
+  }) {
+    return Tile(
+      value: value ?? this.value,
+      correctPosition: correctPosition ?? this.correctPosition,
+      currentPosition: currentPosition ?? this.currentPosition,
+    );
+  }
+
   @override
   List<Object> get props => [value, correctPosition, currentPosition];
 }
