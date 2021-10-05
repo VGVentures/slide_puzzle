@@ -9,11 +9,20 @@ void main() {
     correctPosition: Position(x: 1, y: 1),
     currentPosition: Position(x: 1, y: 1),
   );
-  final tiles = [tile, tile, tile, tile];
+  final tiles1x1 = [tile];
+  final tiles2x2 = [tile, tile, tile, tile];
 
   group('getPuzzleDimension', () {
-    test('returns 2 when given 4x4 list of tiles', () {
-      expect(getPuzzleDimension(tiles), equals(2));
+    test('returns 0 when given an empty list', () {
+      expect(getPuzzleDimension([]), equals(0));
+    });
+
+    test('returns 1 when given 1x1 list of tiles', () {
+      expect(getPuzzleDimension(tiles1x1), equals(1));
+    });
+
+    test('returns 2 when given 2x2 list of tiles', () {
+      expect(getPuzzleDimension(tiles2x2), equals(2));
     });
   });
 }
