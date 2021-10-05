@@ -52,14 +52,14 @@ void main() {
 
   const solvableOddPuzzle = Puzzle(tiles: [
     Tile(
-      value: 1,
-      correctPosition: Position(x: 1, y: 1),
-      currentPosition: Position(x: 1, y: 1),
-    ),
-    Tile(
       value: 2,
       correctPosition: Position(x: 2, y: 1),
       currentPosition: Position(x: 3, y: 2),
+    ),
+    Tile(
+      value: 1,
+      correctPosition: Position(x: 1, y: 1),
+      currentPosition: Position(x: 1, y: 1),
     ),
     Tile(
       value: 3,
