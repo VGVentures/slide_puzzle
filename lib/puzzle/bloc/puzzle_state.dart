@@ -22,7 +22,7 @@ class PuzzleState extends Equatable {
   /// position.
   final int numberOfCorrectTiles;
 
-  /// Number representing how many moves have made on the current puzzle.
+  /// Number representing how many moves have been made on the current puzzle.
   ///
   /// The number of moves is not always the same as the total number of tiles
   /// moved. If a row/column of 2+ tiles are moved from one tap, one move is
