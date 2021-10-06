@@ -41,12 +41,11 @@ class PuzzleGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
-    final tiles = puzzle.tiles;
     final size = puzzle.getDimension();
     if (size == 0) {
       return const CircularProgressIndicator();
     } else {
-      final orderedTiles = tiles.toList()
+      final orderedTiles = puzzle.tiles.toList()
         ..sort((tileA, tileB) =>
             tileA.currentPosition.compareTo(tileB.currentPosition));
       return SizedBox(
