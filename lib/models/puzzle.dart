@@ -118,13 +118,13 @@ class Puzzle extends Equatable {
       return moveTiles(tileToSwapWith, tilesToSwap);
     } else {
       tilesToSwap.add(tile);
-      return swapTiles(tilesToSwap);
+      return _swapTiles(tilesToSwap);
     }
   }
 
   /// Returns puzzle with new tile arrangement after individually swapping each
   /// tile in tilesToSwap with the whitespace.
-  Puzzle swapTiles(List<Tile> tilesToSwap) {
+  Puzzle _swapTiles(List<Tile> tilesToSwap) {
     for (final tileToSwap in tilesToSwap.reversed) {
       final tileIndex = tiles.indexOf(tileToSwap);
       final tile = tiles[tileIndex];
