@@ -5,10 +5,13 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:very_good_slide_puzzle/counter/counter.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
+import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -27,7 +30,10 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: BlocProvider(
+        create: (context) => PuzzleBloc(4),
+        child: const PuzzlePage(),
+      ),
     );
   }
 }
