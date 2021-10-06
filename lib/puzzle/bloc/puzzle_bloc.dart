@@ -11,7 +11,7 @@ part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
-    on<PuzzleInitialized>(_onInitialize);
+    on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
   }
 
@@ -19,7 +19,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Random? random;
 
-  void _onInitialize(PuzzleInitialized event, Emitter<PuzzleState> emit) {
+  void _onPuzzleInitialized(
+      PuzzleInitialized event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
     emit(state.copyWith(puzzle: puzzle));
   }

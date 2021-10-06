@@ -17,7 +17,7 @@ void main() {
   );
 
   group('PuzzleEvent', () {
-    group('Initialize', () {
+    group('PuzzleInitialized', () {
       test('supports value comparisons', () {
         expect(PuzzleInitialized(), equals(PuzzleInitialized()));
       });

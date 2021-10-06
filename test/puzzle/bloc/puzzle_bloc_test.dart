@@ -18,7 +18,7 @@ void main() {
       );
     });
 
-    group('Initialize', () {
+    group('PuzzleInitialized', () {
       final size1Tile = Tile(
         value: 0,
         correctPosition: Position(x: 1, y: 1),
