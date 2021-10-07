@@ -157,6 +157,14 @@ class Puzzle extends Equatable {
     return Puzzle(tiles: tiles);
   }
 
+  /// Sorts puzzle tiles so they are in order of their current position.
+  Puzzle sort() {
+    final sortedTiles = tiles.toList()
+      ..sort((tileA, tileB) =>
+          tileA.currentPosition.compareTo(tileB.currentPosition));
+    return Puzzle(tiles: sortedTiles);
+  }
+
   @override
   List<Object> get props => [tiles];
 }

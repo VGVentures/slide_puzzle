@@ -23,7 +23,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       PuzzleInitialized event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
     emit(state.copyWith(
-      puzzle: puzzle,
+      puzzle: puzzle.sort(),
       numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
     ));
   }
@@ -34,7 +34,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
       final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
       emit(state.copyWith(
-        puzzle: puzzle,
+        puzzle: puzzle.sort(),
         tileMovementStatus: TileMovementStatus.moved,
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
         numberOfMoves: state.numberOfMoves + 1,

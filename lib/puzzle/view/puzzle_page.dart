@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
 
+// This is all dummy UI just for manual testing purposes. The app's actual UI
+// will be implemented after all the logic components are complete.
+
 class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
@@ -48,16 +51,13 @@ class PuzzleGrid extends StatelessWidget {
     if (size == 0) {
       return const CircularProgressIndicator();
     } else {
-      final orderedTiles = puzzle.tiles.toList()
-        ..sort((tileA, tileB) =>
-            tileA.currentPosition.compareTo(tileB.currentPosition));
       return SizedBox(
         height: 500,
         child: GridView.count(
           crossAxisCount: size,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
-          children: [for (var tile in orderedTiles) TileWidget(tile: tile)],
+          children: [for (var tile in puzzle.tiles) TileWidget(tile: tile)],
         ),
       );
     }

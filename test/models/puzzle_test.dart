@@ -259,6 +259,7 @@ void main() {
               value: 0,
               correctPosition: Position(x: 1, y: 1),
               currentPosition: Position(x: 1, y: 1),
+              isWhitespace: true,
             ),
           ],
         );
@@ -369,6 +370,18 @@ void main() {
           mutableUnsolvable3x3Puzzle.moveTiles(unsolvable3x3Tile3, []),
           newPuzzle,
         );
+      });
+    });
+
+    group('sort', () {
+      test('returns a puzzle with tiles sorted by their current positions', () {
+        const sortedPuzzle = Puzzle(tiles: [
+          solvable2x2Tile0,
+          solvable2x2Tile1,
+          solvable2x2Tile3,
+          solvable2x2Tile2,
+        ]);
+        expect(solvable2x2Puzzle.sort(), sortedPuzzle);
       });
     });
   });
