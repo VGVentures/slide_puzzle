@@ -29,10 +29,11 @@ class Tile extends Equatable {
   /// Create a copy of this [Tile] with updated current position.
   Tile copyWith({required Position currentPosition}) {
     return Tile(
-        value: value,
-        correctPosition: correctPosition,
-        currentPosition: currentPosition,
-        isWhitespace: isWhitespace);
+      value: value,
+      correctPosition: correctPosition,
+      currentPosition: currentPosition,
+      isWhitespace: isWhitespace,
+    );
   }
 
   @override
