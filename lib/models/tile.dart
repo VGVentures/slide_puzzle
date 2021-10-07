@@ -27,15 +27,12 @@ class Tile extends Equatable {
   final bool isWhitespace;
 
   /// Create a copy of this [Tile] with updated current position.
-  Tile copyWith({
-    Position? currentPosition,
-  }) {
+  Tile copyWith({required Position currentPosition}) {
     return Tile(
-      value: value,
-      correctPosition: correctPosition,
-      currentPosition: currentPosition ?? this.currentPosition,
-      isWhitespace: isWhitespace,
-    );
+        value: value,
+        correctPosition: correctPosition,
+        currentPosition: currentPosition,
+        isWhitespace: isWhitespace);
   }
 
   @override
