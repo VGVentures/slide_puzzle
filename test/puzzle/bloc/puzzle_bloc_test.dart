@@ -23,6 +23,7 @@ void main() {
         value: 0,
         correctPosition: Position(x: 1, y: 1),
         currentPosition: Position(x: 1, y: 1),
+        isWhitespace: true,
       );
       final puzzleSize1 = Puzzle(tiles: [size1Tile]);
 
@@ -30,6 +31,7 @@ void main() {
         value: 0,
         correctPosition: Position(x: 3, y: 3),
         currentPosition: Position(x: 1, y: 3),
+        isWhitespace: true,
       );
       final size3Tile1 = Tile(
         value: 1,
@@ -155,6 +157,7 @@ void main() {
         value: 0,
         correctPosition: bottomRight,
         currentPosition: bottomRight,
+        isWhitespace: true,
       );
       final tiles = [
         topLeftTile,
@@ -194,6 +197,7 @@ void main() {
                   value: 0,
                   correctPosition: bottomRight,
                   currentPosition: middleRight,
+                  isWhitespace: true,
                 ),
               ],
             ),
@@ -231,6 +235,7 @@ void main() {
                   value: 0,
                   correctPosition: bottomRight,
                   currentPosition: topRight,
+                  isWhitespace: true,
                 ),
               ],
             ),

@@ -26,18 +26,15 @@ class Tile extends Equatable {
   /// Denotes if the [Tile] is the whitespace tile or not.
   final bool isWhitespace;
 
-  /// Create a copy of this [Tile] with updated values.
+  /// Create a copy of this [Tile] with updated current position.
   Tile copyWith({
-    int? value,
-    Position? correctPosition,
     Position? currentPosition,
-    bool? isWhitespace,
   }) {
     return Tile(
-      value: value ?? this.value,
-      correctPosition: correctPosition ?? this.correctPosition,
+      value: value,
+      correctPosition: correctPosition,
       currentPosition: currentPosition ?? this.currentPosition,
-      isWhitespace: isWhitespace ?? this.isWhitespace,
+      isWhitespace: isWhitespace,
     );
   }
 
