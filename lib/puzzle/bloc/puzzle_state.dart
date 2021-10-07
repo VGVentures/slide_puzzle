@@ -18,8 +18,7 @@ class PuzzleState extends Equatable {
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
 
-  /// Value representing the number of tiles currently in their correct
-  /// position.
+  /// Number of tiles currently in their correct position.
   final int numberOfCorrectTiles;
 
   /// Number representing how many moves have been made on the current puzzle.

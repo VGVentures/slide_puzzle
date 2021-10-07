@@ -30,7 +30,10 @@ class PuzzleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [PuzzleGrid(), PuzzleControls()],
+      children: const [
+        PuzzleGrid(),
+        PuzzleControls(),
+      ],
     );
   }
 }
