@@ -19,7 +19,7 @@ class PuzzlePage extends StatelessWidget {
 
     return Scaffold(
       body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 190),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 180),
         child: Center(child: PuzzleBoard()),
       ),
       backgroundColor: Colors.blue.shade100,
@@ -104,6 +104,12 @@ class PuzzleControls extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        IconButton(
+          onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
+          icon: const Icon(
+            Icons.refresh_rounded,
+          ),
+        ),
         SizedBox(
           height: 30,
           child: Text(

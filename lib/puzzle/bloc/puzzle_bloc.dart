@@ -13,6 +13,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
+    on<PuzzleReset>(_onPuzzleReset);
   }
 
   final int _size;
@@ -44,6 +45,14 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         state.copyWith(tileMovementStatus: TileMovementStatus.cannotBeMoved),
       );
     }
+  }
+
+  void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(_size);
+    emit(PuzzleState(
+      puzzle: puzzle.sort(),
+      numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+    ));
   }
 
   /// Build a randomized, solvable puzzle of the given size.
