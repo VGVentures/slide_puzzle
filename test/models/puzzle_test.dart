@@ -6,6 +6,7 @@ void main() {
     value: 0,
     correctPosition: Position(x: 3, y: 3),
     currentPosition: Position(x: 3, y: 3),
+    isWhitespace: true,
   );
   const unsolvable3x3Tile1 = Tile(
     value: 1,
@@ -104,6 +105,7 @@ void main() {
       value: 0,
       correctPosition: Position(x: 3, y: 3),
       currentPosition: Position(x: 2, y: 2),
+      isWhitespace: true,
     ),
   ]);
 
@@ -187,6 +189,7 @@ void main() {
       value: 0,
       correctPosition: Position(x: 4, y: 4),
       currentPosition: Position(x: 4, y: 4),
+      isWhitespace: true,
     ),
   ]);
 
@@ -194,6 +197,7 @@ void main() {
     value: 0,
     correctPosition: Position(x: 2, y: 2),
     currentPosition: Position(x: 1, y: 1),
+    isWhitespace: true,
   );
   const solvable2x2Tile1 = Tile(
     value: 1,

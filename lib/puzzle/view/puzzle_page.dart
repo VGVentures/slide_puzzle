@@ -72,11 +72,11 @@ class TileWidget extends StatelessWidget {
       onTap: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
       child: Container(
         decoration: BoxDecoration(
-          color: (tile.value != 0) ? Colors.blue : Colors.blue.shade100,
+          color: (!tile.isWhitespace) ? Colors.blue : Colors.blue.shade100,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
         child: Center(
-          child: (tile.value != 0)
+          child: (!tile.isWhitespace)
               ? Text(
                   '${tile.value}',
                   style: const TextStyle(fontSize: 30),

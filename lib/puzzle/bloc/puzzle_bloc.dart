@@ -105,6 +105,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             value: i,
             correctPosition: whitespacePosition,
             currentPosition: currentPositions[i],
+            isWhitespace: true,
           )
         else
           Tile(

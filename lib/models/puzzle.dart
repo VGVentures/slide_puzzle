@@ -22,7 +22,7 @@ class Puzzle extends Equatable {
 
   /// Get the single whitespace tile object in the puzzle.
   Tile getWhitespaceTile() {
-    return tiles.singleWhere((tile) => tile.value == 0);
+    return tiles.singleWhere((tile) => tile.isWhitespace);
   }
 
   /// Gets the number of tiles that are currently in their correct position.
@@ -66,7 +66,7 @@ class Puzzle extends Equatable {
       return inversions.isEven;
     }
 
-    final whitespace = tiles.singleWhere((tile) => tile.value == 0);
+    final whitespace = tiles.singleWhere((tile) => tile.isWhitespace);
     final whitespaceRow = whitespace.currentPosition.y;
 
     if (((height - whitespaceRow) + 1).isOdd) {
@@ -84,7 +84,7 @@ class Puzzle extends Equatable {
     var count = 0;
     for (var a = 0; a < tiles.length; a++) {
       final tileA = tiles[a];
-      if (tileA.value == 0) {
+      if (tileA.isWhitespace) {
         continue;
       }
 
@@ -100,7 +100,7 @@ class Puzzle extends Equatable {
 
   /// Determines if the two tiles are inverted.
   bool _isInversion(Tile a, Tile b) {
-    if (b.value != 0 && a.value != b.value) {
+    if (!b.isWhitespace && a.value != b.value) {
       if (b.value < a.value) {
         return b.currentPosition.compareTo(a.currentPosition) > 0;
       } else {
