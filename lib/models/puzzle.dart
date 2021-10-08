@@ -3,6 +3,31 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 
+// A 3x3 puzzle board visualization:
+//
+//   ┌─────1───────2───────3────► x
+//   │  ┌─────┐ ┌─────┐ ┌─────┐
+//   1  │  1  │ │  2  │ │  3  │
+//   │  └─────┘ └─────┘ └─────┘
+//   │  ┌─────┐ ┌─────┐ ┌─────┐
+//   2  │  4  │ │  5  │ │  6  │
+//   │  └─────┘ └─────┘ └─────┘
+//   │  ┌─────┐ ┌─────┐
+//   3  │  7  │ │  8  │
+//   │  └─────┘ └─────┘
+//   ▼
+//   y
+//
+// This puzzle is in its completed state (i.e. the tiles are arranged in
+// ascending order by value from top to bottom, left to right).
+//
+// Each tile has a value (1-8 on example above), and a correct and current
+// position.
+//
+// The correct position is where the tile should be in the completed
+// puzzle. As seen from example above, tile 2's correct position is (2, 1).
+// The current position is where the tile is currently located on the board.
+
 /// {@template puzzle}
 /// Model for a puzzle.
 /// {@endtemplate}
