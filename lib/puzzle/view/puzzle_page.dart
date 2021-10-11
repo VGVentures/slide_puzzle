@@ -2,10 +2,9 @@
 // coverage:ignore-file
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
+import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 // This is all dummy UI just for manual testing purposes. The app's actual UI
 // will be implemented after all the logic components are complete.
@@ -20,29 +19,29 @@ class PuzzlePage extends StatelessWidget {
     return Scaffold(
       body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 180),
-        child: Center(child: PuzzleBoard()),
+        child: Center(child: _PuzzleBoard()),
       ),
       backgroundColor: Colors.blue.shade100,
     );
   }
 }
 
-class PuzzleBoard extends StatelessWidget {
-  const PuzzleBoard({Key? key}) : super(key: key);
+class _PuzzleBoard extends StatelessWidget {
+  const _PuzzleBoard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        PuzzleGrid(),
-        PuzzleControls(),
+        _PuzzleGrid(),
+        _PuzzleControls(),
       ],
     );
   }
 }
 
-class PuzzleGrid extends StatelessWidget {
-  const PuzzleGrid({Key? key}) : super(key: key);
+class _PuzzleGrid extends StatelessWidget {
+  const _PuzzleGrid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +56,37 @@ class PuzzleGrid extends StatelessWidget {
           crossAxisCount: size,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
-          children: [for (var tile in puzzle.tiles) TileWidget(tile: tile)],
+          children: [for (var tile in puzzle.tiles) _PuzzleTile(tile: tile)],
         ),
       );
     }
   }
 }
 
-class TileWidget extends StatelessWidget {
-  const TileWidget({Key? key, required this.tile}) : super(key: key);
+class _PuzzleTile extends StatelessWidget {
+  const _PuzzleTile({Key? key, required this.tile}) : super(key: key);
 
   final Tile tile;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+    if (state is PuzzleComplete) {
+      return Container(
+        decoration: BoxDecoration(
+          color: (!tile.isWhitespace) ? Colors.blue : Colors.blue.shade100,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+        ),
+        child: Center(
+          child: (!tile.isWhitespace)
+              ? Text(
+                  '${tile.value}',
+                  style: const TextStyle(fontSize: 30),
+                )
+              : const _CompleteIcon(),
+        ),
+      );
+    }
     return GestureDetector(
       onTap: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
       child: Container(
@@ -91,8 +107,8 @@ class TileWidget extends StatelessWidget {
   }
 }
 
-class PuzzleControls extends StatelessWidget {
-  const PuzzleControls({Key? key}) : super(key: key);
+class _PuzzleControls extends StatelessWidget {
+  const _PuzzleControls({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +147,19 @@ class PuzzleControls extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _CompleteIcon extends StatelessWidget {
+  const _CompleteIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Icon(
+      Icons.thumb_up,
+      size: 70,
+      color: Colors.blue,
     );
   }
 }
