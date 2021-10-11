@@ -29,5 +29,11 @@ void main() {
         expect(TileTapped(tile2), isNot(equals(TileTapped(tile1))));
       });
     });
+
+    group('PuzzleReset', () {
+      test('supports value comparisons', () {
+        expect(PuzzleReset(), equals(PuzzleReset()));
+      });
+    });
   });
 }
