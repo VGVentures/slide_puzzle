@@ -39,6 +39,11 @@ class Puzzle extends Equatable {
     return numberOfCorrectTiles;
   }
 
+  /// Determines if the puzzle is completed.
+  bool isComplete() {
+    return (tiles.length - 1) - getNumberOfCorrectTiles() == 0;
+  }
+
   /// Determines if the tapped tile can move in the direction of the whitespace
   /// tile.
   bool isTileMovable(Tile tile) {
