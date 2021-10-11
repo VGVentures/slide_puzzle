@@ -11,49 +11,48 @@ void main() {
     currentPosition: position,
   );
   final puzzle = Puzzle(tiles: [tile]);
+  const tileMovementStatus = TileMovementStatus.nothingTapped;
 
   group('PuzzleState', () {
-    test('supports value comparisons', () {
-      expect(PuzzleState(), PuzzleState());
+    group('PuzzleInitial', () {
+      test('supports value comparisons', () {
+        expect(PuzzleInitial(), PuzzleInitial());
+      });
     });
 
-    group('copyWith', () {
-      test('returns same object when no properties are passed', () {
-        expect(PuzzleState().copyWith(), equals(PuzzleState()));
-      });
-
-      test('returns object with updated puzzle when puzzle is passed', () {
+    group('PuzzlePlayable', () {
+      test('supports value comparisons', () {
         expect(
-          PuzzleState().copyWith(puzzle: puzzle),
-          equals(PuzzleState(puzzle: puzzle)),
-        );
+            PuzzlePlayable(
+              puzzle: puzzle,
+              tileMovementStatus: tileMovementStatus,
+              numberOfCorrectTiles: 0,
+              numberOfMoves: 0,
+            ),
+            PuzzlePlayable(
+              puzzle: puzzle,
+              tileMovementStatus: tileMovementStatus,
+              numberOfCorrectTiles: 0,
+              numberOfMoves: 0,
+            ));
       });
+    });
 
-      test(
-          'returns object with updated number of correct tiles when number of '
-          'correct tiles is passed', () {
+    group('PuzzleComplete', () {
+      test('supports value comparisons', () {
         expect(
-          PuzzleState().copyWith(numberOfCorrectTiles: 1),
-          equals(PuzzleState(numberOfCorrectTiles: 1)),
-        );
-      });
-
-      test(
-          'returns object with updated tile movement status when tile movement '
-          'status is passed', () {
-        expect(
-          PuzzleState().copyWith(tileMovementStatus: TileMovementStatus.moved),
-          equals(PuzzleState(tileMovementStatus: TileMovementStatus.moved)),
-        );
-      });
-
-      test(
-          'returns object with updated number of moves when number of moves is '
-          'passed', () {
-        expect(
-          PuzzleState().copyWith(numberOfMoves: 1),
-          equals(PuzzleState(numberOfMoves: 1)),
-        );
+            PuzzleComplete(
+              puzzle: puzzle,
+              tileMovementStatus: tileMovementStatus,
+              numberOfCorrectTiles: 0,
+              numberOfMoves: 0,
+            ),
+            PuzzleComplete(
+              puzzle: puzzle,
+              tileMovementStatus: tileMovementStatus,
+              numberOfCorrectTiles: 0,
+              numberOfMoves: 0,
+            ));
       });
     });
   });
