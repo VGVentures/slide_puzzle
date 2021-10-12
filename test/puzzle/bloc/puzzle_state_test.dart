@@ -23,36 +23,38 @@ void main() {
     group('PuzzlePlayable', () {
       test('supports value comparisons', () {
         expect(
-            PuzzlePlayable(
-              puzzle: puzzle,
-              tileMovementStatus: tileMovementStatus,
-              numberOfCorrectTiles: 0,
-              numberOfMoves: 0,
-            ),
-            PuzzlePlayable(
-              puzzle: puzzle,
-              tileMovementStatus: tileMovementStatus,
-              numberOfCorrectTiles: 0,
-              numberOfMoves: 0,
-            ));
+          PuzzlePlayable(
+            puzzle: puzzle,
+            tileMovementStatus: tileMovementStatus,
+            numberOfCorrectTiles: 0,
+            numberOfMoves: 0,
+          ),
+          equals(PuzzlePlayable(
+            puzzle: puzzle,
+            tileMovementStatus: tileMovementStatus,
+            numberOfCorrectTiles: 0,
+            numberOfMoves: 0,
+          )),
+        );
       });
     });
 
     group('PuzzleComplete', () {
       test('supports value comparisons', () {
         expect(
-            PuzzleComplete(
-              puzzle: puzzle,
-              tileMovementStatus: tileMovementStatus,
-              numberOfCorrectTiles: 0,
-              numberOfMoves: 0,
-            ),
-            PuzzleComplete(
-              puzzle: puzzle,
-              tileMovementStatus: tileMovementStatus,
-              numberOfCorrectTiles: 0,
-              numberOfMoves: 0,
-            ));
+          PuzzleComplete(
+            puzzle: puzzle,
+            tileMovementStatus: tileMovementStatus,
+            numberOfCorrectTiles: 0,
+            numberOfMoves: 0,
+          ),
+          equals(PuzzleComplete(
+            puzzle: puzzle,
+            tileMovementStatus: tileMovementStatus,
+            numberOfCorrectTiles: 0,
+            numberOfMoves: 0,
+          )),
+        );
       });
     });
   });

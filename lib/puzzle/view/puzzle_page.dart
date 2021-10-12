@@ -63,50 +63,6 @@ class _PuzzleGrid extends StatelessWidget {
   }
 }
 
-class _PuzzleTile extends StatelessWidget {
-  const _PuzzleTile({Key? key, required this.tile}) : super(key: key);
-
-  final Tile tile;
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
-    if (state is PuzzleComplete) {
-      return Container(
-        decoration: BoxDecoration(
-          color: (!tile.isWhitespace) ? Colors.blue : Colors.blue.shade100,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-        ),
-        child: Center(
-          child: (!tile.isWhitespace)
-              ? Text(
-                  '${tile.value}',
-                  style: const TextStyle(fontSize: 30),
-                )
-              : const _CompleteIcon(),
-        ),
-      );
-    }
-    return GestureDetector(
-      onTap: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
-      child: Container(
-        decoration: BoxDecoration(
-          color: (!tile.isWhitespace) ? Colors.blue : Colors.blue.shade100,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-        ),
-        child: Center(
-          child: (!tile.isWhitespace)
-              ? Text(
-                  '${tile.value}',
-                  style: const TextStyle(fontSize: 30),
-                )
-              : const SizedBox(),
-        ),
-      ),
-    );
-  }
-}
-
 class _PuzzleControls extends StatelessWidget {
   const _PuzzleControls({Key? key}) : super(key: key);
 
@@ -147,6 +103,70 @@ class _PuzzleControls extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _PuzzleTile extends StatelessWidget {
+  const _PuzzleTile({Key? key, required this.tile}) : super(key: key);
+
+  final Tile tile;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+    if (state is PuzzleComplete) {
+      return (!tile.isWhitespace)
+          ? _ValueTile(value: tile.value)
+          : const _WhitespaceTile(whitespaceWidget: _CompleteIcon());
+    }
+    return GestureDetector(
+      onTap: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
+      child: (!tile.isWhitespace)
+          ? _ValueTile(value: tile.value)
+          : const _WhitespaceTile(whitespaceWidget: SizedBox()),
+    );
+  }
+}
+
+class _ValueTile extends StatelessWidget {
+  const _ValueTile({Key? key, required this.value}) : super(key: key);
+
+  final int value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Center(
+        child: Text(
+          '$value',
+          style: const TextStyle(fontSize: 30),
+        ),
+      ),
+    );
+  }
+}
+
+class _WhitespaceTile extends StatelessWidget {
+  const _WhitespaceTile({Key? key, required this.whitespaceWidget})
+      : super(key: key);
+
+  final Widget whitespaceWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue.shade100,
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Center(
+        child: whitespaceWidget,
+      ),
     );
   }
 }

@@ -104,7 +104,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     var puzzle = Puzzle(tiles: tiles);
 
     // Assign the tiles new current positions until the puzzle is solvable and
-    // not completed.
+    // zero tiles are in their correct position.
     while (!puzzle.isSolvable() || puzzle.getNumberOfCorrectTiles() != 0) {
       currentPositions.shuffle(random);
       tiles = _getTileListFromPositions(
