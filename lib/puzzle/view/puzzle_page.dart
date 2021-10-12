@@ -114,8 +114,8 @@ class _PuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
-    if (state is PuzzleComplete) {
+    final status = context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus);
+    if (status == PuzzleStatus.complete) {
       return (!tile.isWhitespace)
           ? _ValueTile(value: tile.value)
           : const _WhitespaceTile(whitespaceWidget: _CompleteIcon());

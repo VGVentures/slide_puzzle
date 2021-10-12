@@ -71,7 +71,7 @@ void main() {
     test('initial state is PuzzleInitial', () {
       expect(
         PuzzleBloc(4).state,
-        PuzzleInitial(),
+        PuzzleState(),
       );
     });
 
@@ -83,14 +83,7 @@ void main() {
         'initialized with size 3',
         build: () => PuzzleBloc(3, random: random),
         act: (bloc) => bloc.add(PuzzleInitialized()),
-        expect: () => [
-          PuzzlePlayable(
-            puzzle: puzzleSize3,
-            tileMovementStatus: TileMovementStatus.nothingTapped,
-            numberOfCorrectTiles: 0,
-            numberOfMoves: 0,
-          )
-        ],
+        expect: () => [PuzzleState(puzzle: puzzleSize3)],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });
@@ -170,15 +163,13 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [moved] when one tile was able to move',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzlePlayable(
+        seed: () => PuzzleState(
           puzzle: puzzle,
-          tileMovementStatus: TileMovementStatus.nothingTapped,
           numberOfCorrectTiles: 7,
-          numberOfMoves: 0,
         ),
         act: (bloc) => bloc.add(TileTapped(middleCenterTile)),
         expect: () => <PuzzleState>[
-          PuzzlePlayable(
+          PuzzleState(
             puzzle: Puzzle(
               tiles: [
                 topLeftTile,
@@ -211,15 +202,13 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [moved] when mutiple tiles were able to move',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzlePlayable(
+        seed: () => PuzzleState(
           puzzle: puzzle,
-          tileMovementStatus: TileMovementStatus.nothingTapped,
           numberOfCorrectTiles: 7,
-          numberOfMoves: 0,
         ),
         act: (bloc) => bloc.add(TileTapped(topCenterTile)),
         expect: () => <PuzzleState>[
-          PuzzlePlayable(
+          PuzzleState(
             puzzle: Puzzle(
               tiles: [
                 topLeftTile,
@@ -256,11 +245,9 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [cannotBeMoved] when tapped tile cannot move to whitespace',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzlePlayable(
+        seed: () => PuzzleState(
           puzzle: puzzle,
-          tileMovementStatus: TileMovementStatus.nothingTapped,
           numberOfCorrectTiles: 7,
-          numberOfMoves: 0,
         ),
         act: (bloc) => bloc.add(TileTapped(topLeftTile)),
         expect: () => [
@@ -275,15 +262,13 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits [PuzzleComplete] when tapped tile completes the puzzle',
         build: () => PuzzleBloc(size),
-        seed: () => PuzzlePlayable(
+        seed: () => PuzzleState(
           puzzle: puzzle,
-          tileMovementStatus: TileMovementStatus.nothingTapped,
           numberOfCorrectTiles: 7,
-          numberOfMoves: 0,
         ),
         act: (bloc) => bloc.add(TileTapped(bottomRightTile)),
         expect: () => [
-          PuzzleComplete(
+          PuzzleState(
             puzzle: Puzzle(
               tiles: [
                 topLeftTile,
@@ -306,6 +291,7 @@ void main() {
                 ),
               ],
             ),
+            puzzleStatus: PuzzleStatus.complete,
             tileMovementStatus: TileMovementStatus.moved,
             numberOfCorrectTiles: 8,
             numberOfMoves: 1,
@@ -340,21 +326,13 @@ void main() {
       blocTest<PuzzleBloc, PuzzleState>(
         'emits new solvable 3x3 puzzle with 0 moves when reset with size 3',
         build: () => PuzzleBloc(3, random: random),
-        seed: () => PuzzlePlayable(
+        seed: () => PuzzleState(
           puzzle: initialSize3Puzzle,
-          tileMovementStatus: TileMovementStatus.nothingTapped,
           numberOfCorrectTiles: 1,
           numberOfMoves: 10,
         ),
         act: (bloc) => bloc.add(PuzzleReset()),
-        expect: () => [
-          PuzzlePlayable(
-            puzzle: puzzleSize3,
-            tileMovementStatus: TileMovementStatus.nothingTapped,
-            numberOfCorrectTiles: 0,
-            numberOfMoves: 0,
-          )
-        ],
+        expect: () => [PuzzleState(puzzle: puzzleSize3)],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });

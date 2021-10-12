@@ -2,18 +2,24 @@
 
 part of 'puzzle_bloc.dart';
 
+enum PuzzleStatus { incomplete, complete }
+
 enum TileMovementStatus { nothingTapped, cannotBeMoved, moved }
 
-abstract class PuzzleState extends Equatable {
+class PuzzleState extends Equatable {
   const PuzzleState({
-    required this.puzzle,
-    required this.tileMovementStatus,
-    required this.numberOfCorrectTiles,
-    required this.numberOfMoves,
+    this.puzzle = const Puzzle(tiles: []),
+    this.puzzleStatus = PuzzleStatus.incomplete,
+    this.tileMovementStatus = TileMovementStatus.nothingTapped,
+    this.numberOfCorrectTiles = 0,
+    this.numberOfMoves = 0,
   });
 
   /// [Puzzle] containing the current tile arrangement.
   final Puzzle puzzle;
+
+  /// Status indicating the current state of the puzzle.
+  final PuzzleStatus puzzleStatus;
 
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
@@ -28,49 +34,28 @@ abstract class PuzzleState extends Equatable {
   /// added.
   final int numberOfMoves;
 
+  PuzzleState copyWith({
+    Puzzle? puzzle,
+    PuzzleStatus? puzzleStatus,
+    TileMovementStatus? tileMovementStatus,
+    int? numberOfCorrectTiles,
+    int? numberOfMoves,
+  }) {
+    return PuzzleState(
+      puzzle: puzzle ?? this.puzzle,
+      puzzleStatus: puzzleStatus ?? this.puzzleStatus,
+      tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
+      numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
+      numberOfMoves: numberOfMoves ?? this.numberOfMoves,
+    );
+  }
+
   @override
   List<Object> get props => [
         puzzle,
+        puzzleStatus,
         tileMovementStatus,
         numberOfCorrectTiles,
         numberOfMoves,
       ];
-}
-
-class PuzzleInitial extends PuzzleState {
-  const PuzzleInitial()
-      : super(
-          puzzle: const Puzzle(tiles: []),
-          tileMovementStatus: TileMovementStatus.nothingTapped,
-          numberOfCorrectTiles: 0,
-          numberOfMoves: 0,
-        );
-}
-
-class PuzzlePlayable extends PuzzleState {
-  const PuzzlePlayable({
-    required Puzzle puzzle,
-    required TileMovementStatus tileMovementStatus,
-    required int numberOfCorrectTiles,
-    required int numberOfMoves,
-  }) : super(
-          puzzle: puzzle,
-          tileMovementStatus: tileMovementStatus,
-          numberOfCorrectTiles: numberOfCorrectTiles,
-          numberOfMoves: numberOfMoves,
-        );
-}
-
-class PuzzleComplete extends PuzzleState {
-  const PuzzleComplete({
-    required Puzzle puzzle,
-    required TileMovementStatus tileMovementStatus,
-    required int numberOfCorrectTiles,
-    required int numberOfMoves,
-  }) : super(
-          puzzle: puzzle,
-          tileMovementStatus: tileMovementStatus,
-          numberOfCorrectTiles: numberOfCorrectTiles,
-          numberOfMoves: numberOfMoves,
-        );
 }

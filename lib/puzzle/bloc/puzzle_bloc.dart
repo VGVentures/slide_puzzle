@@ -10,7 +10,7 @@ part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
-  PuzzleBloc(this._size, {this.random}) : super(const PuzzleInitial()) {
+  PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleReset>(_onPuzzleReset);
@@ -23,11 +23,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   void _onPuzzleInitialized(
       PuzzleInitialized event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
-    emit(PuzzlePlayable(
+    emit(state.copyWith(
       puzzle: puzzle.sort(),
-      tileMovementStatus: state.tileMovementStatus,
       numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-      numberOfMoves: state.numberOfMoves,
     ));
   }
 
@@ -37,14 +35,15 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
       final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
       if (puzzle.isComplete()) {
-        emit(PuzzleComplete(
+        emit(state.copyWith(
           puzzle: puzzle.sort(),
+          puzzleStatus: PuzzleStatus.complete,
           tileMovementStatus: TileMovementStatus.moved,
           numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
           numberOfMoves: state.numberOfMoves + 1,
         ));
       } else {
-        emit(PuzzlePlayable(
+        emit(state.copyWith(
           puzzle: puzzle.sort(),
           tileMovementStatus: TileMovementStatus.moved,
           numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
@@ -53,7 +52,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       }
     } else {
       emit(
-        PuzzlePlayable(
+        state.copyWith(
           puzzle: state.puzzle,
           tileMovementStatus: TileMovementStatus.cannotBeMoved,
           numberOfCorrectTiles: state.numberOfCorrectTiles,
@@ -65,11 +64,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
-    emit(PuzzlePlayable(
+    emit(PuzzleState(
       puzzle: puzzle.sort(),
-      tileMovementStatus: TileMovementStatus.nothingTapped,
       numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-      numberOfMoves: 0,
     ));
   }
 
