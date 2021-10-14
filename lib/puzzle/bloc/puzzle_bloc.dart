@@ -52,12 +52,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       }
     } else {
       emit(
-        state.copyWith(
-          puzzle: state.puzzle,
-          tileMovementStatus: TileMovementStatus.cannotBeMoved,
-          numberOfCorrectTiles: state.numberOfCorrectTiles,
-          numberOfMoves: state.numberOfMoves,
-        ),
+        state.copyWith(tileMovementStatus: TileMovementStatus.cannotBeMoved),
       );
     }
   }
