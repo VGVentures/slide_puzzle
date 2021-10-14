@@ -74,15 +74,15 @@ void main() {
         currentPosition: Position(x: 3, y: 1),
       );
       final puzzleSize3 = Puzzle(tiles: [
-        size3Tile0,
         size3Tile1,
-        size3Tile2,
         size3Tile3,
-        size3Tile4,
-        size3Tile5,
-        size3Tile6,
-        size3Tile7,
         size3Tile8,
+        size3Tile5,
+        size3Tile7,
+        size3Tile4,
+        size3Tile0,
+        size3Tile2,
+        size3Tile6,
       ]);
 
       blocTest<PuzzleBloc, PuzzleState>(
@@ -96,7 +96,12 @@ void main() {
         'emits solvable 3x3 puzzle when initialized with size 3',
         build: () => PuzzleBloc(3, random: random),
         act: (bloc) => bloc.add(PuzzleInitialized()),
-        expect: () => <PuzzleState>[PuzzleState(puzzle: puzzleSize3)],
+        expect: () => <PuzzleState>[
+          PuzzleState(
+            puzzle: puzzleSize3,
+            numberOfCorrectTiles: 1,
+          )
+        ],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });
@@ -187,21 +192,23 @@ void main() {
                 middleLeftTile,
                 middleCenterTile,
                 Tile(
-                  value: 6,
-                  correctPosition: middleRight,
-                  currentPosition: bottomRight,
-                ),
-                bottomLeftTile,
-                bottomCenterTile,
-                Tile(
                   value: 0,
                   correctPosition: bottomRight,
                   currentPosition: middleRight,
                   isWhitespace: true,
                 ),
+                bottomLeftTile,
+                bottomCenterTile,
+                Tile(
+                  value: 6,
+                  correctPosition: middleRight,
+                  currentPosition: bottomRight,
+                ),
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: 5,
+            numberOfMoves: 1,
           ),
         ],
       );
@@ -218,28 +225,30 @@ void main() {
                 topLeftTile,
                 topCenterTile,
                 Tile(
-                  value: 3,
-                  correctPosition: topRight,
-                  currentPosition: middleRight,
-                ),
-                middleLeftTile,
-                middleCenterTile,
-                Tile(
-                  value: 6,
-                  correctPosition: middleRight,
-                  currentPosition: bottomRight,
-                ),
-                bottomLeftTile,
-                bottomCenterTile,
-                Tile(
                   value: 0,
                   correctPosition: bottomRight,
                   currentPosition: topRight,
                   isWhitespace: true,
                 ),
+                middleLeftTile,
+                middleCenterTile,
+                Tile(
+                  value: 3,
+                  correctPosition: topRight,
+                  currentPosition: middleRight,
+                ),
+                bottomLeftTile,
+                bottomCenterTile,
+                Tile(
+                  value: 6,
+                  correctPosition: middleRight,
+                  currentPosition: bottomRight,
+                ),
               ],
             ),
             tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: 4,
+            numberOfMoves: 1,
           ),
         ],
       );

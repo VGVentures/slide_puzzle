@@ -30,11 +30,29 @@ void main() {
       });
 
       test(
+          'returns object with updated number of correct tiles when number of '
+          'correct tiles is passed', () {
+        expect(
+          PuzzleState().copyWith(numberOfCorrectTiles: 1),
+          equals(PuzzleState(numberOfCorrectTiles: 1)),
+        );
+      });
+
+      test(
           'returns object with updated tile movement status when tile movement '
           'status is passed', () {
         expect(
           PuzzleState().copyWith(tileMovementStatus: TileMovementStatus.moved),
           equals(PuzzleState(tileMovementStatus: TileMovementStatus.moved)),
+        );
+      });
+
+      test(
+          'returns object with updated number of moves when number of moves is '
+          'passed', () {
+        expect(
+          PuzzleState().copyWith(numberOfMoves: 1),
+          equals(PuzzleState(numberOfMoves: 1)),
         );
       });
     });

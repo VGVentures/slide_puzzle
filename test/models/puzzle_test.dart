@@ -251,6 +251,30 @@ void main() {
       });
     });
 
+    group('getNumberOfCorrectTiles', () {
+      test('returns 0 from 1x1 puzzle with only a whitespace tile', () {
+        const puzzle = Puzzle(
+          tiles: [
+            Tile(
+              value: 0,
+              correctPosition: Position(x: 1, y: 1),
+              currentPosition: Position(x: 1, y: 1),
+              isWhitespace: true,
+            ),
+          ],
+        );
+        expect(puzzle.getNumberOfCorrectTiles(), equals(0));
+      });
+
+      test('returns 1 from 2x2 puzzle with 1 correct tile', () {
+        expect(solvable2x2Puzzle.getNumberOfCorrectTiles(), equals(1));
+      });
+
+      test('returns 6 from 3x3 puzzle with 6 correct tiles', () {
+        expect(unsolvable3x3Puzzle.getNumberOfCorrectTiles(), equals(6));
+      });
+    });
+
     group('isTileMoveable', () {
       test('returns true when tile is adjacent to whitespace', () {
         expect(solvable2x2Puzzle.isTileMovable(solvable2x2Tile3), isTrue);
@@ -346,6 +370,18 @@ void main() {
           mutableUnsolvable3x3Puzzle.moveTiles(unsolvable3x3Tile3, []),
           newPuzzle,
         );
+      });
+    });
+
+    group('sort', () {
+      test('returns a puzzle with tiles sorted by their current positions', () {
+        const sortedPuzzle = Puzzle(tiles: [
+          solvable2x2Tile0,
+          solvable2x2Tile1,
+          solvable2x2Tile3,
+          solvable2x2Tile2,
+        ]);
+        expect(solvable2x2Puzzle.sort(), sortedPuzzle);
       });
     });
   });
