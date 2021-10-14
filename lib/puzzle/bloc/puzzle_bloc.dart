@@ -13,6 +13,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
+    on<PuzzleReset>(_onPuzzleReset);
   }
 
   final int _size;
@@ -33,17 +34,35 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     if (state.puzzle.isTileMovable(tappedTile)) {
       final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
       final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
-      emit(state.copyWith(
-        puzzle: puzzle.sort(),
-        tileMovementStatus: TileMovementStatus.moved,
-        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-        numberOfMoves: state.numberOfMoves + 1,
-      ));
+      if (puzzle.isComplete()) {
+        emit(state.copyWith(
+          puzzle: puzzle.sort(),
+          puzzleStatus: PuzzleStatus.complete,
+          tileMovementStatus: TileMovementStatus.moved,
+          numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+          numberOfMoves: state.numberOfMoves + 1,
+        ));
+      } else {
+        emit(state.copyWith(
+          puzzle: puzzle.sort(),
+          tileMovementStatus: TileMovementStatus.moved,
+          numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+          numberOfMoves: state.numberOfMoves + 1,
+        ));
+      }
     } else {
       emit(
         state.copyWith(tileMovementStatus: TileMovementStatus.cannotBeMoved),
       );
     }
+  }
+
+  void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(_size);
+    emit(PuzzleState(
+      puzzle: puzzle.sort(),
+      numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+    ));
   }
 
   /// Build a randomized, solvable puzzle of the given size.
@@ -76,8 +95,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     );
     var puzzle = Puzzle(tiles: tiles);
 
-    // Assign the tiles new current positions until the puzzle is solvable.
-    while (!puzzle.isSolvable()) {
+    // Assign the tiles new current positions until the puzzle is solvable and
+    // zero tiles are in their correct position.
+    while (!puzzle.isSolvable() || puzzle.getNumberOfCorrectTiles() != 0) {
       currentPositions.shuffle(random);
       tiles = _getTileListFromPositions(
         size,

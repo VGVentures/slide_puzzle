@@ -14,7 +14,7 @@ void main() {
 
   group('PuzzleState', () {
     test('supports value comparisons', () {
-      expect(PuzzleState(), PuzzleState());
+      expect(PuzzleState(), equals(PuzzleState()));
     });
 
     group('copyWith', () {
@@ -30,11 +30,11 @@ void main() {
       });
 
       test(
-          'returns object with updated number of correct tiles when number of '
-          'correct tiles is passed', () {
+          'returns object with updated puzzle status when puzzle status is '
+          'passed', () {
         expect(
-          PuzzleState().copyWith(numberOfCorrectTiles: 1),
-          equals(PuzzleState(numberOfCorrectTiles: 1)),
+          PuzzleState().copyWith(puzzleStatus: PuzzleStatus.complete),
+          equals(PuzzleState(puzzleStatus: PuzzleStatus.complete)),
         );
       });
 
@@ -44,6 +44,15 @@ void main() {
         expect(
           PuzzleState().copyWith(tileMovementStatus: TileMovementStatus.moved),
           equals(PuzzleState(tileMovementStatus: TileMovementStatus.moved)),
+        );
+      });
+
+      test(
+          'returns object with updated number of correct tiles when number of '
+          'correct tiles is passed', () {
+        expect(
+          PuzzleState().copyWith(numberOfCorrectTiles: 1),
+          equals(PuzzleState(numberOfCorrectTiles: 1)),
         );
       });
 
