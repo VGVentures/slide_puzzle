@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 
@@ -23,51 +25,17 @@ void main() {
     });
 
     group('copyWith', () {
-      test('returns object with updated value when value is passed', () {
-        expect(
-          const Tile(
-            value: value,
-            correctPosition: position,
-            currentPosition: position,
-          ).copyWith(value: 2),
-          equals(const Tile(
-            value: 2,
-            correctPosition: position,
-            currentPosition: position,
-          )),
-        );
-      });
-
-      test(
-          'returns object with updated correct position when correct position '
-          'is passed', () {
-        expect(
-          const Tile(
-            value: value,
-            correctPosition: position,
-            currentPosition: position,
-          ).copyWith(correctPosition: newPosition),
-          equals(
-            const Tile(
-              value: value,
-              correctPosition: newPosition,
-              currentPosition: position,
-            ),
-          ),
-        );
-      });
-
       test(
           'returns object with updated current position when current position '
           'is passed', () {
         expect(
-          const Tile(
+          Tile(
             value: value,
             correctPosition: position,
             currentPosition: position,
           ).copyWith(currentPosition: newPosition),
           equals(
-            const Tile(
+            Tile(
               value: value,
               correctPosition: position,
               currentPosition: newPosition,

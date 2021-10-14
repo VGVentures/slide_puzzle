@@ -27,12 +27,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
     final tappedTile = event.tile;
-    if (_isMovable(tappedTile)) {
-      final puzzle = _moveTiles(
-        Puzzle(tiles: [...state.puzzle.tiles]),
-        tappedTile,
-        [],
-      );
+    if (state.puzzle.isTileMovable(tappedTile)) {
+      final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
+      final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
       emit(state.copyWith(
         puzzle: puzzle,
         tileMovementStatus: TileMovementStatus.moved,
@@ -103,6 +100,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             value: i,
             correctPosition: whitespacePosition,
             currentPosition: currentPositions[i],
+            isWhitespace: true,
           )
         else
           Tile(
@@ -111,71 +109,5 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
             currentPosition: currentPositions[i],
           )
     ];
-  }
-
-  Tile _getWhitespaceTile(Puzzle puzzle) {
-    return puzzle.tiles.singleWhere((tile) => tile.value == 0);
-  }
-
-  bool _isMovable(Tile tile) {
-    final whitespaceTile = _getWhitespaceTile(state.puzzle);
-    if (tile == whitespaceTile) {
-      return false;
-    }
-
-    // A tile must be in the same row or column as the whitespace to move.
-    if (whitespaceTile.currentPosition.x != tile.currentPosition.x &&
-        whitespaceTile.currentPosition.y != tile.currentPosition.y) {
-      return false;
-    }
-    return true;
-  }
-
-  /// Shifts one or many tiles in a row/column with the whitespace and returns
-  /// the modified puzzle.
-  ///
-  // Recursively stores a list of all tiles that need to be moved and passes the
-  // list to _swapTiles to individually swap them.
-  Puzzle _moveTiles(Puzzle puzzle, Tile tile, List<Tile> tilesToSwap) {
-    final whitespaceTile = _getWhitespaceTile(puzzle);
-    final deltaX = whitespaceTile.currentPosition.x - tile.currentPosition.x;
-    final deltaY = whitespaceTile.currentPosition.y - tile.currentPosition.y;
-
-    if ((deltaX.abs() + deltaY.abs()) > 1) {
-      final shiftPointX = tile.currentPosition.x + deltaX.sign;
-      final shiftPointY = tile.currentPosition.y + deltaY.sign;
-      final tileToSwapWith = puzzle.tiles.singleWhere(
-        (tile) =>
-            tile.currentPosition.x == shiftPointX &&
-            tile.currentPosition.y == shiftPointY,
-      );
-      tilesToSwap.add(tile);
-      return _moveTiles(puzzle, tileToSwapWith, tilesToSwap);
-    } else {
-      tilesToSwap.add(tile);
-      return _swapTiles(puzzle, tilesToSwap);
-    }
-  }
-
-  /// Returns puzzle with new tile arrangement after individually swapping each
-  /// tile in tilesToSwap with the whitespace.
-  Puzzle _swapTiles(Puzzle puzzle, List<Tile> tilesToSwap) {
-    final tiles = puzzle.tiles;
-    for (final tileToSwap in tilesToSwap.reversed) {
-      final tileIndex = tiles.indexOf(tileToSwap);
-      final tile = tiles[tileIndex];
-      final whitespaceTile = _getWhitespaceTile(puzzle);
-      final whitespaceTileIndex = tiles.indexOf(whitespaceTile);
-
-      // Swap current board positions of the moving tile and the whitespace.
-      tiles[tileIndex] = tile.copyWith(
-        currentPosition: whitespaceTile.currentPosition,
-      );
-      tiles[whitespaceTileIndex] = whitespaceTile.copyWith(
-        currentPosition: tile.currentPosition,
-      );
-    }
-
-    return Puzzle(tiles: tiles);
   }
 }
