@@ -14,12 +14,15 @@ class PuzzlePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<PuzzleBloc>().add(const PuzzleInitialized());
-
     return Scaffold(
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 180),
-        child: Center(child: _PuzzleBoard()),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 180),
+        child: Center(
+          child: BlocProvider(
+            create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized()),
+            child: const _PuzzleBoard(),
+          ),
+        ),
       ),
       backgroundColor: Colors.blue.shade100,
     );
@@ -47,19 +50,17 @@ class _PuzzleGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
     final size = puzzle.getDimension();
-    if (size == 0) {
-      return const CircularProgressIndicator();
-    } else {
-      return SizedBox(
-        height: 500,
-        child: GridView.count(
-          crossAxisCount: size,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          children: [for (var tile in puzzle.tiles) _PuzzleTile(tile: tile)],
-        ),
-      );
-    }
+    if (size == 0) return const CircularProgressIndicator();
+
+    return SizedBox(
+      height: 500,
+      child: GridView.count(
+        crossAxisCount: size,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        children: [for (final tile in puzzle.tiles) _PuzzleTile(tile: tile)],
+      ),
+    );
   }
 }
 
@@ -78,9 +79,7 @@ class _PuzzleControls extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
-          icon: const Icon(
-            Icons.refresh_rounded,
-          ),
+          icon: const Icon(Icons.refresh_rounded),
         ),
         SizedBox(
           height: 30,
@@ -164,9 +163,7 @@ class _WhitespaceTile extends StatelessWidget {
         color: Colors.blue.shade100,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
-      child: Center(
-        child: whitespaceWidget,
-      ),
+      child: Center(child: whitespaceWidget),
     );
   }
 }
