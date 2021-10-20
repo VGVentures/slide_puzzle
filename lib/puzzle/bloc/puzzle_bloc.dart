@@ -31,24 +31,30 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
     final tappedTile = event.tile;
-    if (state.puzzle.isTileMovable(tappedTile)) {
-      final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
-      final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
-      if (puzzle.isComplete()) {
-        emit(state.copyWith(
-          puzzle: puzzle.sort(),
-          puzzleStatus: PuzzleStatus.complete,
-          tileMovementStatus: TileMovementStatus.moved,
-          numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-          numberOfMoves: state.numberOfMoves + 1,
-        ));
+    if (state.puzzleStatus == PuzzleStatus.incomplete) {
+      if (state.puzzle.isTileMovable(tappedTile)) {
+        final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
+        final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
+        if (puzzle.isComplete()) {
+          emit(state.copyWith(
+            puzzle: puzzle.sort(),
+            puzzleStatus: PuzzleStatus.complete,
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+          ));
+        } else {
+          emit(state.copyWith(
+            puzzle: puzzle.sort(),
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+          ));
+        }
       } else {
-        emit(state.copyWith(
-          puzzle: puzzle.sort(),
-          tileMovementStatus: TileMovementStatus.moved,
-          numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-          numberOfMoves: state.numberOfMoves + 1,
-        ));
+        emit(
+          state.copyWith(tileMovementStatus: TileMovementStatus.cannotBeMoved),
+        );
       }
     } else {
       emit(

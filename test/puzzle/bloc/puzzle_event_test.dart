@@ -26,7 +26,7 @@ void main() {
     group('TileTapped', () {
       test('supports value comparisons', () {
         expect(TileTapped(tile1), equals(TileTapped(tile1)));
-        expect(TileTapped(tile2), isNot(equals(TileTapped(tile1))));
+        expect(TileTapped(tile2), isNot(TileTapped(tile1)));
       });
     });
 

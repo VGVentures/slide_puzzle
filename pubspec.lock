@@ -114,7 +114,7 @@ packages:
     source: hosted
     version: "2.0.3"
   fake_async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fake_async
       url: "https://pub.dartlang.org"

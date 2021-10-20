@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 // This is all dummy UI just for manual testing purposes. The app's actual UI
 // will be implemented after all the logic components are complete.
@@ -34,11 +35,14 @@ class _PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        _PuzzleGrid(),
-        _PuzzleControls(),
-      ],
+    return BlocProvider(
+      create: (context) => TimerBloc(ticker: const Ticker()),
+      child: Column(
+        children: const [
+          _PuzzleGrid(),
+          _PuzzleControls(),
+        ],
+      ),
     );
   }
 }
@@ -78,7 +82,10 @@ class _PuzzleControls extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
-          onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
+          onPressed: () {
+            context.read<PuzzleBloc>().add(const PuzzleReset());
+            context.read<TimerBloc>().add(const TimerReset());
+          },
           icon: const Icon(Icons.refresh_rounded),
         ),
         SizedBox(
@@ -101,6 +108,10 @@ class _PuzzleControls extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(
+          height: 30,
+          child: _Timer(),
+        ),
       ],
     );
   }
@@ -113,17 +124,26 @@ class _PuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final status = context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus);
-    if (status == PuzzleStatus.complete) {
-      return (!tile.isWhitespace)
-          ? _ValueTile(value: tile.value)
-          : const _WhitespaceTile(whitespaceWidget: _CompleteIcon());
-    }
-    return GestureDetector(
-      onTap: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
-      child: (!tile.isWhitespace)
-          ? _ValueTile(value: tile.value)
-          : const _WhitespaceTile(whitespaceWidget: SizedBox()),
+    return BlocListener<PuzzleBloc, PuzzleState>(
+      listener: (context, state) {
+        if (state.puzzleStatus == PuzzleStatus.complete) {
+          final completedInSeconds =
+              context.read<TimerBloc>().state.secondsElapsed;
+          context.read<TimerBloc>().add(TimerStopped(completedInSeconds));
+        }
+      },
+      child: GestureDetector(
+        onTap: () {
+          final numberOfMoves = context.read<PuzzleBloc>().state.numberOfMoves;
+          if (numberOfMoves == 0) {
+            context.read<TimerBloc>().add(const TimerStarted());
+          }
+          context.read<PuzzleBloc>().add(TileTapped(tile));
+        },
+        child: (!tile.isWhitespace)
+            ? _ValueTile(value: tile.value)
+            : const _WhitespaceTile(),
+      ),
     );
   }
 }
@@ -151,19 +171,21 @@ class _ValueTile extends StatelessWidget {
 }
 
 class _WhitespaceTile extends StatelessWidget {
-  const _WhitespaceTile({Key? key, required this.whitespaceWidget})
-      : super(key: key);
-
-  final Widget whitespaceWidget;
+  const _WhitespaceTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isComplete =
+        context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
+            PuzzleStatus.complete;
     return Container(
       decoration: BoxDecoration(
         color: Colors.blue.shade100,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
-      child: Center(child: whitespaceWidget),
+      child: Center(
+        child: isComplete ? const _CompleteIcon() : const SizedBox(),
+      ),
     );
   }
 }
@@ -177,6 +199,25 @@ class _CompleteIcon extends StatelessWidget {
       Icons.thumb_up,
       size: 70,
       color: Colors.blue,
+    );
+  }
+}
+
+class _Timer extends StatelessWidget {
+  const _Timer({Key? key}) : super(key: key);
+
+  String format(Duration d) => d.toString().split('.').first.padLeft(8, '0');
+
+  @override
+  Widget build(BuildContext context) {
+    final seconds =
+        context.select((TimerBloc bloc) => bloc.state.secondsElapsed);
+    return Text(
+      format(Duration(seconds: seconds)),
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 }

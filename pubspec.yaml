@@ -10,6 +10,7 @@ environment:
 dependencies:
   bloc: ^7.2.0
   equatable: ^2.0.3
+  fake_async: ^1.2.0
   flutter:
     sdk: flutter
   flutter_bloc: ^7.3.0
