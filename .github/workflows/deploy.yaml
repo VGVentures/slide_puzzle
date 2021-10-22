@@ -1,0 +1,39 @@
+name: deploy
+
+on:
+  push:
+    paths:
+      - "lib/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    name: deploy
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: 2.6.0-5.2.pre
+          channel: "beta"
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Build for Web
+        run: flutter build web --target lib/main_development.dart
+
+      - name: Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_HOSTING_DEV }}"
+          projectId: very-good-flutter-dev
+          target: very-good-puzzle
+          expires: 30d
+          channelId: live

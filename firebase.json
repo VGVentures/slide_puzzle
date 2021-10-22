@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "site": "very-good-puzzle",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": [".firebase", "firebase.json", "__/**"]
+  }
+}
