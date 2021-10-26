@@ -21,12 +21,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   final Random? random;
 
   void _onPuzzleInitialized(
-      PuzzleInitialized event, Emitter<PuzzleState> emit) {
+    PuzzleInitialized event,
+    Emitter<PuzzleState> emit,
+  ) {
     final puzzle = _generatePuzzle(_size);
-    emit(state.copyWith(
-      puzzle: puzzle.sort(),
-      numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-    ));
+    emit(
+      state.copyWith(
+        puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+      ),
+    );
   }
 
   void _onTileTapped(TileTapped event, Emitter<PuzzleState> emit) {
@@ -36,20 +40,24 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
         final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
         final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
         if (puzzle.isComplete()) {
-          emit(state.copyWith(
-            puzzle: puzzle.sort(),
-            puzzleStatus: PuzzleStatus.complete,
-            tileMovementStatus: TileMovementStatus.moved,
-            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-            numberOfMoves: state.numberOfMoves + 1,
-          ));
+          emit(
+            state.copyWith(
+              puzzle: puzzle.sort(),
+              puzzleStatus: PuzzleStatus.complete,
+              tileMovementStatus: TileMovementStatus.moved,
+              numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+              numberOfMoves: state.numberOfMoves + 1,
+            ),
+          );
         } else {
-          emit(state.copyWith(
-            puzzle: puzzle.sort(),
-            tileMovementStatus: TileMovementStatus.moved,
-            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-            numberOfMoves: state.numberOfMoves + 1,
-          ));
+          emit(
+            state.copyWith(
+              puzzle: puzzle.sort(),
+              tileMovementStatus: TileMovementStatus.moved,
+              numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+              numberOfMoves: state.numberOfMoves + 1,
+            ),
+          );
         }
       } else {
         emit(
@@ -65,10 +73,12 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
     final puzzle = _generatePuzzle(_size);
-    emit(PuzzleState(
-      puzzle: puzzle.sort(),
-      numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
-    ));
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+      ),
+    );
   }
 
   /// Build a randomized, solvable puzzle of the given size.

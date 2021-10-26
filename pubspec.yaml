@@ -5,7 +5,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
-  flutter: 2.6.0-5.2.pre
+  flutter: 2.7.0-3.0.pre
 
 dependencies:
   bloc: ^7.2.0
@@ -23,7 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^0.1.0
-  very_good_analysis: ^2.3.0
+  very_good_analysis: ^2.4.0
 
 flutter:
   generate: true

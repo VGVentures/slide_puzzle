@@ -55,17 +55,19 @@ void main() {
     correctPosition: Position(x: 2, y: 3),
     currentPosition: Position(x: 1, y: 2),
   );
-  final puzzleSize3 = Puzzle(tiles: [
-    size3Tile7,
-    size3Tile1,
-    size3Tile5,
-    size3Tile8,
-    size3Tile4,
-    size3Tile0,
-    size3Tile3,
-    size3Tile2,
-    size3Tile6,
-  ]);
+  final puzzleSize3 = Puzzle(
+    tiles: [
+      size3Tile7,
+      size3Tile1,
+      size3Tile5,
+      size3Tile8,
+      size3Tile4,
+      size3Tile0,
+      size3Tile3,
+      size3Tile2,
+      size3Tile6,
+    ],
+  );
 
   group('PuzzleBloc', () {
     test('initial state is PuzzleState', () {
@@ -321,25 +323,27 @@ void main() {
     group('PuzzleReset', () {
       final random = Random(seed);
 
-      final initialSize3Puzzle = Puzzle(tiles: [
-        Tile(
-          value: 1,
-          correctPosition: Position(x: 1, y: 1),
-          currentPosition: Position(x: 1, y: 1),
-        ),
-        Tile(
-          value: 7,
-          correctPosition: Position(x: 1, y: 3),
-          currentPosition: Position(x: 2, y: 1),
-        ),
-        size3Tile5,
-        size3Tile8,
-        size3Tile4,
-        size3Tile0,
-        size3Tile3,
-        size3Tile2,
-        size3Tile6,
-      ]);
+      final initialSize3Puzzle = Puzzle(
+        tiles: [
+          Tile(
+            value: 1,
+            correctPosition: Position(x: 1, y: 1),
+            currentPosition: Position(x: 1, y: 1),
+          ),
+          Tile(
+            value: 7,
+            correctPosition: Position(x: 1, y: 3),
+            currentPosition: Position(x: 2, y: 1),
+          ),
+          size3Tile5,
+          size3Tile8,
+          size3Tile4,
+          size3Tile0,
+          size3Tile3,
+          size3Tile2,
+          size3Tile6,
+        ],
+      );
 
       blocTest<PuzzleBloc, PuzzleState>(
         'emits new solvable 3x3 puzzle with 0 moves when reset with size 3',

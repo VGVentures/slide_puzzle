@@ -89,7 +89,10 @@ class Puzzle extends Equatable {
   bool isSolvable() {
     final size = getDimension();
     final height = tiles.length ~/ size;
-    assert(size * height == tiles.length);
+    assert(
+      size * height == tiles.length,
+      'tiles must be equal to size * height',
+    );
     final inversions = countInversions();
 
     if (size.isOdd) {
@@ -190,8 +193,9 @@ class Puzzle extends Equatable {
   /// Sorts puzzle tiles so they are in order of their current position.
   Puzzle sort() {
     final sortedTiles = tiles.toList()
-      ..sort((tileA, tileB) =>
-          tileA.currentPosition.compareTo(tileB.currentPosition));
+      ..sort((tileA, tileB) {
+        return tileA.currentPosition.compareTo(tileB.currentPosition);
+      });
     return Puzzle(tiles: sortedTiles);
   }
 
