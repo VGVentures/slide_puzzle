@@ -8,8 +8,8 @@ void main() {
       expect(ThemeState(), equals(ThemeState()));
     });
 
-    test('default theme is DummyTheme', () {
-      expect(ThemeState().theme, equals(DummyTheme()));
+    test('default theme is BlueTheme', () {
+      expect(ThemeState().theme, equals(BlueTheme()));
     });
   });
 }

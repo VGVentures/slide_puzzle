@@ -5,27 +5,82 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
-
-// This is all dummy UI just for manual testing purposes. The app's actual UI
-// will be implemented after all the logic components are complete.
 
 class PuzzlePage extends StatelessWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 180),
+    return BlocProvider(
+      create: (context) => TimerBloc(ticker: const Ticker()),
+      child: BlocProvider(
+        create: (context) => ThemeBloc(
+          themes: const [
+            BlueTheme(),
+            RedTheme(),
+          ],
+        ),
+        child: const PuzzleView(),
+      ),
+    );
+  }
+}
+
+class PuzzleView extends StatelessWidget {
+  const PuzzleView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    return theme.appScaffold(
+      body: BlocProvider(
+        create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized()),
         child: Center(
-          child: BlocProvider(
-            create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized()),
-            child: const _PuzzleBoard(),
+          child: SizedBox(
+            width: 580,
+            child: theme.puzzleWrapper(child: const _Puzzle()),
           ),
         ),
       ),
-      backgroundColor: Colors.blue.shade100,
+    );
+  }
+}
+
+class _Puzzle extends StatelessWidget {
+  const _Puzzle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: const [
+        _PuzzleThemeTabBar(),
+        _PuzzleBoard(),
+        _PuzzleInformation(),
+      ],
+    );
+  }
+}
+
+class _PuzzleThemeTabBar extends StatelessWidget {
+  const _PuzzleThemeTabBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final themes = context.read<ThemeBloc>().themes;
+    final currentTheme = context.select((ThemeBloc bloc) => bloc.state.theme);
+
+    return DefaultTabController(
+      initialIndex: themes.indexOf(currentTheme),
+      length: themes.length,
+      child: currentTheme.themeTabBar(
+        themes: themes,
+        onTap: (index) {
+          context.read<ThemeBloc>().add(ThemeChanged(themeIndex: index));
+        },
+      ),
     );
   }
 }
@@ -35,83 +90,32 @@ class _PuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TimerBloc(ticker: const Ticker()),
-      child: Column(
-        children: const [
-          _PuzzleGrid(),
-          _PuzzleControls(),
-        ],
-      ),
-    );
-  }
-}
-
-class _PuzzleGrid extends StatelessWidget {
-  const _PuzzleGrid({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
     final size = puzzle.getDimension();
     if (size == 0) return const CircularProgressIndicator();
 
-    return SizedBox(
-      height: 500,
-      child: GridView.count(
-        crossAxisCount: size,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        children: [for (final tile in puzzle.tiles) _PuzzleTile(tile: tile)],
+    return Flexible(
+      child: theme.puzzleBoard(
+        size: size,
+        children: puzzle.tiles.map((tile) => _PuzzleTile(tile: tile)).toList(),
       ),
     );
   }
 }
 
-class _PuzzleControls extends StatelessWidget {
-  const _PuzzleControls({Key? key}) : super(key: key);
+class _PuzzleInformation extends StatelessWidget {
+  const _PuzzleInformation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final tiles = context.select((PuzzleBloc bloc) => bloc.state.puzzle.tiles);
-    final moves = context.select((PuzzleBloc bloc) => bloc.state.numberOfMoves);
-    final numberOfCorrectTiles =
-        context.select((PuzzleBloc bloc) => bloc.state.numberOfCorrectTiles);
-    final numberOfTilesLeft = tiles.length - numberOfCorrectTiles - 1;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        IconButton(
-          onPressed: () {
-            context.read<PuzzleBloc>().add(const PuzzleReset());
-            context.read<TimerBloc>().add(const TimerReset());
-          },
-          icon: const Icon(Icons.refresh_rounded),
-        ),
-        SizedBox(
-          height: 30,
-          child: Text(
-            '$moves Moves',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 30,
-          child: Text(
-            '$numberOfTilesLeft Tiles left',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 30,
-          child: _Timer(),
-        ),
+      children: const [
+        _ResetButton(),
+        _MovesCounter(),
+        _TilesLeftCounter(),
+        _Timer(),
       ],
     );
   }
@@ -124,6 +128,7 @@ class _PuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
         if (state.puzzleStatus == PuzzleStatus.complete) {
@@ -141,30 +146,8 @@ class _PuzzleTile extends StatelessWidget {
           context.read<PuzzleBloc>().add(TileTapped(tile));
         },
         child: (!tile.isWhitespace)
-            ? _ValueTile(value: tile.value)
+            ? theme.tile(tile.value)
             : const _WhitespaceTile(),
-      ),
-    );
-  }
-}
-
-class _ValueTile extends StatelessWidget {
-  const _ValueTile({Key? key, required this.value}) : super(key: key);
-
-  final int value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      child: Center(
-        child: Text(
-          '$value',
-          style: const TextStyle(fontSize: 30),
-        ),
       ),
     );
   }
@@ -178,46 +161,61 @@ class _WhitespaceTile extends StatelessWidget {
     final isComplete =
         context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
             PuzzleStatus.complete;
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue.shade100,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-      ),
-      child: Center(
-        child: isComplete ? const _CompleteIcon() : const SizedBox(),
-      ),
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    return isComplete ? theme.whitespaceTileComplete : theme.whitespaceTile;
+  }
+}
+
+class _ResetButton extends StatelessWidget {
+  const _ResetButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    return GestureDetector(
+      onTap: () {
+        context.read<PuzzleBloc>().add(const PuzzleReset());
+        context.read<TimerBloc>().add(const TimerReset());
+      },
+      child: theme.resetIcon,
     );
   }
 }
 
-class _CompleteIcon extends StatelessWidget {
-  const _CompleteIcon({Key? key}) : super(key: key);
+class _MovesCounter extends StatelessWidget {
+  const _MovesCounter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      Icons.thumb_up,
-      size: 70,
-      color: Colors.blue,
-    );
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final moves = context.select((PuzzleBloc bloc) => bloc.state.numberOfMoves);
+    return Expanded(child: theme.movesCounter(moves));
+  }
+}
+
+class _TilesLeftCounter extends StatelessWidget {
+  const _TilesLeftCounter({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final numberOfTiles =
+        context.select((PuzzleBloc bloc) => bloc.state.puzzle.tiles.length);
+    final numberOfCorrectTiles =
+        context.select((PuzzleBloc bloc) => bloc.state.numberOfCorrectTiles);
+    final numberOfTilesLeft = numberOfTiles - numberOfCorrectTiles - 1;
+    return Expanded(child: theme.tilesLeftCounter(numberOfTilesLeft));
   }
 }
 
 class _Timer extends StatelessWidget {
   const _Timer({Key? key}) : super(key: key);
 
-  String format(Duration d) => d.toString().split('.').first.padLeft(8, '0');
-
   @override
   Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final seconds =
         context.select((TimerBloc bloc) => bloc.state.secondsElapsed);
-    return Text(
-      format(Duration(seconds: seconds)),
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-    );
+    return Expanded(child: theme.timer(seconds));
   }
 }

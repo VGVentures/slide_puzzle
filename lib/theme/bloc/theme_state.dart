@@ -3,7 +3,7 @@
 part of 'theme_bloc.dart';
 
 class ThemeState extends Equatable {
-  const ThemeState({this.theme = const DummyTheme()});
+  const ThemeState({this.theme = const BlueTheme()});
 
   final PuzzleTheme theme;
 

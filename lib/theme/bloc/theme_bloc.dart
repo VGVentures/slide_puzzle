@@ -8,11 +8,13 @@ part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBloc() : super(const ThemeState()) {
+  ThemeBloc({required this.themes}) : super(const ThemeState()) {
     on<ThemeChanged>(_onThemeChanged);
   }
 
+  final List<PuzzleTheme> themes;
+
   void _onThemeChanged(ThemeChanged event, Emitter<ThemeState> emit) {
-    emit(ThemeState(theme: event.theme));
+    emit(ThemeState(theme: themes[event.themeIndex]));
   }
 }

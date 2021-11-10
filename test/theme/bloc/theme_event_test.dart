@@ -4,19 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 void main() {
-  final theme1 = DummyTheme();
-  final theme2 = AnotherDummyTheme();
-
   group('ThemeEvent', () {
     group('ThemeChanged', () {
       test('supports value comparisons', () {
         expect(
-          ThemeChanged(theme: theme1),
-          equals(ThemeChanged(theme: theme1)),
+          ThemeChanged(themeIndex: 1),
+          equals(ThemeChanged(themeIndex: 1)),
         );
         expect(
-          ThemeChanged(theme: theme2),
-          isNot(ThemeChanged(theme: theme1)),
+          ThemeChanged(themeIndex: 2),
+          isNot(ThemeChanged(themeIndex: 1)),
         );
       });
     });

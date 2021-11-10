@@ -7,10 +7,11 @@ abstract class ThemeEvent extends Equatable {
 }
 
 class ThemeChanged extends ThemeEvent {
-  const ThemeChanged({required this.theme});
+  const ThemeChanged({required this.themeIndex});
 
-  final PuzzleTheme theme;
+  /// The index of the changed theme in [ThemeBloc.themes].
+  final int themeIndex;
 
   @override
-  List<Object> get props => [theme];
+  List<Object> get props => [themeIndex];
 }
