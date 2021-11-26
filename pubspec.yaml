@@ -8,12 +8,12 @@ environment:
   flutter: 2.7.0-3.0.pre
 
 dependencies:
-  bloc: ^7.2.0
+  bloc: ^8.0.1
   equatable: ^2.0.3
   fake_async: ^1.2.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.3.0
+  flutter_bloc: ^8.0.0
   flutter_localizations:
     sdk: flutter
   gap: ^2.0.0
@@ -21,10 +21,10 @@ dependencies:
   intl: ^0.17.0
 
 dev_dependencies:
-  bloc_test: ^8.2.0
+  bloc_test: ^9.0.1
   flutter_test:
     sdk: flutter
-  mocktail: ^0.1.0
+  mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
 
 flutter:
