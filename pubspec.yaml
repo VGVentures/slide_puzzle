@@ -16,6 +16,8 @@ dependencies:
   flutter_bloc: ^7.3.0
   flutter_localizations:
     sdk: flutter
+  gap: ^2.0.0
+  google_fonts: ^2.1.0
   intl: ^0.17.0
 
 dev_dependencies:
@@ -28,3 +30,16 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  fonts:
+    - family: GoogleSans
+      fonts:
+        - asset: assets/fonts/GoogleSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/GoogleSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/GoogleSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/GoogleSans-Italic.ttf
+          weight: 400
+          style: italic
