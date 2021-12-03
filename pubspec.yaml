@@ -16,6 +16,7 @@ dependencies:
   flutter_bloc: ^8.0.0
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^0.23.0+1
   gap: ^2.0.0
   google_fonts: ^2.1.0
   intl: ^0.17.0
@@ -30,6 +31,8 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/images/
   fonts:
     - family: GoogleSans
       fonts:

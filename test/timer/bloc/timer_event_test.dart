@@ -24,8 +24,8 @@ void main() {
     group('TimerStopped', () {
       test('supports value comparisons', () {
         expect(
-          TimerStopped(elaspsedSeconds),
-          equals(TimerStopped(elaspsedSeconds)),
+          TimerStopped(),
+          equals(TimerStopped()),
         );
       });
     });

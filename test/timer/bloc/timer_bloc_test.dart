@@ -30,8 +30,9 @@ void main() {
       blocTest<TimerBloc, TimerState>(
         'emits 3 sequential timer states',
         build: () => TimerBloc(ticker: ticker),
-        act: (bloc) {
+        act: (bloc) async {
           bloc.add(TimerStarted());
+          await handleMicrotasks(5);
           streamController
             ..add(1)
             ..add(2)
@@ -56,10 +57,16 @@ void main() {
 
     group('TimerStopped', () {
       blocTest<TimerBloc, TimerState>(
-        'emits 1 when seconds elapsed is 1',
+        'does not emit after timer is stopped',
         build: () => TimerBloc(ticker: ticker),
-        act: (bloc) => bloc.add(TimerStopped(1)),
-        expect: () => [TimerState(secondsElapsed: 1)],
+        act: (bloc) {
+          bloc.add(TimerStarted());
+          streamController.add(1);
+          bloc.add(TimerStopped());
+          streamController.add(2);
+        },
+        expect: () => <TimerState>[],
+        skip: 1,
       );
     });
 
@@ -72,4 +79,11 @@ void main() {
       );
     });
   });
+}
+
+/// Waits for n scheduled microtasks before completing this future.
+Future<void> handleMicrotasks(int n) async {
+  for (var i = 0; i < n; i++) {
+    await Future.microtask(() {});
+  }
 }

@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
+import '../../helpers/helpers.dart';
+
 void main() {
   final position = Position(x: 1, y: 1);
   final tile = Tile(
@@ -15,6 +17,19 @@ void main() {
   group('PuzzleState', () {
     test('supports value comparisons', () {
       expect(PuzzleState(), equals(PuzzleState()));
+    });
+
+    test('numberOfTilesLeft returns a correct value', () {
+      final tiles = [MockTile(), MockTile(), MockTile()];
+      const numberOfCorrectTiles = 1;
+
+      expect(
+        PuzzleState(
+          puzzle: Puzzle(tiles: tiles),
+          numberOfCorrectTiles: numberOfCorrectTiles,
+        ).numberOfTilesLeft,
+        equals(tiles.length - numberOfCorrectTiles - 1),
+      );
     });
 
     group('copyWith', () {

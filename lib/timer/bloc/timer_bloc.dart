@@ -42,7 +42,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   void _onTimerStopped(TimerStopped event, Emitter<TimerState> emit) {
     _tickerSubscription?.pause();
-    emit(TimerState(secondsElapsed: event.secondsElapsed));
   }
 
   void _onTimerReset(TimerReset event, Emitter<TimerState> emit) {

@@ -197,6 +197,7 @@ void main() {
             tileMovementStatus: TileMovementStatus.moved,
             numberOfCorrectTiles: 6,
             numberOfMoves: 1,
+            lastTappedTile: middleCenterTile,
           ),
         ],
       );
@@ -240,6 +241,7 @@ void main() {
             tileMovementStatus: TileMovementStatus.moved,
             numberOfCorrectTiles: 5,
             numberOfMoves: 1,
+            lastTappedTile: topCenterTile,
           ),
         ],
       );
@@ -315,6 +317,7 @@ void main() {
             tileMovementStatus: TileMovementStatus.moved,
             numberOfCorrectTiles: 8,
             numberOfMoves: 1,
+            lastTappedTile: bottomRightTile,
           ),
         ],
       );

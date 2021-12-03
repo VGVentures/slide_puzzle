@@ -47,6 +47,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
               tileMovementStatus: TileMovementStatus.moved,
               numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
               numberOfMoves: state.numberOfMoves + 1,
+              lastTappedTile: tappedTile,
             ),
           );
         } else {
@@ -56,6 +57,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
               tileMovementStatus: TileMovementStatus.moved,
               numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
               numberOfMoves: state.numberOfMoves + 1,
+              lastTappedTile: tappedTile,
             ),
           );
         }

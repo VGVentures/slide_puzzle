@@ -23,12 +23,7 @@ class TimerTicked extends TimerEvent {
 }
 
 class TimerStopped extends TimerEvent {
-  const TimerStopped(this.secondsElapsed);
-
-  final int secondsElapsed;
-
-  @override
-  List<Object> get props => [secondsElapsed];
+  const TimerStopped();
 }
 
 class TimerReset extends TimerEvent {
