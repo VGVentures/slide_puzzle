@@ -1,7 +1,23 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+    "puzzleChallengeTitle": "Puzzle Challenge",
+    "@puzzleChallengeTitle": {
+        "description": "Shown as the title of the puzzle"
+    },
+    "puzzleNumberOfMoves": "Moves",
+    "@puzzleNumberOfMoves": {
+        "description": "Indicates how many moves have been made on the current puzzle"
+    },
+    "puzzleNumberOfTilesLeft": "Tiles",
+    "@puzzleNumberOfTilesLeft": {
+        "description": "Indicates how many puzzle tiles are not in their correct position"
+    },
+    "puzzleShuffle": "Shuffle",
+    "@puzzleShuffle": {
+        "description": "Shown on the button that shuffle the puzzle"
+    },
+    "puzzleCompleted": "Well done. Congrats!",
+    "@puzzleCompleted": {
+        "description": "Shown as the success state when the puzzle is completed"
     }
 }
