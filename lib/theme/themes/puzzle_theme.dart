@@ -1,69 +1,44 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:very_good_slide_puzzle/layout/layout.dart';
 
-/// {@template puzzle_tile}
+/// {@template puzzle_theme}
 /// Template for creating custom puzzle UI.
 /// {@endtemplate}
 abstract class PuzzleTheme extends Equatable {
-  /// {@macro puzzle_tile}
+  /// {@macro puzzle_theme}
   const PuzzleTheme();
 
-  /// Display name of the theme.
+  /// The display name of this theme.
   String get name;
 
-  /// Scaffold containing the [puzzleWrapper].
+  /// Whether this theme displays the puzzle timer.
+  bool get hasTimer;
+
+  /// Whether this theme displays the countdown
+  /// from 3 to 0 seconds when the puzzle is started.
+  bool get hasCountdown;
+
+  /// The background color of this theme.
+  Color get backgroundColor;
+
+  /// The default color of this theme.
   ///
-  /// [body] is the widget defined in [puzzleWrapper].
-  Scaffold appScaffold({required Widget body});
+  /// Used for puzzle tiles and buttons.
+  Color get defaultColor;
 
-  /// Widget wrapping around the puzzle components (listed below).
+  /// The hover color of this theme.
   ///
-  /// [child] is a column containing [themeTabBar], [puzzleBoard], and puzzle
-  /// information.
+  /// Used for the puzzle tile that was hovered over.
+  Color get hoverColor;
+
+  /// The pressed color of this theme.
   ///
-  /// The puzzle information is a row containing [resetIcon], [movesCounter],
-  /// [tilesLeftCounter], and [timer].
+  /// Used for the puzzle tile that was pressed.
+  Color get pressedColor;
+
+  /// The puzzle layout delegate of this theme.
   ///
-  /// See PuzzlePage to modify or re-arrange the [child] widget tree.
-  Widget puzzleWrapper({required Widget child});
-
-  /// GridView displaying puzzle tiles.
-  ///
-  /// A [size] is a dimension of a puzzle
-  /// (e.g. 4x4 puzzle has a dimension of 4).
-  GridView puzzleBoard({required int size, required List<Widget> children});
-
-  /// TabBar displaying puzzle themes.
-  ///
-  /// [onTap] must be supplied to the TabBar's onTap property
-  /// for theme switching.
-  TabBar themeTabBar({
-    required List<PuzzleTheme> themes,
-    required void Function(int) onTap,
-  });
-
-  /// Widget representing a puzzle tile.
-  ///
-  /// [value] is the number associated with the tile. To complete the puzzle,
-  /// all tiles must be arranged in order by their [value].
-  Widget tile(int value);
-
-  /// Widget representing the whitespace tile.
-  Widget get whitespaceTile;
-
-  /// Widget representing the whitespace tile when the puzzle is complete.
-  Widget get whitespaceTileComplete;
-
-  /// Widget representing the reset button icon.
-  Widget get resetIcon;
-
-  /// Widget to display the number of moves made in the puzzle.
-  Widget movesCounter(int moves);
-
-  /// Widget to display the number of tiles left/tiles not in their correct
-  /// position.
-  Widget tilesLeftCounter(int tilesLeft);
-
-  /// Widget to display the seconds passed since the puzzle was started.
-  Widget timer(int seconds);
+  /// Used for building sections of the puzzle UI.
+  PuzzleLayoutDelegate get layoutDelegate;
 }

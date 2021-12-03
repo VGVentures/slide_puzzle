@@ -1,11 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 /// {@template puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI.
 /// {@endtemplate}
 abstract class PuzzleLayoutDelegate extends Equatable {
+  /// {@macro puzzle_layout_delegate}
+  const PuzzleLayoutDelegate();
+
   /// A widget builder for the start section of the puzzle based on
   /// the puzzle [state].
   ///
@@ -26,6 +30,10 @@ abstract class PuzzleLayoutDelegate extends Equatable {
   /// on a tablet/mobile.
   Widget endSectionBuilder(PuzzleState state);
 
+  /// A widget builder for the background of the puzzle based on
+  /// the puzzle [state].
+  Widget backgroundBuilder(PuzzleState state);
+
   /// A widget builder for the puzzle board.
   ///
   /// The board should have a dimension of [size]
@@ -35,17 +43,13 @@ abstract class PuzzleLayoutDelegate extends Equatable {
   /// each built with [tileBuilder].
   Widget boardBuilder(int size, List<Widget> tiles);
 
-  /// A widget builder for the puzzle tile.
+  /// A widget builder for the puzzle tile associated
+  /// with [tile] and based on the puzzle [state].
   ///
-  /// [tileValue] is the number associated with the tile.
   /// To complete the puzzle, all tiles must be arranged
-  /// in order by their [tileValue].
-  Widget tileBuilder(int tileValue);
+  /// in order by their [Tile.value].
+  Widget tileBuilder(Tile tile, PuzzleState state);
 
   /// A widget builder for the whitespace puzzle tile.
   Widget whitespaceTileBuilder();
-
-  /// A widget builder for the timer that displays the seconds
-  /// passed since the puzzle was started.
-  Widget timerBuilder(int seconds);
 }

@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
@@ -18,8 +19,7 @@ class PuzzlePage extends StatelessWidget {
       child: BlocProvider(
         create: (context) => ThemeBloc(
           themes: const [
-            BlueTheme(),
-            RedTheme(),
+            SimpleTheme(),
           ],
         ),
         child: const PuzzleView(),
@@ -34,15 +34,12 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    return theme.appScaffold(
+
+    return Scaffold(
+      backgroundColor: theme.backgroundColor,
       body: BlocProvider(
         create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized()),
-        child: Center(
-          child: SizedBox(
-            width: 580,
-            child: theme.puzzleWrapper(child: const _Puzzle()),
-          ),
-        ),
+        child: const _Puzzle(),
       ),
     );
   }
@@ -53,33 +50,135 @@ class _Puzzle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        _PuzzleThemeTabBar(),
-        _PuzzleBoard(),
-        _PuzzleInformation(),
-      ],
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final state = context.watch<PuzzleBloc>().state;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            theme.layoutDelegate.backgroundBuilder(state),
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: Column(
+                  children: const [
+                    _PuzzleHeader(),
+                    _PuzzleSections(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
 
-class _PuzzleThemeTabBar extends StatelessWidget {
-  const _PuzzleThemeTabBar({Key? key}) : super(key: key);
+class _PuzzleHeader extends StatelessWidget {
+  const _PuzzleHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final themes = context.read<ThemeBloc>().themes;
-    final currentTheme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    return SizedBox(
+      height: 96,
+      child: ResponsiveLayoutBuilder(
+        small: (context, child) => const Center(
+          child: _PuzzleLogo(),
+        ),
+        medium: (context, child) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 50,
+          ),
+          child: Row(
+            children: const [
+              _PuzzleLogo(),
+            ],
+          ),
+        ),
+        large: (context, child) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 50,
+          ),
+          child: Row(
+            children: const [
+              _PuzzleLogo(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-    return DefaultTabController(
-      initialIndex: themes.indexOf(currentTheme),
-      length: themes.length,
-      child: currentTheme.themeTabBar(
-        themes: themes,
-        onTap: (index) {
-          context.read<ThemeBloc>().add(ThemeChanged(themeIndex: index));
-        },
+class _PuzzleLogo extends StatelessWidget {
+  const _PuzzleLogo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveLayoutBuilder(
+      small: (context, child) => const SizedBox(
+        height: 24,
+        child: FlutterLogo(
+          style: FlutterLogoStyle.horizontal,
+          size: 86,
+        ),
+      ),
+      medium: (context, child) => const SizedBox(
+        height: 29,
+        child: FlutterLogo(
+          style: FlutterLogoStyle.horizontal,
+          size: 104,
+        ),
+      ),
+      large: (context, child) => const SizedBox(
+        height: 32,
+        child: FlutterLogo(
+          style: FlutterLogoStyle.horizontal,
+          size: 114,
+        ),
+      ),
+    );
+  }
+}
+
+class _PuzzleSections extends StatelessWidget {
+  const _PuzzleSections({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+
+    return ResponsiveLayoutBuilder(
+      small: (context, child) => Column(
+        children: [
+          theme.layoutDelegate.startSectionBuilder(state),
+          const _PuzzleBoard(),
+          theme.layoutDelegate.endSectionBuilder(state),
+        ],
+      ),
+      medium: (context, child) => Column(
+        children: [
+          theme.layoutDelegate.startSectionBuilder(state),
+          const _PuzzleBoard(),
+          theme.layoutDelegate.endSectionBuilder(state),
+        ],
+      ),
+      large: (context, child) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: theme.layoutDelegate.startSectionBuilder(state),
+          ),
+          const _PuzzleBoard(),
+          Expanded(
+            child: theme.layoutDelegate.endSectionBuilder(state),
+          ),
+        ],
       ),
     );
   }
@@ -92,31 +191,13 @@ class _PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
+
     final size = puzzle.getDimension();
     if (size == 0) return const CircularProgressIndicator();
 
-    return Flexible(
-      child: theme.puzzleBoard(
-        size: size,
-        children: puzzle.tiles.map((tile) => _PuzzleTile(tile: tile)).toList(),
-      ),
-    );
-  }
-}
-
-class _PuzzleInformation extends StatelessWidget {
-  const _PuzzleInformation({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        _ResetButton(),
-        _MovesCounter(),
-        _TilesLeftCounter(),
-        _Timer(),
-      ],
+    return theme.layoutDelegate.boardBuilder(
+      size,
+      puzzle.tiles.map((tile) => _PuzzleTile(tile: tile)).toList(),
     );
   }
 }
@@ -129,6 +210,8 @@ class _PuzzleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
         if (state.puzzleStatus == PuzzleStatus.complete) {
@@ -137,85 +220,9 @@ class _PuzzleTile extends StatelessWidget {
           context.read<TimerBloc>().add(TimerStopped(completedInSeconds));
         }
       },
-      child: GestureDetector(
-        onTap: () {
-          final numberOfMoves = context.read<PuzzleBloc>().state.numberOfMoves;
-          if (numberOfMoves == 0) {
-            context.read<TimerBloc>().add(const TimerStarted());
-          }
-          context.read<PuzzleBloc>().add(TileTapped(tile));
-        },
-        child: (!tile.isWhitespace)
-            ? theme.tile(tile.value)
-            : const _WhitespaceTile(),
-      ),
+      child: (!tile.isWhitespace)
+          ? theme.layoutDelegate.tileBuilder(tile, state)
+          : theme.layoutDelegate.whitespaceTileBuilder(),
     );
-  }
-}
-
-class _WhitespaceTile extends StatelessWidget {
-  const _WhitespaceTile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final isComplete =
-        context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
-            PuzzleStatus.complete;
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    return isComplete ? theme.whitespaceTileComplete : theme.whitespaceTile;
-  }
-}
-
-class _ResetButton extends StatelessWidget {
-  const _ResetButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    return GestureDetector(
-      onTap: () {
-        context.read<PuzzleBloc>().add(const PuzzleReset());
-        context.read<TimerBloc>().add(const TimerReset());
-      },
-      child: theme.resetIcon,
-    );
-  }
-}
-
-class _MovesCounter extends StatelessWidget {
-  const _MovesCounter({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final moves = context.select((PuzzleBloc bloc) => bloc.state.numberOfMoves);
-    return Expanded(child: theme.movesCounter(moves));
-  }
-}
-
-class _TilesLeftCounter extends StatelessWidget {
-  const _TilesLeftCounter({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final numberOfTiles =
-        context.select((PuzzleBloc bloc) => bloc.state.puzzle.tiles.length);
-    final numberOfCorrectTiles =
-        context.select((PuzzleBloc bloc) => bloc.state.numberOfCorrectTiles);
-    final numberOfTilesLeft = numberOfTiles - numberOfCorrectTiles - 1;
-    return Expanded(child: theme.tilesLeftCounter(numberOfTilesLeft));
-  }
-}
-
-class _Timer extends StatelessWidget {
-  const _Timer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final seconds =
-        context.select((TimerBloc bloc) => bloc.state.secondsElapsed);
-    return Expanded(child: theme.timer(seconds));
   }
 }
