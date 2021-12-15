@@ -6,6 +6,7 @@ import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/simple/simple.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
@@ -23,7 +24,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       small: (_, child) => child!,
       medium: (_, child) => child!,
       large: (_, child) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
+        padding: const EdgeInsets.only(left: 50, right: 32),
         child: child,
       ),
       child: (_) => SimpleStartSection(state: state),
@@ -230,7 +231,7 @@ class SimplePuzzleTitle extends StatelessWidget {
     required this.status,
   }) : super(key: key);
 
-  /// The state of the puzzle.
+  /// The status of the puzzle.
   final PuzzleStatus status;
 
   @override

@@ -24,18 +24,50 @@ abstract class PuzzleTheme extends Equatable {
 
   /// The default color of this theme.
   ///
-  /// Used for puzzle tiles and buttons.
+  /// Applied to the text color of the score and
+  /// the default background color of puzzle tiles.
   Color get defaultColor;
+
+  /// The button color of this theme.
+  ///
+  /// Applied to the background color of buttons.
+  Color get buttonColor;
 
   /// The hover color of this theme.
   ///
-  /// Used for the puzzle tile that was hovered over.
+  /// Applied to the background color of a puzzle tile
+  /// that is hovered over.
   Color get hoverColor;
 
   /// The pressed color of this theme.
   ///
-  /// Used for the puzzle tile that was pressed.
+  /// Applied to the background color of a puzzle tile
+  /// that was pressed.
   Color get pressedColor;
+
+  /// The logo color.
+  ///
+  /// Applied to the text color of [FlutterLogo] displayed
+  /// in the top left corner of the header.
+  Color get logoColor;
+
+  /// The active menu color.
+  ///
+  /// Applied to the text color of the currently active
+  /// theme in menu.
+  Color get menuActiveColor;
+
+  /// The underline menu color.
+  ///
+  /// Applied to the underline of the currently active
+  /// theme in menu, on a small layout.
+  Color get menuUnderlineColor;
+
+  /// The inactive menu color.
+  ///
+  /// Applied to the text color of the currently inactive
+  /// theme in menu.
+  Color get menuInactiveColor;
 
   /// The puzzle layout delegate of this theme.
   ///
