@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -8,10 +9,16 @@ import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 class MockPuzzleTheme extends Mock implements PuzzleTheme {}
 
+class MockDashatarTheme extends Mock implements DashatarTheme {}
+
 class MockThemeBloc extends MockBloc<ThemeEvent, ThemeState>
     implements ThemeBloc {}
 
 class MockThemeState extends Mock implements ThemeState {}
+
+class MockDashatarThemeBloc
+    extends MockBloc<DashatarThemeEvent, DashatarThemeState>
+    implements DashatarThemeBloc {}
 
 class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
     implements PuzzleBloc {}
