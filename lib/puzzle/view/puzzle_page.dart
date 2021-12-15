@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/simple/simple.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
+import 'package:very_good_slide_puzzle/typography/typography.dart';
 
 /// {@template puzzle_page}
 /// The root page of the puzzle UI.
@@ -20,12 +22,22 @@ class PuzzlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ThemeBloc(
+      create: (context) => DashatarThemeBloc(
         themes: const [
-          SimpleTheme(),
+          BlueDashatarTheme(),
+          GreenDashatarTheme(),
+          YellowDashatarTheme()
         ],
       ),
-      child: const PuzzleView(),
+      child: BlocProvider(
+        create: (context) => ThemeBloc(
+          initialThemes: [
+            const SimpleTheme(),
+            context.read<DashatarThemeBloc>().state.theme,
+          ],
+        ),
+        child: const PuzzleView(),
+      ),
     );
   }
 }
@@ -42,15 +54,30 @@ class PuzzleView extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
     return Scaffold(
-      backgroundColor: theme.backgroundColor,
-      body: BlocProvider(
-        create: (context) => TimerBloc(
-          ticker: const Ticker(),
-        ),
-        child: BlocProvider(
-          create: (context) => PuzzleBloc(4)..add(const PuzzleInitialized()),
-          child: const _Puzzle(
-            key: Key('puzzle_view_puzzle'),
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(color: theme.backgroundColor),
+        child: BlocListener<DashatarThemeBloc, DashatarThemeState>(
+          listener: (context, state) {
+            final dashatarTheme = context.read<DashatarThemeBloc>().state.theme;
+            context.read<ThemeBloc>().add(ThemeUpdated(theme: dashatarTheme));
+          },
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => TimerBloc(
+                  ticker: const Ticker(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    PuzzleBloc(4)..add(const PuzzleInitialized()),
+              ),
+            ],
+            child: const _Puzzle(
+              key: Key('puzzle_view_puzzle'),
+            ),
           ),
         ),
       ),
@@ -78,12 +105,8 @@ class _Puzzle extends StatelessWidget {
                 ),
                 child: Column(
                   children: const [
-                    _PuzzleHeader(
-                      key: Key('puzzle_header'),
-                    ),
-                    _PuzzleSections(
-                      key: Key('puzzle_sections'),
-                    ),
+                    PuzzleHeader(),
+                    PuzzleSections(),
                   ],
                 ),
               ),
@@ -95,8 +118,13 @@ class _Puzzle extends StatelessWidget {
   }
 }
 
-class _PuzzleHeader extends StatelessWidget {
-  const _PuzzleHeader({Key? key}) : super(key: key);
+/// {@template puzzle_header}
+/// Displays the header of the puzzle.
+/// {@endtemplate}
+@visibleForTesting
+class PuzzleHeader extends StatelessWidget {
+  /// {@macro puzzle_header}
+  const PuzzleHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +132,17 @@ class _PuzzleHeader extends StatelessWidget {
       height: 96,
       child: ResponsiveLayoutBuilder(
         small: (context, child) => const Center(
-          child: _PuzzleLogo(),
+          child: PuzzleLogo(),
         ),
         medium: (context, child) => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 50,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              _PuzzleLogo(),
+              PuzzleLogo(),
+              PuzzleMenu(),
             ],
           ),
         ),
@@ -121,8 +151,10 @@ class _PuzzleHeader extends StatelessWidget {
             horizontal: 50,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              _PuzzleLogo(),
+              PuzzleLogo(),
+              PuzzleMenu(),
             ],
           ),
         ),
@@ -131,30 +163,40 @@ class _PuzzleHeader extends StatelessWidget {
   }
 }
 
-class _PuzzleLogo extends StatelessWidget {
-  const _PuzzleLogo({Key? key}) : super(key: key);
+/// {@template puzzle_logo}
+/// Displays the logo of the puzzle.
+/// {@endtemplate}
+@visibleForTesting
+class PuzzleLogo extends StatelessWidget {
+  /// {@macro puzzle_logo}
+  const PuzzleLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+
     return ResponsiveLayoutBuilder(
-      small: (context, child) => const SizedBox(
+      small: (context, child) => SizedBox(
         height: 24,
         child: FlutterLogo(
           style: FlutterLogoStyle.horizontal,
+          textColor: theme.logoColor,
           size: 86,
         ),
       ),
-      medium: (context, child) => const SizedBox(
+      medium: (context, child) => SizedBox(
         height: 29,
         child: FlutterLogo(
           style: FlutterLogoStyle.horizontal,
+          textColor: theme.logoColor,
           size: 104,
         ),
       ),
-      large: (context, child) => const SizedBox(
+      large: (context, child) => SizedBox(
         height: 32,
         child: FlutterLogo(
           style: FlutterLogoStyle.horizontal,
+          textColor: theme.logoColor,
           size: 114,
         ),
       ),
@@ -162,8 +204,12 @@ class _PuzzleLogo extends StatelessWidget {
   }
 }
 
-class _PuzzleSections extends StatelessWidget {
-  const _PuzzleSections({Key? key}) : super(key: key);
+/// {@template puzzle_sections}
+/// Displays start and end sections of the puzzle.
+/// {@endtemplate}
+class PuzzleSections extends StatelessWidget {
+  /// {@macro puzzle_sections}
+  const PuzzleSections({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +220,7 @@ class _PuzzleSections extends StatelessWidget {
       small: (context, child) => Column(
         children: [
           theme.layoutDelegate.startSectionBuilder(state),
+          const PuzzleMenu(),
           const PuzzleBoard(),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
@@ -204,6 +251,7 @@ class _PuzzleSections extends StatelessWidget {
 /// {@template puzzle_board}
 /// Displays the board of the puzzle.
 /// {@endtemplate}
+@visibleForTesting
 class PuzzleBoard extends StatelessWidget {
   /// {@macro puzzle_board}
   const PuzzleBoard({Key? key}) : super(key: key);
@@ -218,7 +266,7 @@ class PuzzleBoard extends StatelessWidget {
 
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
-        if (state.puzzleStatus == PuzzleStatus.complete) {
+        if (state.puzzleStatus == PuzzleStatus.complete && theme.hasTimer) {
           context.read<TimerBloc>().add(const TimerStopped());
         }
       },
@@ -244,5 +292,104 @@ class _PuzzleTile extends StatelessWidget {
     return tile.isWhitespace
         ? theme.layoutDelegate.whitespaceTileBuilder()
         : theme.layoutDelegate.tileBuilder(tile, state);
+  }
+}
+
+/// {@template puzzle_menu}
+/// Displays the menu of the puzzle.
+/// {@endtemplate}
+@visibleForTesting
+class PuzzleMenu extends StatelessWidget {
+  /// {@macro puzzle_menu}
+  const PuzzleMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final themes = context.select((ThemeBloc bloc) => bloc.state.themes);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        themes.length,
+        (index) => PuzzleMenuItem(
+          theme: themes[index],
+          themeIndex: index,
+        ),
+      ),
+    );
+  }
+}
+
+/// {@template puzzle_menu_item}
+/// Displays the menu item of the [PuzzleMenu].
+/// {@endtemplate}
+@visibleForTesting
+class PuzzleMenuItem extends StatelessWidget {
+  /// {@macro puzzle_menu_item}
+  const PuzzleMenuItem({
+    Key? key,
+    required this.theme,
+    required this.themeIndex,
+  }) : super(key: key);
+
+  /// The theme corresponding to this menu item.
+  final PuzzleTheme theme;
+
+  /// The index of [theme] in [ThemeState.themes].
+  final int themeIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    final currentTheme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final isCurrentTheme = theme == currentTheme;
+
+    return ResponsiveLayoutBuilder(
+      small: (_, child) => Column(
+        children: [
+          Container(
+            width: 100,
+            height: 40,
+            decoration: isCurrentTheme
+                ? BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 2,
+                        color: currentTheme.menuUnderlineColor,
+                      ),
+                    ),
+                  )
+                : null,
+            child: child,
+          ),
+        ],
+      ),
+      medium: (_, child) => child!,
+      large: (_, child) => child!,
+      child: (currentSize) {
+        final leftPadding =
+            themeIndex > 0 && currentSize != ResponsiveLayoutSize.small
+                ? 40.0
+                : 0.0;
+
+        return Padding(
+          padding: EdgeInsets.only(left: leftPadding),
+          child: TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              primary: isCurrentTheme
+                  ? currentTheme.menuActiveColor
+                  : currentTheme.menuInactiveColor,
+              textStyle: PuzzleTextStyle.headline5,
+            ).copyWith(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
+            ),
+            onPressed: () => context
+                .read<ThemeBloc>()
+                .add(ThemeChanged(themeIndex: themeIndex)),
+            child: Text(theme.name),
+          ),
+        );
+      },
+    );
   }
 }

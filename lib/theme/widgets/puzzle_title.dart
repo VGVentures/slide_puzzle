@@ -24,11 +24,16 @@ class PuzzleTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
       small: (context, child) => Center(
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: PuzzleTextStyle.headline3.copyWith(
-            color: color,
+        child: SizedBox(
+          width: 300,
+          child: Center(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: PuzzleTextStyle.headline3.copyWith(
+                color: color,
+              ),
+            ),
           ),
         ),
       ),

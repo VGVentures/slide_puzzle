@@ -14,8 +14,6 @@ class MockDashatarTheme extends Mock implements DashatarTheme {}
 class MockThemeBloc extends MockBloc<ThemeEvent, ThemeState>
     implements ThemeBloc {}
 
-class MockThemeState extends Mock implements ThemeState {}
-
 class MockDashatarThemeBloc
     extends MockBloc<DashatarThemeEvent, DashatarThemeState>
     implements DashatarThemeBloc {}

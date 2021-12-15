@@ -34,7 +34,7 @@ void main() {
       themeBloc = MockThemeBloc();
       theme = MockPuzzleTheme();
       state = MockPuzzleState();
-      final themeState = MockThemeState();
+      final themeState = ThemeState(themes: [theme], theme: theme);
 
       when(() => state.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
       when(() => state.numberOfMoves).thenReturn(5);
@@ -42,7 +42,7 @@ void main() {
 
       when(() => theme.name).thenReturn(themeName);
       when(() => theme.defaultColor).thenReturn(Colors.black);
-      when(() => themeState.theme).thenReturn(theme);
+      when(() => theme.buttonColor).thenReturn(Colors.black);
       when(() => themeBloc.state).thenReturn(themeState);
     });
 
@@ -436,7 +436,9 @@ void main() {
         when(() => tile.value).thenReturn(tileValue);
       });
 
-      testWidgets('adds TileTapped on pressed', (tester) async {
+      testWidgets(
+          'adds TileTapped to PuzzleBloc '
+          'on pressed', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
 
         await tester.pumpApp(
@@ -521,7 +523,9 @@ void main() {
     });
 
     group('SimplePuzzleShuffleButton', () {
-      testWidgets('adds PuzzleReset on pressed', (tester) async {
+      testWidgets(
+          'adds PuzzleReset to PuzzleBloc '
+          'on pressed', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
 
         await tester.pumpApp(
