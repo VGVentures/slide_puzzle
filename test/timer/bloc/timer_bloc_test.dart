@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_redundant_argument_values
 
 import 'dart:async';
 
@@ -12,7 +12,7 @@ class MockTicker extends Mock implements Ticker {}
 
 void main() {
   final ticker = MockTicker();
-  final streamController = StreamController<int>();
+  final streamController = StreamController<int>.broadcast();
 
   setUp(() {
     when(ticker.tick).thenAnswer((_) => streamController.stream);
@@ -27,23 +27,24 @@ void main() {
     });
 
     group('TimerStarted', () {
-      blocTest<TimerBloc, TimerState>(
-        'emits 3 sequential timer states',
-        build: () => TimerBloc(ticker: ticker),
-        act: (bloc) async {
-          bloc.add(TimerStarted());
-          await handleMicrotasks(5);
-          streamController
-            ..add(1)
-            ..add(2)
-            ..add(3);
-        },
-        expect: () => <TimerState>[
-          TimerState(secondsElapsed: 1),
-          TimerState(secondsElapsed: 2),
-          TimerState(secondsElapsed: 3),
-        ],
-      );
+      test('emits 3 sequential timer states', () async {
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+        await bloc.stream.first;
+
+        streamController
+          ..add(1)
+          ..add(2)
+          ..add(3);
+
+        await expectLater(
+          bloc.stream,
+          emitsInOrder(<TimerState>[
+            TimerState(isRunning: true, secondsElapsed: 1),
+            TimerState(isRunning: true, secondsElapsed: 2),
+            TimerState(isRunning: true, secondsElapsed: 3),
+          ]),
+        );
+      });
     });
 
     group('TimerTicked', () {
@@ -56,18 +57,28 @@ void main() {
     });
 
     group('TimerStopped', () {
-      blocTest<TimerBloc, TimerState>(
-        'does not emit after timer is stopped',
-        build: () => TimerBloc(ticker: ticker),
-        act: (bloc) {
-          bloc.add(TimerStarted());
-          streamController.add(1);
-          bloc.add(TimerStopped());
-          streamController.add(2);
-        },
-        expect: () => <TimerState>[],
-        skip: 1,
-      );
+      test('does not emit after timer is stopped', () async {
+        final bloc = TimerBloc(ticker: ticker)..add(TimerStarted());
+
+        expect(
+          await bloc.stream.first,
+          equals(TimerState(isRunning: true, secondsElapsed: 0)),
+        );
+
+        streamController.add(1);
+        expect(
+          await bloc.stream.first,
+          equals(TimerState(isRunning: true, secondsElapsed: 1)),
+        );
+
+        bloc.add(TimerStopped());
+        streamController.add(2);
+
+        expect(
+          await bloc.stream.first,
+          equals(TimerState(isRunning: false, secondsElapsed: 1)),
+        );
+      });
     });
 
     group('TimerReset', () {

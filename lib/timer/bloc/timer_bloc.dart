@@ -34,18 +34,20 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     _tickerSubscription = _ticker
         .tick()
         .listen((secondsElapsed) => add(TimerTicked(secondsElapsed)));
+    emit(state.copyWith(isRunning: true));
   }
 
   void _onTimerTicked(TimerTicked event, Emitter<TimerState> emit) {
-    emit(TimerState(secondsElapsed: event.secondsElapsed));
+    emit(state.copyWith(secondsElapsed: event.secondsElapsed));
   }
 
   void _onTimerStopped(TimerStopped event, Emitter<TimerState> emit) {
     _tickerSubscription?.pause();
+    emit(state.copyWith(isRunning: false));
   }
 
   void _onTimerReset(TimerReset event, Emitter<TimerState> emit) {
     _tickerSubscription?.cancel();
-    emit(const TimerState());
+    emit(state.copyWith(secondsElapsed: 0));
   }
 }
