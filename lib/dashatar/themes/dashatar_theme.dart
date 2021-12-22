@@ -24,6 +24,12 @@ abstract class DashatarTheme extends PuzzleTheme {
   bool get hasCountdown => true;
 
   @override
+  Color get nameColor => PuzzleColors.white;
+
+  @override
+  Color get titleColor => PuzzleColors.white;
+
+  @override
   Color get hoverColor => PuzzleColors.black2;
 
   @override
@@ -41,6 +47,14 @@ abstract class DashatarTheme extends PuzzleTheme {
   @override
   PuzzleLayoutDelegate get layoutDelegate =>
       const DashatarPuzzleLayoutDelegate();
+
+  /// The text color of the countdown timer.
+  Color get countdownColor;
+
+  /// The path to the image asset of this theme.
+  ///
+  /// This asset is shown in the Dashatar theme picker.
+  String get themeAsset;
 
   /// The path to the directory with dash assets for all puzzle tiles.
   String get dashAssetsDirectory;
@@ -64,6 +78,8 @@ abstract class DashatarTheme extends PuzzleTheme {
         name,
         hasTimer,
         hasCountdown,
+        nameColor,
+        titleColor,
         backgroundColor,
         defaultColor,
         buttonColor,
@@ -74,6 +90,8 @@ abstract class DashatarTheme extends PuzzleTheme {
         menuUnderlineColor,
         menuInactiveColor,
         layoutDelegate,
+        countdownColor,
+        themeAsset,
         dashAssetsDirectory
       ];
 }

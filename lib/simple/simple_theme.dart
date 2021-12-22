@@ -22,6 +22,12 @@ class SimpleTheme extends PuzzleTheme {
   bool get hasCountdown => false;
 
   @override
+  Color get nameColor => PuzzleColors.grey1;
+
+  @override
+  Color get titleColor => PuzzleColors.primary1;
+
+  @override
   Color get backgroundColor => PuzzleColors.white;
 
   @override
@@ -56,6 +62,8 @@ class SimpleTheme extends PuzzleTheme {
         name,
         hasTimer,
         hasCountdown,
+        nameColor,
+        titleColor,
         backgroundColor,
         defaultColor,
         buttonColor,

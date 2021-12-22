@@ -23,5 +23,11 @@ class BlueDashatarTheme extends DashatarTheme {
   Color get menuInactiveColor => PuzzleColors.blue50;
 
   @override
+  Color get countdownColor => PuzzleColors.blue50;
+
+  @override
+  String get themeAsset => 'assets/images/dashatar/gallery/blue.png';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/blue';
 }

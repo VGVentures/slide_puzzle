@@ -112,6 +112,15 @@ class PuzzleTextStyle {
     );
   }
 
+  /// Countdown text style
+  static TextStyle get countdownTime {
+    return _baseTextStyle.copyWith(
+      fontSize: 300,
+      height: 1,
+      fontWeight: PuzzleFontWeight.bold,
+    );
+  }
+
   static const _baseTextStyle = TextStyle(
     fontFamily: 'GoogleSans',
     color: PuzzleColors.black,

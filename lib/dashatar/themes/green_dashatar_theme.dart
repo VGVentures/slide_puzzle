@@ -23,5 +23,11 @@ class GreenDashatarTheme extends DashatarTheme {
   Color get menuInactiveColor => PuzzleColors.green50;
 
   @override
+  Color get countdownColor => PuzzleColors.green50;
+
+  @override
+  String get themeAsset => 'assets/images/dashatar/gallery/green.png';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/green';
 }

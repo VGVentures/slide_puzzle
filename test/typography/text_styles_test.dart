@@ -26,5 +26,9 @@ void main() {
     test('label style is defined', () {
       expect(PuzzleTextStyle.label, isA<TextStyle>());
     });
+
+    test('countdown style is defined', () {
+      expect(PuzzleTextStyle.countdownTime, isA<TextStyle>());
+    });
   });
 }

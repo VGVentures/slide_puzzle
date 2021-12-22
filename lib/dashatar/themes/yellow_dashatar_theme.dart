@@ -23,5 +23,11 @@ class YellowDashatarTheme extends DashatarTheme {
   Color get menuInactiveColor => PuzzleColors.yellow50;
 
   @override
+  Color get countdownColor => PuzzleColors.yellow50;
+
+  @override
+  String get themeAsset => 'assets/images/dashatar/gallery/yellow.png';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/yellow';
 }
