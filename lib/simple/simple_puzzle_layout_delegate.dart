@@ -99,9 +99,8 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           large: 96,
         ),
         ResponsiveLayoutBuilder(
-          small: (_, __) => SizedBox(
-            width: _BoardSize.small,
-            height: _BoardSize.small,
+          small: (_, __) => SizedBox.square(
+            dimension: _BoardSize.small,
             child: SimplePuzzleBoard(
               key: const Key('simple_puzzle_board_small'),
               size: size,
@@ -109,18 +108,16 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
               spacing: 5,
             ),
           ),
-          medium: (_, __) => SizedBox(
-            width: _BoardSize.medium,
-            height: _BoardSize.medium,
+          medium: (_, __) => SizedBox.square(
+            dimension: _BoardSize.medium,
             child: SimplePuzzleBoard(
               key: const Key('simple_puzzle_board_medium'),
               size: size,
               tiles: tiles,
             ),
           ),
-          large: (_, __) => SizedBox(
-            width: _BoardSize.large,
-            height: _BoardSize.large,
+          large: (_, __) => SizedBox.square(
+            dimension: _BoardSize.large,
             child: SimplePuzzleBoard(
               key: const Key('simple_puzzle_board_large'),
               size: size,
@@ -158,10 +155,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget whitespaceTileBuilder() {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      child: const SizedBox(),
-    );
+    return const SizedBox();
   }
 
   @override
@@ -248,8 +242,8 @@ class SimplePuzzleTitle extends StatelessWidget {
 }
 
 abstract class _BoardSize {
-  static double small = 311;
-  static double medium = 456;
+  static double small = 312;
+  static double medium = 424;
   static double large = 472;
 }
 
@@ -296,8 +290,8 @@ abstract class _TileFontSize {
 }
 
 /// {@template simple_puzzle_tile}
-/// Displays the puzzle tile associated with [tile]
-/// and the font size of [tileFontSize].
+/// Displays the puzzle tile associated with [tile] and
+/// the font size of [tileFontSize] based on the puzzle [state].
 /// {@endtemplate}
 @visibleForTesting
 class SimplePuzzleTile extends StatelessWidget {
@@ -330,7 +324,7 @@ class SimplePuzzleTile extends StatelessWidget {
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(20),
+            Radius.circular(12),
           ),
         ),
       ).copyWith(
@@ -347,9 +341,7 @@ class SimplePuzzleTile extends StatelessWidget {
         ),
       ),
       onPressed: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
-      child: Text(
-        tile.value.toString(),
-      ),
+      child: Text(tile.value.toString()),
     );
   }
 }

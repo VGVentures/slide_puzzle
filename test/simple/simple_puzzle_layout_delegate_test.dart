@@ -339,18 +339,14 @@ void main() {
     });
 
     group('whitespaceTileBuilder', () {
-      testWidgets(
-          'renders AnimatedContainer '
-          'with SizedBox as child', (tester) async {
+      testWidgets('renders SizedBox', (tester) async {
         await tester.pumpApp(
           layoutDelegate.whitespaceTileBuilder(),
           themeBloc: themeBloc,
         );
 
         expect(
-          find.byWidgetPredicate(
-            (widget) => widget is AnimatedContainer && widget.child is SizedBox,
-          ),
+          find.byType(SizedBox),
           findsOneWidget,
         );
       });

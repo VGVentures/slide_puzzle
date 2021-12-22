@@ -53,6 +53,9 @@ class PuzzleView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
+    /// Shuffle only if the current theme is Simple.
+    final shufflePuzzle = theme is SimpleTheme;
+
     return Scaffold(
       body: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
@@ -71,8 +74,12 @@ class PuzzleView extends StatelessWidget {
                 ),
               ),
               BlocProvider(
-                create: (context) =>
-                    PuzzleBloc(4)..add(const PuzzleInitialized()),
+                create: (context) => PuzzleBloc(4)
+                  ..add(
+                    PuzzleInitialized(
+                      shufflePuzzle: shufflePuzzle,
+                    ),
+                  ),
               ),
             ],
             child: const _Puzzle(
@@ -266,20 +273,30 @@ class PuzzleBoard extends StatelessWidget {
 
     return BlocListener<PuzzleBloc, PuzzleState>(
       listener: (context, state) {
-        if (state.puzzleStatus == PuzzleStatus.complete && theme.hasTimer) {
+        if (theme.hasTimer && state.puzzleStatus == PuzzleStatus.complete) {
           context.read<TimerBloc>().add(const TimerStopped());
         }
       },
       child: theme.layoutDelegate.boardBuilder(
         size,
-        puzzle.tiles.map((tile) => _PuzzleTile(tile: tile)).toList(),
+        puzzle.tiles
+            .map(
+              (tile) => _PuzzleTile(
+                key: Key('puzzle_tile_${tile.value.toString()}'),
+                tile: tile,
+              ),
+            )
+            .toList(),
       ),
     );
   }
 }
 
 class _PuzzleTile extends StatelessWidget {
-  const _PuzzleTile({Key? key, required this.tile}) : super(key: key);
+  const _PuzzleTile({
+    Key? key,
+    required this.tile,
+  }) : super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;

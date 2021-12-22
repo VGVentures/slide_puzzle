@@ -9,63 +9,78 @@ import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 void main() {
   const seed = 2;
 
-  final size3Tile0 = Tile(
-    value: 0,
-    correctPosition: Position(x: 3, y: 3),
-    currentPosition: Position(x: 3, y: 2),
-    isWhitespace: true,
-  );
   final size3Tile1 = Tile(
     value: 1,
     correctPosition: Position(x: 1, y: 1),
-    currentPosition: Position(x: 2, y: 1),
+    currentPosition: Position(x: 1, y: 3),
   );
   final size3Tile2 = Tile(
     value: 2,
     correctPosition: Position(x: 2, y: 1),
-    currentPosition: Position(x: 2, y: 3),
+    currentPosition: Position(x: 1, y: 1),
   );
   final size3Tile3 = Tile(
     value: 3,
     correctPosition: Position(x: 3, y: 1),
-    currentPosition: Position(x: 1, y: 3),
+    currentPosition: Position(x: 2, y: 3),
   );
   final size3Tile4 = Tile(
     value: 4,
     correctPosition: Position(x: 1, y: 2),
-    currentPosition: Position(x: 2, y: 2),
+    currentPosition: Position(x: 2, y: 1),
   );
   final size3Tile5 = Tile(
     value: 5,
     correctPosition: Position(x: 2, y: 2),
-    currentPosition: Position(x: 3, y: 1),
+    currentPosition: Position(x: 3, y: 2),
   );
   final size3Tile6 = Tile(
     value: 6,
     correctPosition: Position(x: 3, y: 2),
-    currentPosition: Position(x: 3, y: 3),
+    currentPosition: Position(x: 1, y: 2),
   );
   final size3Tile7 = Tile(
     value: 7,
     correctPosition: Position(x: 1, y: 3),
-    currentPosition: Position(x: 1, y: 1),
+    currentPosition: Position(x: 3, y: 3),
   );
   final size3Tile8 = Tile(
     value: 8,
     correctPosition: Position(x: 2, y: 3),
-    currentPosition: Position(x: 1, y: 2),
+    currentPosition: Position(x: 2, y: 2),
   );
+  final size3Tile9 = Tile(
+    value: 9,
+    correctPosition: Position(x: 3, y: 3),
+    currentPosition: Position(x: 3, y: 1),
+    isWhitespace: true,
+  );
+
+  final puzzleSize3Unshuffled = Puzzle(
+    tiles: [
+      size3Tile1.copyWith(currentPosition: size3Tile1.correctPosition),
+      size3Tile2.copyWith(currentPosition: size3Tile2.correctPosition),
+      size3Tile3.copyWith(currentPosition: size3Tile3.correctPosition),
+      size3Tile4.copyWith(currentPosition: size3Tile4.correctPosition),
+      size3Tile5.copyWith(currentPosition: size3Tile5.correctPosition),
+      size3Tile6.copyWith(currentPosition: size3Tile6.correctPosition),
+      size3Tile7.copyWith(currentPosition: size3Tile7.correctPosition),
+      size3Tile8.copyWith(currentPosition: size3Tile8.correctPosition),
+      size3Tile9.copyWith(currentPosition: size3Tile9.correctPosition),
+    ],
+  );
+
   final puzzleSize3 = Puzzle(
     tiles: [
-      size3Tile7,
-      size3Tile1,
-      size3Tile5,
-      size3Tile8,
-      size3Tile4,
-      size3Tile0,
-      size3Tile3,
       size3Tile2,
+      size3Tile4,
+      size3Tile9,
       size3Tile6,
+      size3Tile8,
+      size3Tile5,
+      size3Tile1,
+      size3Tile3,
+      size3Tile7,
     ],
   );
 
@@ -82,10 +97,24 @@ void main() {
 
       blocTest<PuzzleBloc, PuzzleState>(
         'emits solvable 3x3 puzzle, [incomplete], 0 correct tiles, and 0 moves '
-        'when initialized with size 3',
+        'when initialized with size 3 and shuffle equal to true',
         build: () => PuzzleBloc(3, random: random),
-        act: (bloc) => bloc.add(PuzzleInitialized()),
+        act: (bloc) => bloc.add(PuzzleInitialized(shufflePuzzle: true)),
         expect: () => [PuzzleState(puzzle: puzzleSize3)],
+        verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
+      );
+
+      blocTest<PuzzleBloc, PuzzleState>(
+        'emits unshuffled 3x3 puzzle, 8 correct tiles, and 0 moves '
+        'when initialized with size 3 and shuffle equal to false',
+        build: () => PuzzleBloc(3, random: random),
+        act: (bloc) => bloc.add(PuzzleInitialized(shufflePuzzle: false)),
+        expect: () => [
+          PuzzleState(
+            puzzle: puzzleSize3Unshuffled,
+            numberOfCorrectTiles: 8,
+          )
+        ],
         verify: (bloc) => expect(bloc.state.puzzle.isSolvable(), isTrue),
       );
     });
@@ -341,7 +370,7 @@ void main() {
           size3Tile5,
           size3Tile8,
           size3Tile4,
-          size3Tile0,
+          size3Tile9,
           size3Tile3,
           size3Tile2,
           size3Tile6,
