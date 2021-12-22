@@ -18,8 +18,16 @@ class MockDashatarThemeBloc
     extends MockBloc<DashatarThemeEvent, DashatarThemeState>
     implements DashatarThemeBloc {}
 
+class MockDashatarPuzzleBloc
+    extends MockBloc<DashatarPuzzleEvent, DashatarPuzzleState>
+    implements DashatarPuzzleBloc {}
+
+class MockDashatarPuzzleState extends Mock implements DashatarPuzzleState {}
+
 class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
     implements PuzzleBloc {}
+
+class MockPuzzleEvent extends Mock implements PuzzleEvent {}
 
 class MockPuzzleState extends Mock implements PuzzleState {}
 
@@ -33,3 +41,5 @@ class MockPuzzle extends Mock implements Puzzle {}
 class MockTile extends Mock implements Tile {}
 
 class MockPuzzleLayoutDelegate extends Mock implements PuzzleLayoutDelegate {}
+
+class MockTicker extends Mock implements Ticker {}

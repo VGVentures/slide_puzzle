@@ -22,6 +22,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     ThemeBloc? themeBloc,
     DashatarThemeBloc? dashatarThemeBloc,
+    DashatarPuzzleBloc? dashatarPuzzleBloc,
     PuzzleBloc? puzzleBloc,
     TimerBloc? timerBloc,
   }) {
@@ -33,6 +34,9 @@ extension PumpApp on WidgetTester {
           ),
           BlocProvider.value(
             value: dashatarThemeBloc ?? MockDashatarThemeBloc(),
+          ),
+          BlocProvider.value(
+            value: dashatarPuzzleBloc ?? MockDashatarPuzzleBloc(),
           ),
           BlocProvider.value(
             value: puzzleBloc ?? MockPuzzleBloc(),
