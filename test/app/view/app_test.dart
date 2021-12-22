@@ -13,6 +13,7 @@ void main() {
   group('App', () {
     testWidgets('renders PuzzlePage', (tester) async {
       await tester.pumpWidget(const App());
+      await tester.pump(const Duration(milliseconds: 200));
       expect(find.byType(PuzzlePage), findsOneWidget);
     });
   });

@@ -50,6 +50,7 @@ void main() {
 
       when(() => theme.layoutDelegate).thenReturn(layoutDelegate);
       when(() => theme.backgroundColor).thenReturn(Colors.black);
+      when(() => theme.hasTimer).thenReturn(true);
       when(() => themeState.theme).thenReturn(theme);
       when(() => themeBloc.state).thenReturn(themeState);
     });

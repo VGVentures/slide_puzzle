@@ -24,9 +24,9 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
-    final puzzle = _generatePuzzle(_size);
+    final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
     emit(
-      state.copyWith(
+      PuzzleState(
         puzzle: puzzle.sort(),
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
       ),
@@ -84,7 +84,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   }
 
   /// Build a randomized, solvable puzzle of the given size.
-  Puzzle _generatePuzzle(int size) {
+  Puzzle _generatePuzzle(int size, {bool shuffle = true}) {
     final correctPositions = <Position>[];
     final currentPositions = <Position>[];
     final whitespacePosition = Position(x: size, y: size);
@@ -103,26 +103,31 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       }
     }
 
-    // Randomize only the current tile posistions.
-    currentPositions.shuffle(random);
+    if (shuffle) {
+      // Randomize only the current tile posistions.
+      currentPositions.shuffle(random);
+    }
 
     var tiles = _getTileListFromPositions(
       size,
       correctPositions,
       currentPositions,
     );
+
     var puzzle = Puzzle(tiles: tiles);
 
-    // Assign the tiles new current positions until the puzzle is solvable and
-    // zero tiles are in their correct position.
-    while (!puzzle.isSolvable() || puzzle.getNumberOfCorrectTiles() != 0) {
-      currentPositions.shuffle(random);
-      tiles = _getTileListFromPositions(
-        size,
-        correctPositions,
-        currentPositions,
-      );
-      puzzle = Puzzle(tiles: tiles);
+    if (shuffle) {
+      // Assign the tiles new current positions until the puzzle is solvable and
+      // zero tiles are in their correct position.
+      while (!puzzle.isSolvable() || puzzle.getNumberOfCorrectTiles() != 0) {
+        currentPositions.shuffle(random);
+        tiles = _getTileListFromPositions(
+          size,
+          correctPositions,
+          currentPositions,
+        );
+        puzzle = Puzzle(tiles: tiles);
+      }
     }
 
     return puzzle;
@@ -137,19 +142,19 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   ) {
     final whitespacePosition = Position(x: size, y: size);
     return [
-      for (int i = 0; i < size * size; i++)
-        if (i == 0)
+      for (int i = 1; i <= size * size; i++)
+        if (i == size * size)
           Tile(
             value: i,
             correctPosition: whitespacePosition,
-            currentPosition: currentPositions[i],
+            currentPosition: currentPositions[i - 1],
             isWhitespace: true,
           )
         else
           Tile(
             value: i,
             correctPosition: correctPositions[i - 1],
-            currentPosition: currentPositions[i],
+            currentPosition: currentPositions[i - 1],
           )
     ];
   }

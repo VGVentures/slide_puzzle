@@ -12,8 +12,33 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future<void>.delayed(const Duration(milliseconds: 20), () {
+      precacheImage(
+        Image.asset('assets/images/simple_dash_large.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/simple_dash_medium.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/simple_dash_small.png').image,
+        context,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
