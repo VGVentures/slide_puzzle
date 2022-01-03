@@ -23,7 +23,7 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
       small: (_, child) => child!,
       medium: (_, child) => child!,
       large: (_, child) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
+        padding: const EdgeInsets.only(left: 50, right: 32),
         child: child,
       ),
       child: (_) => SimpleStartSection(state: state),
@@ -123,6 +123,9 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
               tiles: tiles,
             ),
           ),
+        ),
+        const ResponsiveGap(
+          large: 96,
         ),
       ],
     );
@@ -324,6 +327,7 @@ class SimplePuzzleTile extends StatelessWidget {
           ),
         ),
       ).copyWith(
+        foregroundColor: MaterialStateProperty.all(PuzzleColors.white),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
           (states) {
             if (tile.value == state.lastTappedTile?.value) {
@@ -336,7 +340,9 @@ class SimplePuzzleTile extends StatelessWidget {
           },
         ),
       ),
-      onPressed: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
+      onPressed: state.puzzleStatus == PuzzleStatus.incomplete
+          ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
+          : null,
       child: Text(tile.value.toString()),
     );
   }
@@ -359,7 +365,11 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const ShuffleIcon(),
+          Image.asset(
+            'assets/images/shuffle_icon.png',
+            width: 17,
+            height: 17,
+          ),
           const Gap(10),
           Text(context.l10n.puzzleShuffle),
         ],

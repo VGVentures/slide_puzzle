@@ -432,8 +432,13 @@ void main() {
         when(() => tile.value).thenReturn(tileValue);
       });
 
-      testWidgets('adds TileTapped on pressed', (tester) async {
+      testWidgets(
+          'adds TileTapped '
+          'when tapped and '
+          'puzzle is incomplete', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
+        when(() => state.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+        when(() => puzzleBloc.state).thenReturn(state);
 
         await tester.pumpApp(
           SimplePuzzleTile(
@@ -448,6 +453,29 @@ void main() {
         await tester.tap(find.byType(SimplePuzzleTile));
 
         verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+      });
+
+      testWidgets(
+          'does not add TileTapped '
+          'when tapped and '
+          'puzzle is complete', (tester) async {
+        final puzzleBloc = MockPuzzleBloc();
+        when(() => state.puzzleStatus).thenReturn(PuzzleStatus.complete);
+        when(() => puzzleBloc.state).thenReturn(state);
+
+        await tester.pumpApp(
+          SimplePuzzleTile(
+            tile: tile,
+            tileFontSize: tileFontSize,
+            state: state,
+          ),
+          themeBloc: themeBloc,
+          puzzleBloc: puzzleBloc,
+        );
+
+        await tester.tap(find.byType(SimplePuzzleTile));
+
+        verifyNever(() => puzzleBloc.add(TileTapped(tile)));
       });
 
       group('matches golden file', () {
