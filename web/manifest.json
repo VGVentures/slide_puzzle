@@ -1,11 +1,11 @@
 {
-    "name": "Very Good Slide Puzzle",
-    "short_name": "Very Good Slide Puzzle",
+    "name": "Slide Puzzle",
+    "short_name": "Slide Puzzle",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A Very Good Project created by Very Good CLI.",
+    "description": "A slide puzzle built for Flutter Challenge",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
