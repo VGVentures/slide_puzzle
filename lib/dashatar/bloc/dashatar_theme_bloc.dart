@@ -10,18 +10,15 @@ part 'dashatar_theme_state.dart';
 /// {@endtemplate}
 class DashatarThemeBloc extends Bloc<DashatarThemeEvent, DashatarThemeState> {
   /// {@macro dashatar_theme_bloc}
-  DashatarThemeBloc({required this.themes})
-      : super(const DashatarThemeState()) {
+  DashatarThemeBloc({required List<DashatarTheme> themes})
+      : super(DashatarThemeState(themes: themes)) {
     on<DashatarThemeChanged>(_onDashatarThemeChanged);
   }
-
-  /// List of available [DashatarTheme]s to choose from.
-  final List<DashatarTheme> themes;
 
   void _onDashatarThemeChanged(
     DashatarThemeChanged event,
     Emitter<DashatarThemeState> emit,
   ) {
-    emit(DashatarThemeState(theme: themes[event.themeIndex]));
+    emit(state.copyWith(theme: state.themes[event.themeIndex]));
   }
 }

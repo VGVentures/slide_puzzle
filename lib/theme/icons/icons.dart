@@ -14,6 +14,19 @@ class ShuffleIcon extends _SvgIcon {
         );
 }
 
+/// {@template timer_icon}
+/// A timer icon
+/// {@endtemplate}
+class TimerIcon extends _SvgIcon {
+  /// {@macro timer_icon}
+  const TimerIcon({Key? key})
+      : super(
+          assetName: 'assets/images/timer_icon.svg',
+          semanticsLabel: 'Timer icon',
+          key: key,
+        );
+}
+
 class _SvgIcon extends StatelessWidget {
   const _SvgIcon({
     Key? key,

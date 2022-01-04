@@ -33,6 +33,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/dashatar/gallery/
+    - assets/images/dashatar/green/
+    - assets/images/dashatar/blue/
+    - assets/images/dashatar/yellow/
   fonts:
     - family: GoogleSans
       fonts:

@@ -9,7 +9,7 @@ abstract class DashatarThemeEvent extends Equatable {
 class DashatarThemeChanged extends DashatarThemeEvent {
   const DashatarThemeChanged({required this.themeIndex});
 
-  /// The index of the changed theme in [DashatarThemeBloc.themes].
+  /// The index of the changed theme in [DashatarThemeState.themes].
   final int themeIndex;
 
   @override

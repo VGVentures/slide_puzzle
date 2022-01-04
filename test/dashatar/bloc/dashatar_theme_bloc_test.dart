@@ -8,13 +8,13 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('DashatarThemeBloc', () {
-    test('initial state is DashatarThemeState', () {
+    test('initial state is correct', () {
+      final themes = [MockDashatarTheme()];
+
       expect(
-        DashatarThemeBloc(
-          themes: [MockDashatarTheme()],
-        ).state,
+        DashatarThemeBloc(themes: themes).state,
         equals(
-          DashatarThemeState(),
+          DashatarThemeState(themes: themes),
         ),
       );
     });
@@ -32,7 +32,7 @@ void main() {
         build: () => DashatarThemeBloc(themes: themes),
         act: (bloc) => bloc.add(DashatarThemeChanged(themeIndex: 1)),
         expect: () => <DashatarThemeState>[
-          DashatarThemeState(theme: theme),
+          DashatarThemeState(themes: themes, theme: theme),
         ],
       );
     });

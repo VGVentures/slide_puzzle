@@ -19,5 +19,21 @@
     "puzzleCompleted": "Well done. Congrats!",
     "@puzzleCompleted": {
         "description": "Shown as the success state when the puzzle is completed"
+    },
+    "dashatarStartGame": "Start Game",
+    "@dashatarStartGame": {
+        "description": "Shown before the puzzle is started"
+    },
+    "dashatarGetReady": "Get ready...",
+    "@dashatarStartPuzzle": {
+        "description": "Shown when the puzzle is loading"
+    },
+    "dashatarRestart": "Restart",
+    "@dashatarRestart": {
+        "description": "Shown after the puzzle is started and may be restarted"
+    },
+    "dashatarCountdownGo": "GO!",
+    "@dashatarCountdownGo": {
+        "description": "Shown when the countdown has just finished and the puzzle is about to start"
     }
 }

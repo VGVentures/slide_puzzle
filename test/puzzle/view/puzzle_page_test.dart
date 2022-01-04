@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ void main() {
       final BuildContext puzzleViewContext =
           tester.element(find.byType(PuzzleView));
 
-      final dashatarThemes = puzzleViewContext.read<DashatarThemeBloc>().themes;
+      final dashatarThemes =
+          puzzleViewContext.read<DashatarThemeBloc>().state.themes;
 
       expect(
         dashatarThemes,
@@ -98,7 +100,8 @@ void main() {
       when(() => themeBloc.state).thenReturn(themeState);
 
       dashatarThemeBloc = MockDashatarThemeBloc();
-      when(() => dashatarThemeBloc.state).thenReturn(DashatarThemeState());
+      when(() => dashatarThemeBloc.state)
+          .thenReturn(DashatarThemeState(themes: [GreenDashatarTheme()]));
     });
 
     setUpAll(() {
@@ -109,11 +112,13 @@ void main() {
     testWidgets(
         'adds ThemeUpdated to ThemeBloc '
         'when DashatarTheme changes', (tester) async {
+      final themes = [GreenDashatarTheme(), BlueDashatarTheme()];
+
       whenListen(
         dashatarThemeBloc,
         Stream.fromIterable([
-          DashatarThemeState(theme: GreenDashatarTheme()),
-          DashatarThemeState(theme: BlueDashatarTheme()),
+          DashatarThemeState(themes: themes, theme: GreenDashatarTheme()),
+          DashatarThemeState(themes: themes, theme: BlueDashatarTheme()),
         ]),
       );
 
