@@ -28,6 +28,10 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
   /// Defaults to [PuzzleTheme.defaultColor].
   final Color? color;
 
+  /// The duration of a text style animation.
+  /// The animation may happen when a theme is changed.
+  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
+
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
@@ -39,39 +43,51 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
       medium: (context, child) => Center(child: child),
       large: (context, child) => child!,
       child: (currentSize) {
+        final mainAxisAlignment = currentSize == ResponsiveLayoutSize.large
+            ? MainAxisAlignment.start
+            : MainAxisAlignment.center;
+
         final bodyTextStyle = currentSize == ResponsiveLayoutSize.small
             ? PuzzleTextStyle.bodySmall
             : PuzzleTextStyle.body;
 
-        return RichText(
-          key: const Key('numberOfMovesAndTilesLeft'),
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            text: numberOfMoves.toString(),
-            style: PuzzleTextStyle.headline4.copyWith(
-              color: textColor,
+        return Row(
+          key: const Key('number_of_moves_and_tiles_left'),
+          mainAxisAlignment: mainAxisAlignment,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            AnimatedDefaultTextStyle(
+              key: const Key('number_of_moves_and_tiles_left_moves'),
+              style: PuzzleTextStyle.headline4.copyWith(
+                color: textColor,
+              ),
+              duration: _textStyleAnimationDuration,
+              child: Text(numberOfMoves.toString()),
             ),
-            children: [
-              TextSpan(
-                text: ' ${l10n.puzzleNumberOfMoves} | ',
-                style: bodyTextStyle.copyWith(
-                  color: textColor,
-                ),
+            AnimatedDefaultTextStyle(
+              style: bodyTextStyle.copyWith(
+                color: textColor,
               ),
-              TextSpan(
-                text: numberOfTilesLeft.toString(),
-                style: PuzzleTextStyle.headline4.copyWith(
-                  color: textColor,
-                ),
+              duration: _textStyleAnimationDuration,
+              child: Text(' ${l10n.puzzleNumberOfMoves} | '),
+            ),
+            AnimatedDefaultTextStyle(
+              key: const Key('number_of_moves_and_tiles_left_tiles_left'),
+              style: PuzzleTextStyle.headline4.copyWith(
+                color: textColor,
               ),
-              TextSpan(
-                text: ' ${l10n.puzzleNumberOfTilesLeft}',
-                style: bodyTextStyle.copyWith(
-                  color: textColor,
-                ),
+              duration: _textStyleAnimationDuration,
+              child: Text(numberOfTilesLeft.toString()),
+            ),
+            AnimatedDefaultTextStyle(
+              style: bodyTextStyle.copyWith(
+                color: textColor,
               ),
-            ],
-          ),
+              duration: _textStyleAnimationDuration,
+              child: Text(' ${l10n.puzzleNumberOfTilesLeft}'),
+            ),
+          ],
         );
       },
     );

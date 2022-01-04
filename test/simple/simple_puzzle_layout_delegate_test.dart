@@ -41,6 +41,8 @@ void main() {
       when(() => state.numberOfTilesLeft).thenReturn(15);
 
       when(() => theme.name).thenReturn(themeName);
+      when(() => theme.nameColor).thenReturn(Colors.black);
+      when(() => theme.titleColor).thenReturn(Colors.black);
       when(() => theme.defaultColor).thenReturn(Colors.black);
       when(() => theme.buttonColor).thenReturn(Colors.black);
       when(() => themeBloc.state).thenReturn(themeState);

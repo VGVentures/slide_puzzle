@@ -26,10 +26,14 @@ class PuzzleButton extends StatelessWidget {
   final Color? textColor;
 
   /// Called when this button is tapped.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The label of this button.
   final Widget child;
+
+  /// The duration of a text style animation.
+  /// The animation may happen when a theme is changed.
+  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +44,17 @@ class PuzzleButton extends StatelessWidget {
     return SizedBox(
       width: 145,
       height: 44,
-      child: TextButton(
+      child: AnimatedTextButton(
+        duration: _textStyleAnimationDuration,
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
-          primary: buttonTextColor,
-          backgroundColor: buttonBackgroundColor,
-          onSurface: buttonBackgroundColor,
           textStyle: PuzzleTextStyle.headline5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
+        ).copyWith(
+          backgroundColor: MaterialStateProperty.all(buttonBackgroundColor),
+          foregroundColor: MaterialStateProperty.all(buttonTextColor),
         ),
         onPressed: onPressed,
         child: child,

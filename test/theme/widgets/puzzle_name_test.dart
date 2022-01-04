@@ -20,6 +20,7 @@ void main() {
       final themeState = ThemeState(themes: [theme], theme: theme);
 
       when(() => theme.name).thenReturn(themeName);
+      when(() => theme.nameColor).thenReturn(Colors.black);
       when(() => themeBloc.state).thenReturn(themeState);
     });
 
@@ -62,6 +63,44 @@ void main() {
 
       expect(find.byType(SizedBox), findsOneWidget);
       expect(find.text(themeName), findsNothing);
+    });
+
+    testWidgets('renders text in the given color', (tester) async {
+      tester.setLargeDisplaySize();
+
+      const color = Colors.purple;
+
+      await tester.pumpApp(
+        PuzzleName(color: color),
+        themeBloc: themeBloc,
+      );
+
+      final textStyle = tester.firstWidget<AnimatedDefaultTextStyle>(
+        find.byType(AnimatedDefaultTextStyle),
+      );
+
+      expect(textStyle.style.color, equals(color));
+    });
+
+    testWidgets(
+        'renders text '
+        'using PuzzleTheme.nameColor as text color '
+        'if not provided', (tester) async {
+      tester.setLargeDisplaySize();
+
+      const nameColor = Colors.green;
+      when(() => theme.nameColor).thenReturn(nameColor);
+
+      await tester.pumpApp(
+        PuzzleName(),
+        themeBloc: themeBloc,
+      );
+
+      final textStyle = tester.firstWidget<AnimatedDefaultTextStyle>(
+        find.byType(AnimatedDefaultTextStyle),
+      );
+
+      expect(textStyle.style.color, equals(nameColor));
     });
   });
 }

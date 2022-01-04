@@ -22,7 +22,7 @@ void main() {
       when(() => themeBloc.state).thenReturn(themeState);
     });
 
-    testWidgets('renders TextButton', (tester) async {
+    testWidgets('renders AnimatedTextButton', (tester) async {
       await tester.pumpApp(
         PuzzleButton(
           onPressed: () {},
@@ -31,7 +31,7 @@ void main() {
         themeBloc: themeBloc,
       );
 
-      expect(find.byType(TextButton), findsOneWidget);
+      expect(find.byType(AnimatedTextButton), findsOneWidget);
     });
 
     testWidgets('renders child', (tester) async {
@@ -50,7 +50,7 @@ void main() {
 
     testWidgets(
         'calls onPressed '
-        'when button is pressed', (tester) async {
+        'when tapped', (tester) async {
       var onPressedCalled = false;
 
       await tester.pumpApp(
