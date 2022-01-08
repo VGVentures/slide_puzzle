@@ -75,27 +75,29 @@ class _Puzzle extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Stack(
-          children: [
-            theme.layoutDelegate.backgroundBuilder(state),
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: Column(
-                  children: const [
-                    _PuzzleHeader(
-                      key: Key('puzzle_header'),
-                    ),
-                    _PuzzleSections(
-                      key: Key('puzzle_sections'),
-                    ),
-                  ],
+        return SafeArea(
+          child: Stack(
+            children: [
+              theme.layoutDelegate.backgroundBuilder(state),
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Column(
+                    children: const [
+                      _PuzzleHeader(
+                        key: Key('puzzle_header'),
+                      ),
+                      _PuzzleSections(
+                        key: Key('puzzle_sections'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
