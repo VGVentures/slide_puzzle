@@ -15,7 +15,7 @@ class SimpleTheme extends PuzzleTheme {
   String get name => 'Simple';
 
   @override
-  bool get hasTimer => false;
+  bool get hasTimer => true;
 
   @override
   bool get hasCountdown => false;
@@ -27,13 +27,31 @@ class SimpleTheme extends PuzzleTheme {
   Color get defaultColor => PuzzleColors.primary5;
 
   @override
-  Color get hoverColor => PuzzleColors.primary3;
+  Color get hoverColor => PuzzleColors.primary4;
 
   @override
-  Color get pressedColor => PuzzleColors.primary7;
+  Color get pressedColor => PuzzleColors.primary6;
 
   @override
   PuzzleLayoutDelegate get layoutDelegate => const SimplePuzzleLayoutDelegate();
+
+  @override
+  Color get lockedTileColor => PuzzleColors.primary2;
+
+  @override
+  Color get nextTileColor => PuzzleColors.primary7;
+
+  @override
+  Color get semiLockedTileColor => PuzzleColors.primary3;
+
+  @override
+  Color get clearedTileColor => PuzzleColors.primary9;
+
+  @override
+  Color get timerForeground => PuzzleColors.primary8;
+
+  @override
+  Color get timerBackground => PuzzleColors.primary2;
 
   @override
   List<Object?> get props => [
@@ -45,5 +63,10 @@ class SimpleTheme extends PuzzleTheme {
         hoverColor,
         pressedColor,
         layoutDelegate,
+        lockedTileColor,
+        nextTileColor,
+        semiLockedTileColor,
+        timerForeground,
+        timerBackground,
       ];
 }

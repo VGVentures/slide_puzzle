@@ -43,13 +43,22 @@ abstract class PuzzleLayoutDelegate extends Equatable {
   /// each built with [tileBuilder].
   Widget boardBuilder(int size, List<Widget> tiles);
 
+  /// A widget builder for the puzzle timer.
+  ///
+  /// Should somehow display time, based on the given
+  /// [maxValue] and the [elapsed] value.
+  Widget timerBuilder(int maxValue, int elapsed);
+
   /// A widget builder for the puzzle tile associated
-  /// with [tile] and based on the puzzle [state].
+  /// with [tile] and based on the puzzle [state]. Animate
+  /// transitions by passing an [Animation].
   ///
   /// To complete the puzzle, all tiles must be arranged
   /// in order by their [Tile.value].
-  Widget tileBuilder(Tile tile, PuzzleState state);
-
-  /// A widget builder for the whitespace puzzle tile.
-  Widget whitespaceTileBuilder();
+  Widget tileBuilder(
+    Tile tile,
+    PuzzleState state,
+    Animation<double>? transitionAnimation,
+    Animation<double>? pulseAnimation,
+  );
 }

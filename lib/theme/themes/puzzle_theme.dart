@@ -37,6 +37,33 @@ abstract class PuzzleTheme extends Equatable {
   /// Used for the puzzle tile that was pressed.
   Color get pressedColor;
 
+  /// The next tile color of this theme.
+  ///
+  /// Used for the puzzle tile that should be placed next.
+  Color get nextTileColor;
+
+  /// The locked tile color of this theme.
+  ///
+  /// Used for puzzle tiles that can't be moved.
+  Color get lockedTileColor;
+
+  /// The semi-locked color of this theme.
+  ///
+  /// Used for puzzle tiles that are placed, but aren't locked
+  /// (ie. the second to last in each row.).
+  Color get semiLockedTileColor;
+
+  /// The cleared tile color of this theme.
+  ///
+  /// Used for puzzle tiles that are cleared, but aren't off screen
+  Color get clearedTileColor;
+
+  /// The color of the size-changing part of the timer.
+  Color get timerForeground;
+
+  /// The color of the background of the timer.
+  Color get timerBackground;
+
   /// The puzzle layout delegate of this theme.
   ///
   /// Used for building sections of the puzzle UI.

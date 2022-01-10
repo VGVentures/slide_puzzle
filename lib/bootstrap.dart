@@ -10,6 +10,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:very_good_slide_puzzle/timer/bloc/timer_bloc.dart';
 
 /// Custom instance of [BlocObserver] which logs
 /// any state changes and errors.
@@ -17,6 +18,14 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
+    if (change.currentState is TimerState && change.nextState is TimerState) {
+      final current = change.currentState as TimerState;
+      final next = change.nextState as TimerState;
+
+      if (current.isRunning == next.isRunning) {
+        return;
+      }
+    }
     log('onChange(${bloc.runtimeType}, $change)');
   }
 

@@ -8,13 +8,13 @@
     "@puzzleNumberOfMoves": {
         "description": "Indicates how many moves have been made on the current puzzle"
     },
-    "puzzleNumberOfTilesLeft": "Tiles",
-    "@puzzleNumberOfTilesLeft": {
-        "description": "Indicates how many puzzle tiles are not in their correct position"
+    "puzzleRound": "Round",
+    "@puzzleRound": {
+        "description": "Indicates how many rounds of the game have been completed."
     },
-    "puzzleShuffle": "Shuffle",
-    "@puzzleShuffle": {
-        "description": "Shown on the button that shuffle the puzzle"
+    "puzzleRestart": "Restart",
+    "@puzzleRestart": {
+        "description": "Shown on the button that restarts the puzzle"
     },
     "puzzleCompleted": "Well done. Congrats!",
     "@puzzleCompleted": {

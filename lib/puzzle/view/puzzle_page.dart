@@ -50,8 +50,10 @@ class PuzzleView extends StatelessWidget {
           ticker: const Ticker(),
         ),
         child: BlocProvider(
-          create: (context) => PuzzleBloc(4)
-            ..add(
+          create: (context) => PuzzleBloc(
+            4,
+            BlocProvider.of<TimerBloc>(context),
+          )..add(
               PuzzleInitialized(
                 shufflePuzzle: shufflePuzzle,
               ),
@@ -176,12 +178,15 @@ class _PuzzleSections extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
+    final timer = context.select((TimerBloc bloc) => bloc.state);
 
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
         children: [
           theme.layoutDelegate.startSectionBuilder(state),
           const PuzzleBoard(),
+          theme.layoutDelegate
+              .timerBuilder(state.roundDuration, timer.secondsElapsed),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
@@ -189,6 +194,8 @@ class _PuzzleSections extends StatelessWidget {
         children: [
           theme.layoutDelegate.startSectionBuilder(state),
           const PuzzleBoard(),
+          theme.layoutDelegate
+              .timerBuilder(state.roundDuration, timer.secondsElapsed),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
@@ -198,7 +205,13 @@ class _PuzzleSections extends StatelessWidget {
           Expanded(
             child: theme.layoutDelegate.startSectionBuilder(state),
           ),
-          const PuzzleBoard(),
+          Column(
+            children: [
+              const PuzzleBoard(),
+              theme.layoutDelegate
+                  .timerBuilder(state.roundDuration, timer.secondsElapsed),
+            ],
+          ),
           Expanded(
             child: theme.layoutDelegate.endSectionBuilder(state),
           ),
@@ -211,9 +224,40 @@ class _PuzzleSections extends StatelessWidget {
 /// {@template puzzle_board}
 /// Displays the board of the puzzle.
 /// {@endtemplate}
-class PuzzleBoard extends StatelessWidget {
+class PuzzleBoard extends StatefulWidget {
   /// {@macro puzzle_board}
   const PuzzleBoard({Key? key}) : super(key: key);
+
+  @override
+  State<PuzzleBoard> createState() => _PuzzleBoardState();
+}
+
+class _PuzzleBoardState extends State<PuzzleBoard>
+    with TickerProviderStateMixin {
+  late AnimationController transitionAnimation;
+  late AnimationController pulseAnimation;
+
+  static const _slideDuration = Duration(milliseconds: 300);
+  static const _rowClearDuration = Duration(seconds: 5);
+
+  @override
+  void initState() {
+    super.initState();
+    transitionAnimation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    pulseAnimation = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    transitionAnimation.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +271,28 @@ class PuzzleBoard extends StatelessWidget {
       listener: (context, state) {
         if (theme.hasTimer && state.puzzleStatus == PuzzleStatus.complete) {
           context.read<TimerBloc>().add(const TimerStopped());
+        } else if (state.tileMovementStatus == TileMovementStatus.moved) {
+          if (transitionAnimation.duration != _slideDuration) {
+            transitionAnimation.dispose();
+            transitionAnimation = AnimationController(
+              vsync: this,
+              duration: const Duration(milliseconds: 150),
+            );
+          }
+          transitionAnimation
+            ..reset()
+            ..forward();
+        } else if (state.tileMovementStatus == TileMovementStatus.rowCleared) {
+          if (transitionAnimation.duration != _rowClearDuration) {
+            transitionAnimation.dispose();
+            transitionAnimation = AnimationController(
+              vsync: this,
+              duration: const Duration(milliseconds: 500),
+            );
+          }
+          transitionAnimation
+            ..reset()
+            ..forward();
         }
       },
       child: theme.layoutDelegate.boardBuilder(
@@ -236,6 +302,9 @@ class PuzzleBoard extends StatelessWidget {
               (tile) => _PuzzleTile(
                 key: Key('puzzle_tile_${tile.value.toString()}'),
                 tile: tile,
+                pulseAnimation: pulseAnimation,
+                transitionAnimation:
+                    tile.lastPosition != null ? transitionAnimation.view : null,
               ),
             )
             .toList(),
@@ -248,18 +317,25 @@ class _PuzzleTile extends StatelessWidget {
   const _PuzzleTile({
     Key? key,
     required this.tile,
+    required this.transitionAnimation,
+    required this.pulseAnimation,
   }) : super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;
+
+  /// Transition animation.
+  final Animation<double>? transitionAnimation;
+
+  /// Pulse animation.
+  final Animation<double>? pulseAnimation;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-    return tile.isWhitespace
-        ? theme.layoutDelegate.whitespaceTileBuilder()
-        : theme.layoutDelegate.tileBuilder(tile, state);
+    return theme.layoutDelegate
+        .tileBuilder(tile, state, transitionAnimation, pulseAnimation);
   }
 }

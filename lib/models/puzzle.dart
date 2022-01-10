@@ -33,10 +33,44 @@ import 'package:very_good_slide_puzzle/models/models.dart';
 /// {@endtemplate}
 class Puzzle extends Equatable {
   /// {@macro puzzle}
-  const Puzzle({required this.tiles});
+  const Puzzle({required this.tiles, required this.rowsCleared});
 
   /// List of [Tile]s representing the puzzle's current arrangement.
   final List<Tile> tiles;
+
+  /// The number of rows that have already been cleared.
+  final int rowsCleared;
+
+  /// Get the list of tiles in the top row.
+  ///
+  /// Throws a [StateError] if the top row isn't full of tiles
+  List<Tile> getTopRow() {
+    final topRow = tiles.where((t) => t.currentPosition.y == 1).toList();
+    if (topRow.length < getDimension()) {
+      throw StateError(
+        'The top row is not accessible without initializing tiles.',
+      );
+    }
+    return topRow;
+  }
+
+  /// Get the tile currently at the given [Position].
+  ///
+  /// Throws a [StateError] if there is no tile there.
+  Tile getTileAt(Position currentPosition) =>
+      tiles.firstWhere((t) => t.currentPosition == currentPosition);
+
+  /// Get the tile that was last at the given [Position].
+  ///
+  /// Throws a [StateError] if there is no tile meeting the criteria.
+  Tile getTileLastAt(Position position) => tiles.firstWhere(
+        (t) => t.lastPosition == position,
+      );
+
+  /// Get the tile with the given value.
+  ///
+  /// Throws a [StateError] if there is no tile there.
+  Tile getTileWithValue(int value) => tiles.firstWhere((t) => t.value == value);
 
   /// Get the dimension of a puzzle given its tile arrangement.
   ///
@@ -56,7 +90,8 @@ class Puzzle extends Equatable {
     var numberOfCorrectTiles = 0;
     for (final tile in tiles) {
       if (tile != whitespaceTile) {
-        if (tile.currentPosition == tile.correctPosition) {
+        if (tile.currentPosition.x == tile.correctPosition.x &&
+            rowsCleared == tile.correctPosition.y - 1) {
           numberOfCorrectTiles++;
         }
       }
@@ -64,9 +99,41 @@ class Puzzle extends Equatable {
     return numberOfCorrectTiles;
   }
 
+  /// Gets the next tile in the row to be placed.
+  ///
+  /// Returns null if the puzzle isn't initialized yet.
+  /// Throws StateError if top row is fully solved.
+  Tile? getNextTile() {
+    if (tiles.isEmpty) {
+      return null;
+    }
+    final firstWrong = getTopRow().firstWhere(
+      (tile) =>
+          tile.correctPosition.y != rowsCleared + 1 ||
+          tile.currentPosition.x != tile.correctPosition.x ||
+          tile.isWhitespace,
+    );
+    return tiles.firstWhere(
+      (test) =>
+          test.correctPosition.x == firstWrong.currentPosition.x &&
+          test.correctPosition.y == rowsCleared + 1,
+    );
+  }
+
   /// Determines if the puzzle is completed.
   bool isComplete() {
     return (tiles.length - 1) - getNumberOfCorrectTiles() == 0;
+  }
+
+  /// Determines if the top row of the puzzle is solved.
+  bool isTopRowSolved() {
+    final topRow = getTopRow();
+    return topRow.every(
+      (t) =>
+          t.correctPosition.x == t.currentPosition.x &&
+          t.correctPosition.y == rowsCleared + 1 &&
+          !t.isWhitespace,
+    );
   }
 
   /// Determines if the tapped tile can move in the direction of the whitespace
@@ -82,6 +149,14 @@ class Puzzle extends Equatable {
         whitespaceTile.currentPosition.y != tile.currentPosition.y) {
       return false;
     }
+
+    // If a tile is locked, it can't be moved (all but last two in top row will
+    // lock into place after being correct).
+    if (tile.value < getNextTile()!.value &&
+        tile.correctPosition.x < getDimension() - 1) {
+      return false;
+    }
+
     return true;
   }
 
@@ -148,7 +223,19 @@ class Puzzle extends Equatable {
   ///
   // Recursively stores a list of all tiles that need to be moved and passes the
   // list to _swapTiles to individually swap them.
-  Puzzle moveTiles(Tile tile, List<Tile> tilesToSwap) {
+  Puzzle moveTile(Tile tile) {
+    for (var i = 0; i < tiles.length; ++i) {
+      tiles[i] = tiles[i].clearLastPosition();
+    }
+    return _moveTilesHelper(tile, []);
+  }
+
+  /// Shifts one or many tiles in a row/column with the whitespace and returns
+  /// the modified puzzle.
+  ///
+  // Recursively stores a list of all tiles that need to be moved and passes the
+  // list to _swapTiles to individually swap them.
+  Puzzle _moveTilesHelper(Tile tile, List<Tile> tilesToSwap) {
     final whitespaceTile = getWhitespaceTile();
     final deltaX = whitespaceTile.currentPosition.x - tile.currentPosition.x;
     final deltaY = whitespaceTile.currentPosition.y - tile.currentPosition.y;
@@ -162,7 +249,7 @@ class Puzzle extends Equatable {
             tile.currentPosition.y == shiftPointY,
       );
       tilesToSwap.add(tile);
-      return moveTiles(tileToSwapWith, tilesToSwap);
+      return _moveTilesHelper(tileToSwapWith, tilesToSwap);
     } else {
       tilesToSwap.add(tile);
       return _swapTiles(tilesToSwap);
@@ -173,7 +260,7 @@ class Puzzle extends Equatable {
   /// tile in tilesToSwap with the whitespace.
   Puzzle _swapTiles(List<Tile> tilesToSwap) {
     for (final tileToSwap in tilesToSwap.reversed) {
-      final tileIndex = tiles.indexOf(tileToSwap);
+      final tileIndex = tiles.indexWhere((t) => t.value == tileToSwap.value);
       final tile = tiles[tileIndex];
       final whitespaceTile = getWhitespaceTile();
       final whitespaceTileIndex = tiles.indexOf(whitespaceTile);
@@ -187,7 +274,34 @@ class Puzzle extends Equatable {
       );
     }
 
-    return Puzzle(tiles: tiles);
+    return Puzzle(tiles: tiles, rowsCleared: rowsCleared);
+  }
+
+  /// Add the given row of [Tile]s to the bottom of the puzzle.
+  ///
+  /// Throws a [StateError] if the top row isn't fully complete.
+  Puzzle pushRow(List<Tile> newRow) {
+    final dimension = getDimension();
+    assert(newRow.length == dimension, 'New row must have correct dimension.');
+    assert(
+      newRow.every((t) => t.currentPosition.y == dimension),
+      'New row tiles must all be in the last row.',
+    );
+
+    if (!isTopRowSolved()) {
+      throw StateError('Unable to add row when top row is unsolved.');
+    }
+
+    final remainingTiles = tiles
+        .where((t) => t.currentPosition.y > 1)
+        .map(
+          (t) => t.copyWith(
+            currentPosition:
+                Position(x: t.currentPosition.x, y: t.currentPosition.y - 1),
+          ),
+        )
+        .toList();
+    return Puzzle(tiles: remainingTiles + newRow, rowsCleared: rowsCleared + 1);
   }
 
   /// Sorts puzzle tiles so they are in order of their current position.
@@ -196,7 +310,7 @@ class Puzzle extends Equatable {
       ..sort((tileA, tileB) {
         return tileA.currentPosition.compareTo(tileB.currentPosition);
       });
-    return Puzzle(tiles: sortedTiles);
+    return Puzzle(tiles: sortedTiles, rowsCleared: rowsCleared);
   }
 
   @override
