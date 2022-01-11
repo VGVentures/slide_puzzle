@@ -36,7 +36,7 @@ abstract class DashatarTheme extends PuzzleTheme {
   Color get pressedColor => PuzzleColors.white2;
 
   @override
-  Color get logoColor => PuzzleColors.white;
+  bool get isLogoColored => false;
 
   @override
   Color get menuActiveColor => PuzzleColors.white;
@@ -55,6 +55,11 @@ abstract class DashatarTheme extends PuzzleTheme {
   ///
   /// This asset is shown in the Dashatar theme picker.
   String get themeAsset;
+
+  /// The path to the success image asset of this theme.
+  ///
+  /// This asset is shown in the success state of the Dashatar puzzle.
+  String get successThemeAsset;
 
   /// The path to the directory with dash assets for all puzzle tiles.
   String get dashAssetsDirectory;
@@ -85,13 +90,14 @@ abstract class DashatarTheme extends PuzzleTheme {
         buttonColor,
         hoverColor,
         pressedColor,
-        logoColor,
+        isLogoColored,
         menuActiveColor,
         menuUnderlineColor,
         menuInactiveColor,
         layoutDelegate,
         countdownColor,
         themeAsset,
+        successThemeAsset,
         dashAssetsDirectory
       ];
 }

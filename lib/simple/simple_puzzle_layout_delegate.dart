@@ -125,6 +125,9 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
             ),
           ),
         ),
+        const ResponsiveGap(
+          large: 96,
+        ),
       ],
     );
   }
@@ -332,6 +335,7 @@ class SimplePuzzleTile extends StatelessWidget {
           ),
         ),
       ).copyWith(
+        foregroundColor: MaterialStateProperty.all(PuzzleColors.white),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
           (states) {
             if (tile.value == state.lastTappedTile?.value) {
@@ -344,7 +348,9 @@ class SimplePuzzleTile extends StatelessWidget {
           },
         ),
       ),
-      onPressed: () => context.read<PuzzleBloc>().add(TileTapped(tile)),
+      onPressed: state.puzzleStatus == PuzzleStatus.incomplete
+          ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
+          : null,
       child: Text(tile.value.toString()),
     );
   }
@@ -367,7 +373,11 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const ShuffleIcon(),
+          Image.asset(
+            'assets/images/shuffle_icon.png',
+            width: 17,
+            height: 17,
+          ),
           const Gap(10),
           Text(context.l10n.puzzleShuffle),
         ],

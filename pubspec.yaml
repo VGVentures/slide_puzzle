@@ -34,6 +34,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/dashatar/gallery/
+    - assets/images/dashatar/success/
     - assets/images/dashatar/green/
     - assets/images/dashatar/blue/
     - assets/images/dashatar/yellow/

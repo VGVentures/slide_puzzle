@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
+import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 /// {@template puzzle_theme}
 /// Template for creating custom puzzle UI.
@@ -51,11 +52,11 @@ abstract class PuzzleTheme extends Equatable {
   /// that was pressed.
   Color get pressedColor;
 
-  /// The logo color.
+  /// Whether Flutter logo is colored or white.
   ///
-  /// Applied to the text color of [FlutterLogo] displayed
+  /// Applied to the color of [AppFlutterLogo] displayed
   /// in the top left corner of the header.
-  Color get logoColor;
+  bool get isLogoColored;
 
   /// The active menu color.
   ///

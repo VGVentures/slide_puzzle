@@ -211,31 +211,9 @@ class PuzzleLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
-    return ResponsiveLayoutBuilder(
-      small: (context, child) => SizedBox(
-        height: 24,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          textColor: theme.logoColor,
-          size: 86,
-        ),
-      ),
-      medium: (context, child) => SizedBox(
-        height: 29,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          textColor: theme.logoColor,
-          size: 104,
-        ),
-      ),
-      large: (context, child) => SizedBox(
-        height: 32,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          textColor: theme.logoColor,
-          size: 114,
-        ),
-      ),
+    return AppFlutterLogo(
+      key: puzzleLogoKey,
+      isColored: theme.isLogoColored,
     );
   }
 }
@@ -466,6 +444,11 @@ class PuzzleMenuItem extends StatelessWidget {
     );
   }
 }
+
+/// The global key of [PuzzleLogo].
+///
+/// Used to animate the transition of [PuzzleLogo] when changing a theme.
+final puzzleLogoKey = GlobalKey(debugLabel: 'puzzle_logo');
 
 /// The global key of [PuzzleName].
 ///

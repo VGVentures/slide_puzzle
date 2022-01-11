@@ -43,7 +43,7 @@ class SimpleTheme extends PuzzleTheme {
   Color get pressedColor => PuzzleColors.primary7;
 
   @override
-  Color get logoColor => PuzzleColors.grey1;
+  bool get isLogoColored => true;
 
   @override
   Color get menuActiveColor => PuzzleColors.grey1;
@@ -69,7 +69,7 @@ class SimpleTheme extends PuzzleTheme {
         buttonColor,
         hoverColor,
         pressedColor,
-        logoColor,
+        isLogoColored,
         menuActiveColor,
         menuUnderlineColor,
         menuInactiveColor,

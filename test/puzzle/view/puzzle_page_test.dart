@@ -122,7 +122,7 @@ void main() {
 
       when(() => theme.layoutDelegate).thenReturn(layoutDelegate);
       when(() => theme.backgroundColor).thenReturn(Colors.black);
-      when(() => theme.logoColor).thenReturn(Colors.black);
+      when(() => theme.isLogoColored).thenReturn(true);
       when(() => theme.menuActiveColor).thenReturn(Colors.black);
       when(() => theme.menuUnderlineColor).thenReturn(Colors.black);
       when(() => theme.menuInactiveColor).thenReturn(Colors.black);

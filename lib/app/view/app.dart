@@ -44,11 +44,39 @@ class _AppState extends State<App> {
         context,
       );
       precacheImage(
+        Image.asset('assets/images/dashatar/success/green.png').image,
+        context,
+      );
+      precacheImage(
         Image.asset('assets/images/dashatar/gallery/blue.png').image,
         context,
       );
       precacheImage(
+        Image.asset('assets/images/dashatar/success/blue.png').image,
+        context,
+      );
+      precacheImage(
         Image.asset('assets/images/dashatar/gallery/yellow.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/dashatar/success/yellow.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/logo_flutter_color.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/logo_flutter_white.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/shuffle_icon.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/timer_icon.png').image,
         context,
       );
       precacheImage(
@@ -61,6 +89,14 @@ class _AppState extends State<App> {
       );
       precacheImage(
         Image.asset('assets/images/simple_dash_small.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/twitter_icon.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/facebook_icon.png').image,
         context,
       );
     });

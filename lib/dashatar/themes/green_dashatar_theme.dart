@@ -29,5 +29,8 @@ class GreenDashatarTheme extends DashatarTheme {
   String get themeAsset => 'assets/images/dashatar/gallery/green.png';
 
   @override
+  String get successThemeAsset => 'assets/images/dashatar/success/green.png';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/green';
 }

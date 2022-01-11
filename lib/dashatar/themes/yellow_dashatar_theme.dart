@@ -29,5 +29,8 @@ class YellowDashatarTheme extends DashatarTheme {
   String get themeAsset => 'assets/images/dashatar/gallery/yellow.png';
 
   @override
+  String get successThemeAsset => 'assets/images/dashatar/success/yellow.png';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/yellow';
 }

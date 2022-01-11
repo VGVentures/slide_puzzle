@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 import '../../helpers/helpers.dart';
@@ -105,13 +104,16 @@ void main() {
       expect(find.text('01:30:50'), findsOneWidget);
     });
 
-    testWidgets('renders TimerIcon', (tester) async {
+    testWidgets('renders timer icon', (tester) async {
       await tester.pumpApp(
         DashatarTimer(),
         timerBloc: timerBloc,
       );
 
-      expect(find.byType(TimerIcon), findsOneWidget);
+      expect(
+        find.byKey(Key('dashatar_timer_icon')),
+        findsOneWidget,
+      );
     });
   });
 }

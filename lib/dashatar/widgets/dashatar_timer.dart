@@ -28,8 +28,6 @@ class DashatarTimer extends StatelessWidget {
             ? PuzzleTextStyle.headline4
             : PuzzleTextStyle.headline3;
 
-        final iconPadding =
-            currentSize == ResponsiveLayoutSize.small ? 0.0 : 3.0;
         final iconSize = currentSize == ResponsiveLayoutSize.small
             ? const Size(21, 24)
             : const Size(24, 28);
@@ -52,13 +50,11 @@ class DashatarTimer extends StatelessWidget {
               ),
             ),
             const Gap(12),
-            Padding(
-              padding: EdgeInsets.only(top: iconPadding),
-              child: SizedBox(
-                width: iconSize.width,
-                height: iconSize.height,
-                child: const TimerIcon(),
-              ),
+            Image.asset(
+              'assets/images/timer_icon.png',
+              key: const Key('dashatar_timer_icon'),
+              width: iconSize.width,
+              height: iconSize.height,
             ),
           ],
         );
