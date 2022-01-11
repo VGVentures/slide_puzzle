@@ -62,6 +62,7 @@ void main() {
               ///  Name: 'Dashatar'
               YellowDashatarTheme(),
             ],
+            theme: YellowDashatarTheme(),
           ),
         ],
       );

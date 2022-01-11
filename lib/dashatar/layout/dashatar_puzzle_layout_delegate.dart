@@ -1,6 +1,3 @@
-// TODO(bselwe): Remove this line when the implementation is added.
-// coverage:ignore-file
-
 import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
@@ -17,27 +14,102 @@ class DashatarPuzzleLayoutDelegate extends PuzzleLayoutDelegate {
 
   @override
   Widget startSectionBuilder(PuzzleState state) {
-    return const SizedBox();
+    return ResponsiveLayoutBuilder(
+      small: (_, child) => child!,
+      medium: (_, child) => child!,
+      large: (_, child) => Padding(
+        padding: const EdgeInsets.only(left: 50, right: 32),
+        child: child,
+      ),
+      child: (_) => DashatarStartSection(state: state),
+    );
   }
 
   @override
   Widget endSectionBuilder(PuzzleState state) {
-    return const SizedBox();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const ResponsiveGap(
+          small: 23,
+          medium: 32,
+        ),
+        ResponsiveLayoutBuilder(
+          small: (_, child) => const DashatarPuzzleActionButton(),
+          medium: (_, child) => const DashatarPuzzleActionButton(),
+          large: (_, __) => const SizedBox(),
+        ),
+        const ResponsiveGap(
+          small: 32,
+          medium: 54,
+        ),
+        ResponsiveLayoutBuilder(
+          small: (_, child) => const DashatarThemePicker(),
+          medium: (_, child) => const DashatarThemePicker(),
+          large: (_, child) => const SizedBox(),
+        ),
+        const ResponsiveGap(
+          small: 32,
+          medium: 54,
+        ),
+        const ResponsiveGap(
+          large: 130,
+        ),
+        const DashatarCountdown(),
+      ],
+    );
   }
 
   @override
   Widget backgroundBuilder(PuzzleState state) {
-    return const SizedBox();
+    return Positioned(
+      bottom: 74,
+      right: 50,
+      child: ResponsiveLayoutBuilder(
+        small: (_, child) => const SizedBox(),
+        medium: (_, child) => const SizedBox(),
+        large: (_, child) => const DashatarThemePicker(),
+      ),
+    );
   }
 
   @override
   Widget boardBuilder(int size, List<Widget> tiles) {
-    return const SizedBox();
+    return Stack(
+      children: [
+        Positioned(
+          top: 24,
+          left: 0,
+          right: 0,
+          child: ResponsiveLayoutBuilder(
+            small: (_, child) => const SizedBox(),
+            medium: (_, child) => const SizedBox(),
+            large: (_, child) => const DashatarTimer(),
+          ),
+        ),
+        Column(
+          children: [
+            const ResponsiveGap(
+              small: 21,
+              medium: 34,
+              large: 96,
+            ),
+            DashatarPuzzleBoard(tiles: tiles),
+            const ResponsiveGap(
+              large: 96,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   @override
   Widget tileBuilder(Tile tile, PuzzleState state) {
-    return const SizedBox();
+    return DashatarPuzzleTile(
+      tile: tile,
+      state: state,
+    );
   }
 
   @override

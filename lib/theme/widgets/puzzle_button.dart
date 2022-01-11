@@ -31,10 +31,6 @@ class PuzzleButton extends StatelessWidget {
   /// The label of this button.
   final Widget child;
 
-  /// The duration of a text style animation.
-  /// The animation may happen when a theme is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
@@ -45,7 +41,7 @@ class PuzzleButton extends StatelessWidget {
       width: 145,
       height: 44,
       child: AnimatedTextButton(
-        duration: _textStyleAnimationDuration,
+        duration: PuzzleThemeAnimationDuration.textStyle,
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
           textStyle: PuzzleTextStyle.headline5,

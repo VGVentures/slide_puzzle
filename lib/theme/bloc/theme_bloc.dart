@@ -26,7 +26,12 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     if (themeIndex != -1) {
       final newThemes = [...state.themes];
       newThemes[themeIndex] = event.theme;
-      emit(state.copyWith(themes: newThemes));
+      emit(
+        state.copyWith(
+          themes: newThemes,
+          theme: event.theme,
+        ),
+      );
     }
   }
 }

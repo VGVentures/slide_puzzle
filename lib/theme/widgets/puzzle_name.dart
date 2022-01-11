@@ -18,10 +18,6 @@ class PuzzleName extends StatelessWidget {
   /// The color of this name, defaults to [PuzzleTheme.nameColor].
   final Color? color;
 
-  /// The duration of a text style animation.
-  /// This may happen when a theme is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
@@ -34,7 +30,7 @@ class PuzzleName extends StatelessWidget {
         style: PuzzleTextStyle.headline5.copyWith(
           color: nameColor,
         ),
-        duration: _textStyleAnimationDuration,
+        duration: PuzzleThemeAnimationDuration.textStyle,
         child: Text(
           theme.name,
           key: const Key('puzzle_name_theme'),

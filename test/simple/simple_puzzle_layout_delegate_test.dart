@@ -436,7 +436,7 @@ void main() {
 
       testWidgets(
           'adds TileTapped to PuzzleBloc '
-          'on pressed', (tester) async {
+          'on tapped', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
 
         await tester.pumpApp(
@@ -523,7 +523,7 @@ void main() {
     group('SimplePuzzleShuffleButton', () {
       testWidgets(
           'adds PuzzleReset to PuzzleBloc '
-          'on pressed', (tester) async {
+          'on tapped', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
 
         await tester.pumpApp(

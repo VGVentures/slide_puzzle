@@ -28,10 +28,6 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
   /// Defaults to [PuzzleTheme.defaultColor].
   final Color? color;
 
-  /// The duration of a text style animation.
-  /// The animation may happen when a theme is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
@@ -62,14 +58,14 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
               style: PuzzleTextStyle.headline4.copyWith(
                 color: textColor,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(numberOfMoves.toString()),
             ),
             AnimatedDefaultTextStyle(
               style: bodyTextStyle.copyWith(
                 color: textColor,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(' ${l10n.puzzleNumberOfMoves} | '),
             ),
             AnimatedDefaultTextStyle(
@@ -77,14 +73,14 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
               style: PuzzleTextStyle.headline4.copyWith(
                 color: textColor,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(numberOfTilesLeft.toString()),
             ),
             AnimatedDefaultTextStyle(
               style: bodyTextStyle.copyWith(
                 color: textColor,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(' ${l10n.puzzleNumberOfTilesLeft}'),
             ),
           ],

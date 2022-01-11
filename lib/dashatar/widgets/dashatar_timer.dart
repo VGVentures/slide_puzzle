@@ -14,10 +14,6 @@ class DashatarTimer extends StatelessWidget {
   /// {@macro dashatar_timer}
   const DashatarTimer({Key? key}) : super(key: key);
 
-  /// The duration of a text style animation.
-  /// The animation may happen when a layout is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final secondsElapsed =
@@ -47,7 +43,7 @@ class DashatarTimer extends StatelessWidget {
               style: textStyle.copyWith(
                 color: PuzzleColors.white,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(
                 _formatDuration(
                   Duration(seconds: secondsElapsed),

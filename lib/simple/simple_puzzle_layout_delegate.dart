@@ -186,7 +186,9 @@ class SimpleStartSection extends StatelessWidget {
           medium: 83,
           large: 151,
         ),
-        const PuzzleName(),
+        PuzzleName(
+          key: puzzleNameKey,
+        ),
         const ResponsiveGap(large: 16),
         SimplePuzzleTitle(
           status: state.puzzleStatus,
@@ -197,6 +199,7 @@ class SimpleStartSection extends StatelessWidget {
           large: 32,
         ),
         NumberOfMovesAndTilesLeft(
+          key: numberOfMovesAndTilesLeftKey,
           numberOfMoves: state.numberOfMoves,
           numberOfTilesLeft: state.numberOfTilesLeft,
         ),
@@ -234,6 +237,7 @@ class SimplePuzzleTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PuzzleTitle(
+      key: puzzleTitleKey,
       title: status == PuzzleStatus.complete
           ? context.l10n.puzzleCompleted
           : context.l10n.puzzleChallengeTitle,

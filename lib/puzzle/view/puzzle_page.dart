@@ -21,23 +21,38 @@ class PuzzlePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DashatarThemeBloc(
-        themes: const [
-          BlueDashatarTheme(),
-          GreenDashatarTheme(),
-          YellowDashatarTheme()
-        ],
-      ),
-      child: BlocProvider(
-        create: (context) => ThemeBloc(
-          initialThemes: [
-            const SimpleTheme(),
-            context.read<DashatarThemeBloc>().state.theme,
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DashatarThemeBloc(
+            themes: const [
+              BlueDashatarTheme(),
+              GreenDashatarTheme(),
+              YellowDashatarTheme()
+            ],
+          ),
         ),
-        child: const PuzzleView(),
-      ),
+        BlocProvider(
+          create: (context) => DashatarPuzzleBloc(
+            secondsToBegin: 3,
+            ticker: const Ticker(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ThemeBloc(
+            initialThemes: [
+              const SimpleTheme(),
+              context.read<DashatarThemeBloc>().state.theme,
+            ],
+          ),
+        ),
+        BlocProvider(
+          create: (context) => TimerBloc(
+            ticker: const Ticker(),
+          ),
+        ),
+      ],
+      child: const PuzzleView(),
     );
   }
 }
@@ -58,8 +73,7 @@ class PuzzleView extends StatelessWidget {
 
     return Scaffold(
       body: AnimatedContainer(
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.fastOutSlowIn,
+        duration: PuzzleThemeAnimationDuration.backgroundColorChange,
         decoration: BoxDecoration(color: theme.backgroundColor),
         child: BlocListener<DashatarThemeBloc, DashatarThemeState>(
           listener: (context, state) {
@@ -102,23 +116,38 @@ class _Puzzle extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Stack(
-          children: [
-            theme.layoutDelegate.backgroundBuilder(state),
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: Column(
-                  children: const [
-                    PuzzleHeader(),
-                    PuzzleSections(),
-                  ],
-                ),
+        return ResponsiveLayoutBuilder(
+          small: (_, child) => Stack(
+            children: [
+              theme.layoutDelegate.backgroundBuilder(state),
+              child!,
+            ],
+          ),
+          medium: (_, child) => Stack(
+            children: [
+              theme.layoutDelegate.backgroundBuilder(state),
+              child!,
+            ],
+          ),
+          large: (_, child) => Stack(
+            children: [
+              child!,
+              theme.layoutDelegate.backgroundBuilder(state),
+            ],
+          ),
+          child: (currentSize) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: Column(
+                children: const [
+                  PuzzleHeader(),
+                  PuzzleSections(),
+                ],
               ),
             ),
-          ],
+          ),
         );
       },
     );
@@ -393,17 +422,44 @@ class PuzzleMenuItem extends StatelessWidget {
           child: TextButton(
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
-              primary: isCurrentTheme
-                  ? currentTheme.menuActiveColor
-                  : currentTheme.menuInactiveColor,
-              textStyle: PuzzleTextStyle.headline5,
             ).copyWith(
               overlayColor: MaterialStateProperty.all(Colors.transparent),
             ),
-            onPressed: () => context
-                .read<ThemeBloc>()
-                .add(ThemeChanged(themeIndex: themeIndex)),
-            child: Text(theme.name),
+            onPressed: () {
+              // Ignore if this theme is already selected.
+              if (theme == currentTheme) {
+                return;
+              }
+
+              // Update the currently selected theme.
+              context
+                  .read<ThemeBloc>()
+                  .add(ThemeChanged(themeIndex: themeIndex));
+
+              // Reset the timer of the currently running puzzle.
+              context.read<TimerBloc>().add(const TimerReset());
+
+              // Stop the Dashatar countdown if it has been started.
+              context.read<DashatarPuzzleBloc>().add(
+                    const DashatarCountdownStopped(),
+                  );
+
+              // Initialize the puzzle board for the newly selected theme.
+              context.read<PuzzleBloc>().add(
+                    PuzzleInitialized(
+                      shufflePuzzle: theme is SimpleTheme,
+                    ),
+                  );
+            },
+            child: AnimatedDefaultTextStyle(
+              duration: PuzzleThemeAnimationDuration.textStyle,
+              style: PuzzleTextStyle.headline5.copyWith(
+                color: isCurrentTheme
+                    ? currentTheme.menuActiveColor
+                    : currentTheme.menuInactiveColor,
+              ),
+              child: Text(theme.name),
+            ),
           ),
         );
       },

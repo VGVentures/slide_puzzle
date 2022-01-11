@@ -58,6 +58,37 @@ void main() {
         ]),
       );
     });
+
+    testWidgets(
+        'provides DashatarPuzzleBloc '
+        'with secondsToBegin equal to 3', (tester) async {
+      await tester.pumpApp(PuzzlePage());
+
+      final BuildContext puzzleViewContext =
+          tester.element(find.byType(PuzzleView));
+
+      final secondsToBegin =
+          puzzleViewContext.read<DashatarPuzzleBloc>().state.secondsToBegin;
+
+      expect(
+        secondsToBegin,
+        equals(3),
+      );
+    });
+
+    testWidgets(
+        'provides TimerBloc '
+        'with initial state', (tester) async {
+      await tester.pumpApp(PuzzlePage());
+
+      final BuildContext puzzleViewContext =
+          tester.element(find.byType(PuzzleView));
+
+      expect(
+        puzzleViewContext.read<TimerBloc>().state,
+        equals(TimerState()),
+      );
+    });
   });
 
   group('PuzzleView', () {
@@ -137,7 +168,8 @@ void main() {
 
     testWidgets(
         'renders Scaffold with descendant AnimatedContainer  '
-        'having background color from theme', (tester) async {
+        'using PuzzleTheme.backgroundColor as background color',
+        (tester) async {
       const backgroundColor = Colors.orange;
       when(() => theme.backgroundColor).thenReturn(backgroundColor);
 
@@ -579,26 +611,124 @@ void main() {
     });
 
     group('PuzzleMenuItem', () {
-      testWidgets(
-          'adds ThemeChanged to ThemeBloc '
-          'on pressed', (tester) async {
-        final theme = GreenDashatarTheme();
-        final themes = [SimpleTheme(), theme];
-        final themeState = ThemeState(themes: themes, theme: theme);
+      late PuzzleTheme tappedTheme;
+      late List<PuzzleTheme> themes;
+      late ThemeState themeState;
+
+      setUp(() {
+        tappedTheme = GreenDashatarTheme();
+        themes = [SimpleTheme(), tappedTheme];
+        themeState = ThemeState(themes: themes, theme: SimpleTheme());
 
         when(() => themeBloc.state).thenReturn(themeState);
+      });
 
-        await tester.pumpApp(
-          PuzzleMenuItem(
-            theme: theme,
-            themeIndex: 1,
-          ),
-          themeBloc: themeBloc,
-        );
+      group('when tapped', () {
+        testWidgets('adds ThemeChanged to ThemeBloc', (tester) async {
+          await tester.pumpApp(
+            PuzzleMenuItem(
+              theme: tappedTheme,
+              themeIndex: themes.indexOf(tappedTheme),
+            ),
+            themeBloc: themeBloc,
+          );
 
-        await tester.tap(find.byType(PuzzleMenuItem));
+          await tester.tap(find.byType(PuzzleMenuItem));
 
-        verify(() => themeBloc.add(ThemeChanged(themeIndex: 1))).called(1);
+          verify(() => themeBloc.add(ThemeChanged(themeIndex: 1))).called(1);
+        });
+
+        testWidgets('adds TimerReset to TimerBloc', (tester) async {
+          final timerBloc = MockTimerBloc();
+
+          await tester.pumpApp(
+            PuzzleMenuItem(
+              theme: tappedTheme,
+              themeIndex: themes.indexOf(tappedTheme),
+            ),
+            themeBloc: themeBloc,
+            timerBloc: timerBloc,
+          );
+
+          await tester.tap(find.byType(PuzzleMenuItem));
+
+          verify(() => timerBloc.add(TimerReset())).called(1);
+        });
+
+        testWidgets('adds DashatarCountdownStopped to DashatarPuzzleBloc',
+            (tester) async {
+          final dashatarPuzzleBloc = MockDashatarPuzzleBloc();
+
+          await tester.pumpApp(
+            PuzzleMenuItem(
+              theme: tappedTheme,
+              themeIndex: themes.indexOf(tappedTheme),
+            ),
+            themeBloc: themeBloc,
+            dashatarPuzzleBloc: dashatarPuzzleBloc,
+          );
+
+          await tester.tap(find.byType(PuzzleMenuItem));
+
+          verify(() => dashatarPuzzleBloc.add(DashatarCountdownStopped()))
+              .called(1);
+        });
+
+        testWidgets(
+            'adds PuzzleInitialized to PuzzleBloc '
+            'with shufflePuzzle equal to true '
+            'if theme is SimpleTheme', (tester) async {
+          final puzzleBloc = MockPuzzleBloc();
+
+          when(() => themeBloc.state).thenReturn(
+            ThemeState(
+              themes: themes,
+              theme: GreenDashatarTheme(),
+            ),
+          );
+
+          await tester.pumpApp(
+            PuzzleMenuItem(
+              theme: SimpleTheme(),
+              themeIndex: themes.indexOf(SimpleTheme()),
+            ),
+            themeBloc: themeBloc,
+            puzzleBloc: puzzleBloc,
+          );
+
+          await tester.tap(find.byType(PuzzleMenuItem));
+
+          verify(() => puzzleBloc.add(PuzzleInitialized(shufflePuzzle: true)))
+              .called(1);
+        });
+
+        testWidgets(
+            'adds PuzzleInitialized to PuzzleBloc '
+            'with shufflePuzzle equal to false '
+            'if current theme is not SimpleTheme', (tester) async {
+          final puzzleBloc = MockPuzzleBloc();
+
+          when(() => themeBloc.state).thenReturn(
+            ThemeState(
+              themes: themes,
+              theme: SimpleTheme(),
+            ),
+          );
+
+          await tester.pumpApp(
+            PuzzleMenuItem(
+              theme: GreenDashatarTheme(),
+              themeIndex: themes.indexOf(GreenDashatarTheme()),
+            ),
+            themeBloc: themeBloc,
+            puzzleBloc: puzzleBloc,
+          );
+
+          await tester.tap(find.byType(PuzzleMenuItem));
+
+          verify(() => puzzleBloc.add(PuzzleInitialized(shufflePuzzle: false)))
+              .called(1);
+        });
       });
     });
   });

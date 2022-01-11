@@ -25,6 +25,32 @@ class _AppState extends State<App> {
     super.initState();
 
     Future<void>.delayed(const Duration(milliseconds: 20), () {
+      for (var i = 1; i <= 15; i++) {
+        precacheImage(
+          Image.asset('assets/images/dashatar/green/$i.png').image,
+          context,
+        );
+        precacheImage(
+          Image.asset('assets/images/dashatar/blue/$i.png').image,
+          context,
+        );
+        precacheImage(
+          Image.asset('assets/images/dashatar/yellow/$i.png').image,
+          context,
+        );
+      }
+      precacheImage(
+        Image.asset('assets/images/dashatar/gallery/green.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/dashatar/gallery/blue.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('assets/images/dashatar/gallery/yellow.png').image,
+        context,
+      );
       precacheImage(
         Image.asset('assets/images/simple_dash_large.png').image,
         context,
