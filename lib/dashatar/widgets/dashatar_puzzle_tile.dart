@@ -36,6 +36,9 @@ class DashatarPuzzleTile extends StatelessWidget {
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == DashatarPuzzleStatus.started;
+    final puzzleIncomplete =
+        context.select((PuzzleBloc bloc) => bloc.state.puzzleStatus) ==
+            PuzzleStatus.incomplete;
 
     final movementDuration = status == DashatarPuzzleStatus.loading
         ? const Duration(milliseconds: 800)
@@ -66,7 +69,7 @@ class DashatarPuzzleTile extends StatelessWidget {
         ),
         child: (_) => IconButton(
           padding: EdgeInsets.zero,
-          onPressed: hasStarted
+          onPressed: hasStarted && puzzleIncomplete
               ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
               : null,
           icon: Image.asset(theme.dashAssetForTile(tile)),

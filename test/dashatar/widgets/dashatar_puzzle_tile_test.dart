@@ -16,6 +16,8 @@ void main() {
     late DashatarPuzzleState dashatarPuzzleState;
     late DashatarThemeBloc dashatarThemeBloc;
     late DashatarTheme dashatarTheme;
+    late PuzzleBloc puzzleBloc;
+    late PuzzleState puzzleState;
     late Tile tile;
 
     setUp(() {
@@ -45,6 +47,16 @@ void main() {
         currentPosition: Position(x: 1, y: 1),
         value: 1,
       );
+
+      puzzleBloc = MockPuzzleBloc();
+      puzzleState = MockPuzzleState();
+
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+      whenListen(
+        puzzleBloc,
+        Stream.value(puzzleState),
+        initialState: puzzleState,
+      );
     });
 
     setUpAll(() {
@@ -54,13 +66,14 @@ void main() {
 
     testWidgets(
         'adds TileTapped to PuzzleBloc '
-        'when DashatarPuzzleStatus is started', (tester) async {
-      final puzzleBloc = MockPuzzleBloc();
-      final puzzleState = MockPuzzleState();
+        'when tapped and '
+        'DashatarPuzzleStatus is started and '
+        'PuzzleStatus is incomplete', (tester) async {
       final puzzle = MockPuzzle();
 
       when(puzzle.getDimension).thenReturn(4);
       when(() => puzzleState.puzzle).thenReturn(puzzle);
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
       when(() => dashatarPuzzleState.status)
           .thenReturn(DashatarPuzzleStatus.started);
 
@@ -82,6 +95,64 @@ void main() {
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
     });
 
+    testWidgets(
+        'does not add TileTapped to PuzzleBloc '
+        'when tapped and DashatarPuzzleStatus is notStarted', (tester) async {
+      final puzzle = MockPuzzle();
+
+      when(puzzle.getDimension).thenReturn(4);
+      when(() => puzzleState.puzzle).thenReturn(puzzle);
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+      when(() => dashatarPuzzleState.status)
+          .thenReturn(DashatarPuzzleStatus.notStarted);
+
+      await tester.pumpApp(
+        Scaffold(
+          body: DashatarPuzzleTile(
+            state: puzzleState,
+            tile: tile,
+          ),
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
+      );
+
+      await tester.tap(find.byType(IconButton));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => puzzleBloc.add(TileTapped(tile)));
+    });
+
+    testWidgets(
+        'does not add TileTapped to PuzzleBloc '
+        'when tapped and PuzzleStatus is complete', (tester) async {
+      final puzzle = MockPuzzle();
+
+      when(puzzle.getDimension).thenReturn(4);
+      when(() => puzzleState.puzzle).thenReturn(puzzle);
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.complete);
+      when(() => dashatarPuzzleState.status)
+          .thenReturn(DashatarPuzzleStatus.started);
+
+      await tester.pumpApp(
+        Scaffold(
+          body: DashatarPuzzleTile(
+            state: puzzleState,
+            tile: tile,
+          ),
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
+      );
+
+      await tester.tap(find.byType(IconButton));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => puzzleBloc.add(TileTapped(tile)));
+    });
+
     testWidgets('renders a large tile on a large display', (tester) async {
       tester.setLargeDisplaySize();
 
@@ -94,6 +165,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_tile_large')), findsOneWidget);
@@ -111,6 +183,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_tile_medium')), findsOneWidget);
@@ -128,6 +201,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_tile_small')), findsOneWidget);
@@ -145,6 +219,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
       );
 
       expect(
@@ -173,6 +248,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
       );
 
       expect(

@@ -1,14 +1,69 @@
 // ignore_for_file: prefer_const_constructors,
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('DashatarPuzzleBoard', () {
+    late PuzzleBloc puzzleBloc;
+    late PuzzleState puzzleState;
+
+    setUp(() {
+      puzzleBloc = MockPuzzleBloc();
+      puzzleState = MockPuzzleState();
+
+      when(() => puzzleState.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
+      whenListen(
+        puzzleBloc,
+        Stream.value(puzzleState),
+        initialState: puzzleState,
+      );
+    });
+
+    testWidgets(
+        'shows DashatarShareDialog '
+        'when PuzzleStatus is complete', (tester) async {
+      final dashatarThemeBloc =
+          DashatarThemeBloc(themes: [GreenDashatarTheme()]);
+      final timerBloc = MockTimerBloc();
+      when(() => timerBloc.state).thenReturn(TimerState());
+      final controller = StreamController<PuzzleState>()..add(PuzzleState());
+
+      whenListen(
+        puzzleBloc,
+        controller.stream,
+      );
+
+      await tester.pumpApp(
+        DashatarPuzzleBoard(tiles: []),
+        puzzleBloc: puzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        timerBloc: timerBloc,
+      );
+
+      expect(find.byType(DashatarShareDialog), findsNothing);
+
+      controller.add(PuzzleState(puzzleStatus: PuzzleStatus.complete));
+
+      // Wait for the dialog to appear.
+      await tester.pump(const Duration(milliseconds: 370));
+
+      // Wait for the dialog to animate.
+      await tester.pump(const Duration(milliseconds: 140));
+
+      expect(find.byType(DashatarShareDialog), findsOneWidget);
+    });
+
     testWidgets('renders Stack with tiles', (tester) async {
       final tiles = [
         SizedBox(key: Key('__sized_box_1__')),
@@ -17,6 +72,7 @@ void main() {
 
       await tester.pumpApp(
         DashatarPuzzleBoard(tiles: tiles),
+        puzzleBloc: puzzleBloc,
       );
 
       expect(
@@ -32,6 +88,7 @@ void main() {
 
       await tester.pumpApp(
         DashatarPuzzleBoard(tiles: []),
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_board_large')), findsOneWidget);
@@ -42,6 +99,7 @@ void main() {
 
       await tester.pumpApp(
         DashatarPuzzleBoard(tiles: []),
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_board_medium')), findsOneWidget);
@@ -52,6 +110,7 @@ void main() {
 
       await tester.pumpApp(
         DashatarPuzzleBoard(tiles: []),
+        puzzleBloc: puzzleBloc,
       );
 
       expect(find.byKey(Key('dashatar_puzzle_board_small')), findsOneWidget);

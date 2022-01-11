@@ -35,5 +35,39 @@
     "dashatarCountdownGo": "GO!",
     "@dashatarCountdownGo": {
         "description": "Shown when the countdown has just finished and the puzzle is about to start"
+    },
+    "dashatarSuccessCompleted": "Puzzle challenge completed",
+    "@dashatarSuccessCompleted": {
+        "description": "Shown as a title in the Dashatar success state"
+    },
+    "dashatarSuccessWellDone": "Well done.\nCongrats!",
+    "@dashatarSuccessWellDone": {
+        "description": "Shown as a subtitle in the Dashatar success state"
+    },
+    "dashatarSuccessScore": "Score",
+    "@dashatarSuccessScore": {
+        "description": "Shown as a score title in the Dashatar success state"
+    },
+    "dashatarSuccessNumberOfMoves": "{numberOfMoves} Moves",
+    "@dashatarSuccessNumberOfMoves": {
+        "description": "Shown as a number of moves in the Dashatar success state",
+        "placeholders": {
+            "numberOfMoves": {
+                "type": "String",
+                "example": "5"
+            }
+        }
+    },
+    "dashatarSuccessShareYourScoreTitle": "Share your score!",
+    "@dashatarSuccessShareYourScoreTitle": {
+        "description": "Shown as a share title in the Dashatar success state"
+    },
+    "dashatarSuccessShareYourScoreMessage": "Share your score to challenge your friends and be sure to check out...",
+    "@dashatarSuccessShareYourScoreMessage": {
+        "description": "Shown as a share message in the Dashatar success state"
+    },
+    "dashatarSuccessShareText": "Just solved the #FlutterPuzzleHack! Check it out ↓",
+    "@dashatarSuccessShareText": {
+        "description": "The text to share for this Flutter Puzzle challenge, shown in the Dashatar success state"
     }
 }

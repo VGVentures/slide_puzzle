@@ -123,7 +123,7 @@ void main() {
 
     testWidgets(
         'renders NumberOfMovesAndTilesLeft '
-        'when DashatarPuzzleStatus is not started', (tester) async {
+        'when DashatarPuzzleStatus is notStarted', (tester) async {
       const numberOfMoves = 10;
       const numberOfTiles = 16;
 

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
@@ -12,7 +11,30 @@ import 'package:very_good_slide_puzzle/typography/typography.dart';
 /// {@endtemplate}
 class DashatarTimer extends StatelessWidget {
   /// {@macro dashatar_timer}
-  const DashatarTimer({Key? key}) : super(key: key);
+  const DashatarTimer({
+    Key? key,
+    this.textStyle,
+    this.iconSize,
+    this.iconPadding,
+    this.mainAxisAlignment,
+  }) : super(key: key);
+
+  /// The optional [TextStyle] of this timer.
+  final TextStyle? textStyle;
+
+  /// The optional icon [Size] of this timer.
+  final Size? iconSize;
+
+  /// The optional icon padding of this timer.
+  final double? iconPadding;
+
+  /// The optional [MainAxisAlignment] of this timer.
+  /// Defaults to [MainAxisAlignment.center] if not provided.
+  final MainAxisAlignment? mainAxisAlignment;
+
+  /// The duration of a text style animation.
+  /// The animation may happen when a layout is changed.
+  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +46,25 @@ class DashatarTimer extends StatelessWidget {
       medium: (_, child) => child!,
       large: (_, child) => child!,
       child: (currentSize) {
-        final textStyle = currentSize == ResponsiveLayoutSize.small
-            ? PuzzleTextStyle.headline4
-            : PuzzleTextStyle.headline3;
+        final currentTextStyle = textStyle ??
+            (currentSize == ResponsiveLayoutSize.small
+                ? PuzzleTextStyle.headline4
+                : PuzzleTextStyle.headline3);
 
-        final iconSize = currentSize == ResponsiveLayoutSize.small
-            ? const Size(21, 24)
-            : const Size(24, 28);
+        final currentIconSize = iconSize ??
+            (currentSize == ResponsiveLayoutSize.small
+                ? const Size(28, 28)
+                : const Size(32, 32));
 
         return Row(
           key: const Key('dashatar_timer'),
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
           children: [
             AnimatedDefaultTextStyle(
-              style: textStyle.copyWith(
+              style: currentTextStyle.copyWith(
                 color: PuzzleColors.white,
               ),
-              duration: PuzzleThemeAnimationDuration.textStyle,
+              duration: _textStyleAnimationDuration,
               child: Text(
                 _formatDuration(
                   Duration(seconds: secondsElapsed),
@@ -49,12 +72,12 @@ class DashatarTimer extends StatelessWidget {
                 key: ValueKey(secondsElapsed),
               ),
             ),
-            const Gap(12),
+            Gap(iconPadding ?? 8),
             Image.asset(
               'assets/images/timer_icon.png',
               key: const Key('dashatar_timer_icon'),
-              width: iconSize.width,
-              height: iconSize.height,
+              width: currentIconSize.width,
+              height: currentIconSize.height,
             ),
           ],
         );
