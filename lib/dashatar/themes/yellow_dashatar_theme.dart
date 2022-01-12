@@ -1,7 +1,7 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 
 /// {@template yellow_dashatar_theme}
 /// The yellow dashatar puzzle theme.
@@ -9,6 +9,10 @@ import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 class YellowDashatarTheme extends DashatarTheme {
   /// {@macro yellow_dashatar_theme}
   const YellowDashatarTheme() : super();
+
+  @override
+  String semanticsLabel(BuildContext context) =>
+      context.l10n.dashatarYellowDashLabelText;
 
   @override
   Color get backgroundColor => PuzzleColors.yellowPrimary;

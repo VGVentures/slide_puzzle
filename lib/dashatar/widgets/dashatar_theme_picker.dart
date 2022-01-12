@@ -68,6 +68,7 @@ class DashatarThemePicker extends StatelessWidget {
                         child: Image.asset(
                           theme.themeAsset,
                           fit: BoxFit.fill,
+                          semanticLabel: theme.semanticsLabel(context),
                         ),
                       ),
                     ),

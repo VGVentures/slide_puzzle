@@ -47,43 +47,51 @@ class NumberOfMovesAndTilesLeft extends StatelessWidget {
             ? PuzzleTextStyle.bodySmall
             : PuzzleTextStyle.body;
 
-        return Row(
-          key: const Key('number_of_moves_and_tiles_left'),
-          mainAxisAlignment: mainAxisAlignment,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            AnimatedDefaultTextStyle(
-              key: const Key('number_of_moves_and_tiles_left_moves'),
-              style: PuzzleTextStyle.headline4.copyWith(
-                color: textColor,
-              ),
-              duration: PuzzleThemeAnimationDuration.textStyle,
-              child: Text(numberOfMoves.toString()),
+        return Semantics(
+          label: l10n.puzzleNumberOfMovesAndTilesLeftLabelText(
+            numberOfMoves.toString(),
+            numberOfTilesLeft.toString(),
+          ),
+          child: ExcludeSemantics(
+            child: Row(
+              key: const Key('number_of_moves_and_tiles_left'),
+              mainAxisAlignment: mainAxisAlignment,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                AnimatedDefaultTextStyle(
+                  key: const Key('number_of_moves_and_tiles_left_moves'),
+                  style: PuzzleTextStyle.headline4.copyWith(
+                    color: textColor,
+                  ),
+                  duration: PuzzleThemeAnimationDuration.textStyle,
+                  child: Text(numberOfMoves.toString()),
+                ),
+                AnimatedDefaultTextStyle(
+                  style: bodyTextStyle.copyWith(
+                    color: textColor,
+                  ),
+                  duration: PuzzleThemeAnimationDuration.textStyle,
+                  child: Text(' ${l10n.puzzleNumberOfMoves} | '),
+                ),
+                AnimatedDefaultTextStyle(
+                  key: const Key('number_of_moves_and_tiles_left_tiles_left'),
+                  style: PuzzleTextStyle.headline4.copyWith(
+                    color: textColor,
+                  ),
+                  duration: PuzzleThemeAnimationDuration.textStyle,
+                  child: Text(numberOfTilesLeft.toString()),
+                ),
+                AnimatedDefaultTextStyle(
+                  style: bodyTextStyle.copyWith(
+                    color: textColor,
+                  ),
+                  duration: PuzzleThemeAnimationDuration.textStyle,
+                  child: Text(' ${l10n.puzzleNumberOfTilesLeft}'),
+                ),
+              ],
             ),
-            AnimatedDefaultTextStyle(
-              style: bodyTextStyle.copyWith(
-                color: textColor,
-              ),
-              duration: PuzzleThemeAnimationDuration.textStyle,
-              child: Text(' ${l10n.puzzleNumberOfMoves} | '),
-            ),
-            AnimatedDefaultTextStyle(
-              key: const Key('number_of_moves_and_tiles_left_tiles_left'),
-              style: PuzzleTextStyle.headline4.copyWith(
-                color: textColor,
-              ),
-              duration: PuzzleThemeAnimationDuration.textStyle,
-              child: Text(numberOfTilesLeft.toString()),
-            ),
-            AnimatedDefaultTextStyle(
-              style: bodyTextStyle.copyWith(
-                color: textColor,
-              ),
-              duration: PuzzleThemeAnimationDuration.textStyle,
-              child: Text(' ${l10n.puzzleNumberOfTilesLeft}'),
-            ),
-          ],
+          ),
         );
       },
     );

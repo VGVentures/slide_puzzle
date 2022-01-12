@@ -66,6 +66,68 @@
             }
         }
     },
+    "puzzleTileLabelText": "Value: {value}, position: {x}, {y}",
+    "@puzzleTileLabelText": {
+        "description": "Semantic label for the puzzle tile",
+        "placeholders": {
+            "value": {
+                "type": "String",
+                "example": "5"
+            },
+            "x": {
+                "type": "String",
+                "example": "1"
+            },
+            "y": {
+                "type": "String",
+                "example": "0"
+            }
+        }
+    },
+    "puzzleNumberOfMovesAndTilesLeftLabelText": "Moves: {numberOfMoves}, tiles: {tilesLeft}",
+    "@puzzleNumberOfMovesAndTilesLeftLabelText": {
+        "description": "Semantic label for the puzzle tile",
+        "placeholders": {
+            "numberOfMoves": {
+                "type": "String",
+                "example": "30"
+            },
+            "tilesLeft": {
+                "type": "String",
+                "example": "10"
+            }
+        }
+    },
+    "dashatarPuzzleDurationLabelText": "{hours} hours {minutes} minutes {seconds} seconds",
+    "@dashatarPuzzleDurationLabelText": {
+        "description": "Semantic label for the Dashatar timer",
+        "placeholders": {
+            "hours": {
+                "type": "String",
+                "example": "2"
+            },
+            "minutes": {
+                "type": "String",
+                "example": "6"
+            },
+            "seconds": {
+                "type": "String",
+                "example": "24"
+            }
+        }
+    },
+    "dashatarBlueDashLabelText": "Dumbbell Dash",
+    "@dashatarBlueDashLabelText": {
+        "description": "Semantic label for the blue Dash"
+    },
+    "dashatarGreenDashLabelText": "Skateboard Dash",
+    "@dashatarGreenDashLabelText": {
+        "description": "Semantic label for the green Dash"
+    },
+    "dashatarYellowDashLabelText": "Sandwich Dash",
+    "@dashatarYellowDashLabelText": {
+        "description": "Semantic label for the yellow Dash"
+    },
     "dashatarSuccessShareYourScoreTitle": "Share your score!",
     "@dashatarSuccessShareYourScoreTitle": {
         "description": "Shown as a share title in the Dashatar success state"

@@ -351,7 +351,14 @@ class SimplePuzzleTile extends StatelessWidget {
       onPressed: state.puzzleStatus == PuzzleStatus.incomplete
           ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
           : null,
-      child: Text(tile.value.toString()),
+      child: Text(
+        tile.value.toString(),
+        semanticsLabel: context.l10n.puzzleTileLabelText(
+          tile.value.toString(),
+          tile.currentPosition.x.toString(),
+          tile.currentPosition.y.toString(),
+        ),
+      ),
     );
   }
 }

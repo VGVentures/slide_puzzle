@@ -289,6 +289,7 @@ void main() {
       setUp(() {
         tile = MockTile();
         when(() => tile.value).thenReturn(tileValue);
+        when(() => tile.currentPosition).thenReturn(Position(x: 1, y: 1));
       });
 
       testWidgets(
@@ -432,6 +433,7 @@ void main() {
       setUp(() {
         tile = MockTile();
         when(() => tile.value).thenReturn(tileValue);
+        when(() => tile.currentPosition).thenReturn(Position(x: 1, y: 1));
       });
 
       testWidgets(

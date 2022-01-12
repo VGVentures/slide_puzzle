@@ -93,6 +93,29 @@ void main() {
     });
 
     testWidgets(
+        'each Image has semanticLabel '
+        'from DashatarTheme.semanticsLabel', (tester) async {
+      await tester.pumpApp(
+        DashatarThemePicker(),
+        dashatarThemeBloc: dashatarThemeBloc,
+      );
+
+      final BuildContext context =
+          tester.element(find.byType(DashatarThemePicker));
+
+      for (final dashatarTheme in dashatarThemes) {
+        expect(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is Image &&
+                widget.semanticLabel == dashatarTheme.semanticsLabel(context),
+          ),
+          findsOneWidget,
+        );
+      }
+    });
+
+    testWidgets(
         'adds DashatarThemeChanged to DashatarThemeBloc '
         'when tapped', (tester) async {
       await tester.pumpApp(

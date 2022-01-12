@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -72,7 +73,14 @@ class DashatarPuzzleTile extends StatelessWidget {
           onPressed: hasStarted && puzzleIncomplete
               ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
               : null,
-          icon: Image.asset(theme.dashAssetForTile(tile)),
+          icon: Image.asset(
+            theme.dashAssetForTile(tile),
+            semanticLabel: context.l10n.puzzleTileLabelText(
+              tile.value.toString(),
+              tile.currentPosition.x.toString(),
+              tile.currentPosition.y.toString(),
+            ),
+          ),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
+import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
@@ -53,6 +54,8 @@ class DashatarTimer extends StatelessWidget {
                 ? const Size(28, 28)
                 : const Size(32, 32));
 
+        final timeElapsed = Duration(seconds: secondsElapsed);
+
         return Row(
           key: const Key('dashatar_timer'),
           mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
@@ -63,10 +66,9 @@ class DashatarTimer extends StatelessWidget {
               ),
               duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(
-                _formatDuration(
-                  Duration(seconds: secondsElapsed),
-                ),
+                _formatDuration(timeElapsed),
                 key: ValueKey(secondsElapsed),
+                semanticsLabel: _getDurationLabel(timeElapsed, context),
               ),
             ),
             Gap(iconPadding ?? 8),
@@ -87,5 +89,13 @@ class DashatarTimer extends StatelessWidget {
     final twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     final twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return '${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds';
+  }
+
+  String _getDurationLabel(Duration duration, BuildContext context) {
+    return context.l10n.dashatarPuzzleDurationLabelText(
+      duration.inHours.toString(),
+      duration.inMinutes.remainder(60).toString(),
+      duration.inSeconds.remainder(60).toString(),
+    );
   }
 }

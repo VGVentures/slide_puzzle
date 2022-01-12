@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
+import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
 
 /// {@template app_flutter_logo}
 /// Variant of Flutter logo that can be either white or colored.
@@ -18,10 +19,6 @@ class AppFlutterLogo extends StatelessWidget {
   /// The optional height of this logo.
   final double? height;
 
-  /// The duration of a logo change animation.
-  /// The animation may happen when a theme is changed.
-  static const _logoChangeAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final assetName = isColored
@@ -29,7 +26,7 @@ class AppFlutterLogo extends StatelessWidget {
         : 'assets/images/logo_flutter_white.png';
 
     return AnimatedSwitcher(
-      duration: _logoChangeAnimationDuration,
+      duration: PuzzleThemeAnimationDuration.logoChange,
       child: height != null
           ? Image.asset(
               assetName,

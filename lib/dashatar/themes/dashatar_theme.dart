@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
@@ -47,6 +46,9 @@ abstract class DashatarTheme extends PuzzleTheme {
   @override
   PuzzleLayoutDelegate get layoutDelegate =>
       const DashatarPuzzleLayoutDelegate();
+
+  /// The semantics label of this theme.
+  String semanticsLabel(BuildContext context);
 
   /// The text color of the countdown timer.
   Color get countdownColor;

@@ -104,6 +104,24 @@ void main() {
       expect(find.text('01:30:50'), findsOneWidget);
     });
 
+    testWidgets(
+        'renders semanticsLabel '
+        'based on secondsElapsed from TimerBloc', (tester) async {
+      const secondsElapsed = 5450;
+      when(() => timerBloc.state)
+          .thenReturn(TimerState(secondsElapsed: secondsElapsed));
+
+      await tester.pumpApp(
+        DashatarTimer(),
+        timerBloc: timerBloc,
+      );
+
+      expect(
+        find.bySemanticsLabel('1 hours 30 minutes 50 seconds'),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('renders timer icon', (tester) async {
       await tester.pumpApp(
         DashatarTimer(),
