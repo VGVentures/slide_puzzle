@@ -80,22 +80,6 @@ android {
         }
     }
 
-    flavorDimensions "default"
-    productFlavors { 
-        production {
-            dimension "default"
-            applicationIdSuffix ""
-        }
-        staging {
-            dimension "default"
-            applicationIdSuffix ".stg"
-        }        
-        development {
-            dimension "default"
-            applicationIdSuffix ".dev"
-        }
-    }
-
     buildTypes {
         release {
             signingConfig signingConfigs.release
