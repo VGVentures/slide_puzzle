@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -397,46 +398,50 @@ class PuzzleMenuItem extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.only(left: leftPadding),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-            ).copyWith(
-              overlayColor: MaterialStateProperty.all(Colors.transparent),
-            ),
-            onPressed: () {
-              // Ignore if this theme is already selected.
-              if (theme == currentTheme) {
-                return;
-              }
-
-              // Update the currently selected theme.
-              context
-                  .read<ThemeBloc>()
-                  .add(ThemeChanged(themeIndex: themeIndex));
-
-              // Reset the timer of the currently running puzzle.
-              context.read<TimerBloc>().add(const TimerReset());
-
-              // Stop the Dashatar countdown if it has been started.
-              context.read<DashatarPuzzleBloc>().add(
-                    const DashatarCountdownStopped(),
-                  );
-
-              // Initialize the puzzle board for the newly selected theme.
-              context.read<PuzzleBloc>().add(
-                    PuzzleInitialized(
-                      shufflePuzzle: theme is SimpleTheme,
-                    ),
-                  );
-            },
-            child: AnimatedDefaultTextStyle(
-              duration: PuzzleThemeAnimationDuration.textStyle,
-              style: PuzzleTextStyle.headline5.copyWith(
-                color: isCurrentTheme
-                    ? currentTheme.menuActiveColor
-                    : currentTheme.menuInactiveColor,
+          child: Tooltip(
+            message:
+                theme != currentTheme ? context.l10n.puzzleChangeTooltip : '',
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+              ).copyWith(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
-              child: Text(theme.name),
+              onPressed: () {
+                // Ignore if this theme is already selected.
+                if (theme == currentTheme) {
+                  return;
+                }
+
+                // Update the currently selected theme.
+                context
+                    .read<ThemeBloc>()
+                    .add(ThemeChanged(themeIndex: themeIndex));
+
+                // Reset the timer of the currently running puzzle.
+                context.read<TimerBloc>().add(const TimerReset());
+
+                // Stop the Dashatar countdown if it has been started.
+                context.read<DashatarPuzzleBloc>().add(
+                      const DashatarCountdownStopped(),
+                    );
+
+                // Initialize the puzzle board for the newly selected theme.
+                context.read<PuzzleBloc>().add(
+                      PuzzleInitialized(
+                        shufflePuzzle: theme is SimpleTheme,
+                      ),
+                    );
+              },
+              child: AnimatedDefaultTextStyle(
+                duration: PuzzleThemeAnimationDuration.textStyle,
+                style: PuzzleTextStyle.headline5.copyWith(
+                  color: isCurrentTheme
+                      ? currentTheme.menuActiveColor
+                      : currentTheme.menuInactiveColor,
+                ),
+                child: Text(theme.name),
+              ),
             ),
           ),
         );

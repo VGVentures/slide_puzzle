@@ -182,5 +182,19 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('renders Tooltip', (tester) async {
+      await tester.pumpApp(
+        DashatarPuzzleActionButton(),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        themeBloc: themeBloc,
+      );
+
+      expect(
+        find.byType(Tooltip),
+        findsOneWidget,
+      );
+    });
   });
 }

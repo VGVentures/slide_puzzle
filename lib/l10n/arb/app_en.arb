@@ -1,5 +1,13 @@
 {
     "@@locale": "en",
+    "puzzleChangeTooltip": "Changing the theme will reset your score",
+    "@puzzleChangeTooltip": {
+        "description": "Shown as a tooltip for puzzle menu buttons"
+    },
+    "puzzleRestartTooltip": "Restarting the puzzle will reset your score",
+    "@puzzleRestartTooltip": {
+        "description": "Shown as a tooltip for the puzzle restart button"
+    },
     "puzzleChallengeTitle": "Puzzle Challenge",
     "@puzzleChallengeTitle": {
         "description": "Shown as the title of the puzzle"

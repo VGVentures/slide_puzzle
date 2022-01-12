@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
+import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
@@ -32,10 +33,6 @@ class DashatarTimer extends StatelessWidget {
   /// Defaults to [MainAxisAlignment.center] if not provided.
   final MainAxisAlignment? mainAxisAlignment;
 
-  /// The duration of a text style animation.
-  /// The animation may happen when a layout is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
-
   @override
   Widget build(BuildContext context) {
     final secondsElapsed =
@@ -64,7 +61,7 @@ class DashatarTimer extends StatelessWidget {
               style: currentTextStyle.copyWith(
                 color: PuzzleColors.white,
               ),
-              duration: _textStyleAnimationDuration,
+              duration: PuzzleThemeAnimationDuration.textStyle,
               child: Text(
                 _formatDuration(
                   Duration(seconds: secondsElapsed),

@@ -21,40 +21,45 @@ class DashatarPuzzleActionButton extends StatelessWidget {
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
     final isLoading = status == DashatarPuzzleStatus.loading;
+    final isStarted = status == DashatarPuzzleStatus.started;
 
-    final text = status == DashatarPuzzleStatus.notStarted
-        ? context.l10n.dashatarStartGame
+    final text = isStarted
+        ? context.l10n.dashatarRestart
         : (isLoading
             ? context.l10n.dashatarGetReady
-            : context.l10n.dashatarRestart);
+            : context.l10n.dashatarStartGame);
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: PuzzleButton(
+      child: Tooltip(
         key: ValueKey(status),
-        onPressed: isLoading
-            ? null
-            : () async {
-                final hasStarted = status == DashatarPuzzleStatus.started;
+        message: isStarted ? context.l10n.puzzleRestartTooltip : '',
+        verticalOffset: 40,
+        child: PuzzleButton(
+          onPressed: isLoading
+              ? null
+              : () async {
+                  final hasStarted = status == DashatarPuzzleStatus.started;
 
-                // Reset the timer and the countdown.
-                context.read<TimerBloc>().add(const TimerReset());
-                context.read<DashatarPuzzleBloc>().add(
-                      DashatarCountdownReset(
-                        secondsToBegin: hasStarted ? 5 : 3,
-                      ),
-                    );
-
-                // Initialize the puzzle board to show the initial puzzle
-                // (unshuffled) before the countdown completes.
-                if (hasStarted) {
-                  context.read<PuzzleBloc>().add(
-                        const PuzzleInitialized(shufflePuzzle: false),
+                  // Reset the timer and the countdown.
+                  context.read<TimerBloc>().add(const TimerReset());
+                  context.read<DashatarPuzzleBloc>().add(
+                        DashatarCountdownReset(
+                          secondsToBegin: hasStarted ? 5 : 3,
+                        ),
                       );
-                }
-              },
-        textColor: isLoading ? theme.defaultColor : null,
-        child: Text(text),
+
+                  // Initialize the puzzle board to show the initial puzzle
+                  // (unshuffled) before the countdown completes.
+                  if (hasStarted) {
+                    context.read<PuzzleBloc>().add(
+                          const PuzzleInitialized(shufflePuzzle: false),
+                        );
+                  }
+                },
+          textColor: isLoading ? theme.defaultColor : null,
+          child: Text(text),
+        ),
       ),
     );
   }

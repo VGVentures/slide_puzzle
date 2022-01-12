@@ -730,6 +730,30 @@ void main() {
               .called(1);
         });
       });
+
+      testWidgets('renders Tooltip', (tester) async {
+        await tester.pumpApp(
+          PuzzleMenuItem(
+            theme: tappedTheme,
+            themeIndex: themes.indexOf(tappedTheme),
+          ),
+          themeBloc: themeBloc,
+        );
+
+        expect(find.byType(Tooltip), findsOneWidget);
+      });
+
+      testWidgets('renders theme name', (tester) async {
+        await tester.pumpApp(
+          PuzzleMenuItem(
+            theme: tappedTheme,
+            themeIndex: themes.indexOf(tappedTheme),
+          ),
+          themeBloc: themeBloc,
+        );
+
+        expect(find.text(tappedTheme.name), findsOneWidget);
+      });
     });
   });
 }

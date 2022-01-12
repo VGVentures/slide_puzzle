@@ -5,6 +5,7 @@ import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
 import 'package:very_good_slide_puzzle/theme/widgets/widgets.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
@@ -14,10 +15,6 @@ import 'package:very_good_slide_puzzle/typography/typography.dart';
 class DashatarScore extends StatelessWidget {
   /// {@macro dashatar_score}
   const DashatarScore({Key? key}) : super(key: key);
-
-  /// The duration of a text style animation.
-  /// The animation may happen when a layout is changed.
-  static const _textStyleAnimationDuration = Duration(milliseconds: 530);
 
   static const _smallImageOffset = Offset(124, 36);
   static const _mediumImageOffset = Offset(215, -47);
@@ -106,7 +103,7 @@ class DashatarScore extends StatelessWidget {
                           style: PuzzleTextStyle.headline5.copyWith(
                             color: theme.defaultColor,
                           ),
-                          duration: _textStyleAnimationDuration,
+                          duration: PuzzleThemeAnimationDuration.textStyle,
                           child: Text(l10n.dashatarSuccessCompleted),
                         ),
                       ),
@@ -120,7 +117,7 @@ class DashatarScore extends StatelessWidget {
                         style: wellDoneTextStyle.copyWith(
                           color: PuzzleColors.white,
                         ),
-                        duration: _textStyleAnimationDuration,
+                        duration: PuzzleThemeAnimationDuration.textStyle,
                         child: Text(l10n.dashatarSuccessWellDone),
                       ),
                       const ResponsiveGap(
@@ -133,7 +130,7 @@ class DashatarScore extends StatelessWidget {
                         style: PuzzleTextStyle.headline5.copyWith(
                           color: theme.defaultColor,
                         ),
-                        duration: _textStyleAnimationDuration,
+                        duration: PuzzleThemeAnimationDuration.textStyle,
                         child: Text(l10n.dashatarSuccessScore),
                       ),
                       const ResponsiveGap(
@@ -157,7 +154,7 @@ class DashatarScore extends StatelessWidget {
                         style: numberOfMovesTextStyle.copyWith(
                           color: PuzzleColors.white,
                         ),
-                        duration: _textStyleAnimationDuration,
+                        duration: PuzzleThemeAnimationDuration.textStyle,
                         child: Text(
                           l10n.dashatarSuccessNumberOfMoves(
                             state.numberOfMoves.toString(),
