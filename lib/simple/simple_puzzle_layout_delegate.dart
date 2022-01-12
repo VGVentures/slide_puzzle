@@ -280,6 +280,7 @@ class SimplePuzzleBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: size,
