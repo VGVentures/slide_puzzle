@@ -132,7 +132,7 @@
     "@dashatarSuccessShareYourScoreTitle": {
         "description": "Shown as a share title in the Dashatar success state"
     },
-    "dashatarSuccessShareYourScoreMessage": "Share your score to challenge your friends and be sure to check out...",
+    "dashatarSuccessShareYourScoreMessage": "Share this puzzle to challenge your friends and be sure to check out the Flutter Puzzle Hack.",
     "@dashatarSuccessShareYourScoreMessage": {
         "description": "Shown as a share message in the Dashatar success state"
     },
