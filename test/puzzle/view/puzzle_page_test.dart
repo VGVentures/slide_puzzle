@@ -549,12 +549,10 @@ void main() {
     });
 
     group('PuzzleBoard', () {
-      testWidgets(
-          'adds TimerStopped to TimerBloc '
-          'when the puzzle completes', (tester) async {
-        final timerBloc = MockTimerBloc();
-        final timerState = MockTimerState();
-        final puzzleBloc = MockPuzzleBloc();
+      late PuzzleBloc puzzleBloc;
+
+      setUp(() {
+        puzzleBloc = MockPuzzleBloc();
         final puzzleState = MockPuzzleState();
         final puzzle = MockPuzzle();
 
@@ -567,6 +565,13 @@ void main() {
           Stream.value(puzzleState),
           initialState: puzzleState,
         );
+      });
+
+      testWidgets(
+          'adds TimerStopped to TimerBloc '
+          'when the puzzle completes', (tester) async {
+        final timerBloc = MockTimerBloc();
+        final timerState = MockTimerState();
 
         const secondsElapsed = 60;
         when(() => timerState.secondsElapsed).thenReturn(secondsElapsed);
@@ -581,6 +586,16 @@ void main() {
         );
 
         verify(() => timerBloc.add(TimerStopped())).called(1);
+      });
+
+      testWidgets('renders PuzzleKeyboardHandler', (tester) async {
+        await tester.pumpApp(
+          PuzzleBoard(),
+          themeBloc: themeBloc,
+          puzzleBloc: puzzleBloc,
+        );
+
+        expect(find.byType(PuzzleKeyboardHandler), findsOneWidget);
       });
     });
 
