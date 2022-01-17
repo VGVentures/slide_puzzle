@@ -293,7 +293,7 @@ void main() {
       );
 
       blocTest<PuzzleBloc, PuzzleState>(
-        'emits [cannotBeMoved] when puzzle is complete',
+        'emits [cannotBeMoved] when PuzzleStatus is complete',
         build: () => PuzzleBloc(size),
         seed: () => PuzzleState(
           puzzle: puzzle,

@@ -259,6 +259,28 @@ void main() {
       });
     });
 
+    group('getTileRelativeToWhitespaceTile', () {
+      test('returns a tile relative to the whitespace tile', () {
+        const offset = Offset(1, 1);
+
+        expect(
+          solvable2x2Puzzle.getTileRelativeToWhitespaceTile(offset),
+          equals(solvable2x2Tile2),
+        );
+      });
+
+      test(
+          'returns null '
+          'if a tile relative to the whitespace tile does not exist', () {
+        const offset = Offset(5, 5);
+
+        expect(
+          solvable2x2Puzzle.getTileRelativeToWhitespaceTile(offset),
+          isNull,
+        );
+      });
+    });
+
     group('getNumberOfCorrectTiles', () {
       test('returns 0 from 1x1 puzzle with only a whitespace tile', () {
         const puzzle = Puzzle(

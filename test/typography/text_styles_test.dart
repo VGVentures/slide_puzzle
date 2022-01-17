@@ -12,6 +12,7 @@ void main() {
       expect(PuzzleTextStyle.headline3, isA<TextStyle>());
       expect(PuzzleTextStyle.headline3Soft, isA<TextStyle>());
       expect(PuzzleTextStyle.headline4, isA<TextStyle>());
+      expect(PuzzleTextStyle.headline4Soft, isA<TextStyle>());
       expect(PuzzleTextStyle.headline5, isA<TextStyle>());
     });
 
@@ -25,6 +26,10 @@ void main() {
 
     test('label style is defined', () {
       expect(PuzzleTextStyle.label, isA<TextStyle>());
+    });
+
+    test('countdown style is defined', () {
+      expect(PuzzleTextStyle.countdownTime, isA<TextStyle>());
     });
   });
 }

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/layout/simple_puzzle_layout_delegate.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/simple/simple_puzzle_layout_delegate.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 import '../helpers/helpers.dart';
@@ -34,15 +34,17 @@ void main() {
       themeBloc = MockThemeBloc();
       theme = MockPuzzleTheme();
       state = MockPuzzleState();
-      final themeState = MockThemeState();
+      final themeState = ThemeState(themes: [theme], theme: theme);
 
       when(() => state.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
       when(() => state.numberOfMoves).thenReturn(5);
       when(() => state.numberOfTilesLeft).thenReturn(15);
 
       when(() => theme.name).thenReturn(themeName);
+      when(() => theme.nameColor).thenReturn(Colors.black);
+      when(() => theme.titleColor).thenReturn(Colors.black);
       when(() => theme.defaultColor).thenReturn(Colors.black);
-      when(() => themeState.theme).thenReturn(theme);
+      when(() => theme.buttonColor).thenReturn(Colors.black);
       when(() => themeBloc.state).thenReturn(themeState);
     });
 
@@ -287,6 +289,7 @@ void main() {
       setUp(() {
         tile = MockTile();
         when(() => tile.value).thenReturn(tileValue);
+        when(() => tile.currentPosition).thenReturn(Position(x: 1, y: 1));
       });
 
       testWidgets(
@@ -430,12 +433,13 @@ void main() {
       setUp(() {
         tile = MockTile();
         when(() => tile.value).thenReturn(tileValue);
+        when(() => tile.currentPosition).thenReturn(Position(x: 1, y: 1));
       });
 
       testWidgets(
           'adds TileTapped '
           'when tapped and '
-          'puzzle is incomplete', (tester) async {
+          'PuzzleStatus is incomplete', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
         when(() => state.puzzleStatus).thenReturn(PuzzleStatus.incomplete);
         when(() => puzzleBloc.state).thenReturn(state);
@@ -458,7 +462,7 @@ void main() {
       testWidgets(
           'does not add TileTapped '
           'when tapped and '
-          'puzzle is complete', (tester) async {
+          'PuzzleStatus is complete', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
         when(() => state.puzzleStatus).thenReturn(PuzzleStatus.complete);
         when(() => puzzleBloc.state).thenReturn(state);
@@ -545,7 +549,9 @@ void main() {
     });
 
     group('SimplePuzzleShuffleButton', () {
-      testWidgets('adds PuzzleReset on pressed', (tester) async {
+      testWidgets(
+          'adds PuzzleReset to PuzzleBloc '
+          'on tapped', (tester) async {
         final puzzleBloc = MockPuzzleBloc();
 
         await tester.pumpApp(
@@ -560,7 +566,7 @@ void main() {
       });
     });
 
-    test('supports value equality', () {
+    test('supports value comparisons', () {
       expect(
         SimplePuzzleLayoutDelegate(),
         equals(SimplePuzzleLayoutDelegate()),

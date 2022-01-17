@@ -49,6 +49,15 @@ class PuzzleTextStyle {
     );
   }
 
+  /// Headline 4 Soft text style
+  static TextStyle get headline4Soft {
+    return _baseTextStyle.copyWith(
+      fontSize: 24,
+      height: 1.15,
+      fontWeight: PuzzleFontWeight.regular,
+    );
+  }
+
   /// Headline 5 text style
   static TextStyle get headline5 {
     return _baseTextStyle.copyWith(
@@ -109,6 +118,15 @@ class PuzzleTextStyle {
       fontSize: 14,
       height: 1.27,
       fontWeight: PuzzleFontWeight.regular,
+    );
+  }
+
+  /// Countdown text style
+  static TextStyle get countdownTime {
+    return _baseTextStyle.copyWith(
+      fontSize: 300,
+      height: 1,
+      fontWeight: PuzzleFontWeight.bold,
     );
   }
 

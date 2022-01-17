@@ -15,10 +15,9 @@ void main() {
     setUp(() {
       themeBloc = MockThemeBloc();
       theme = MockPuzzleTheme();
-      final themeState = MockThemeState();
+      final themeState = ThemeState(themes: [theme], theme: theme);
 
       when(() => theme.defaultColor).thenReturn(Colors.black);
-      when(() => themeState.theme).thenReturn(theme);
       when(() => themeBloc.state).thenReturn(themeState);
     });
 
@@ -34,7 +33,7 @@ void main() {
       );
 
       expect(
-        find.byKey(Key('numberOfMovesAndTilesLeft')),
+        find.byKey(Key('number_of_moves_and_tiles_left')),
         findsOneWidget,
       );
     });
@@ -51,7 +50,7 @@ void main() {
       );
 
       expect(
-        find.byKey(Key('numberOfMovesAndTilesLeft')),
+        find.byKey(Key('number_of_moves_and_tiles_left')),
         findsOneWidget,
       );
     });
@@ -68,7 +67,7 @@ void main() {
       );
 
       expect(
-        find.byKey(Key('numberOfMovesAndTilesLeft')),
+        find.byKey(Key('number_of_moves_and_tiles_left')),
         findsOneWidget,
       );
     });
@@ -83,7 +82,18 @@ void main() {
       );
 
       expect(
-        find.text('5 Moves | 15 Tiles', findRichText: true),
+        find.descendant(
+          of: find.byKey(Key('number_of_moves_and_tiles_left_moves')),
+          matching: find.text('5'),
+        ),
+        findsOneWidget,
+      );
+
+      expect(
+        find.descendant(
+          of: find.byKey(Key('number_of_moves_and_tiles_left_tiles_left')),
+          matching: find.text('15'),
+        ),
         findsOneWidget,
       );
     });
@@ -100,16 +110,18 @@ void main() {
         themeBloc: themeBloc,
       );
 
-      final rootText = tester.widget<RichText>(find.byType(RichText));
-
-      expect(
-        rootText.text.style?.color,
-        equals(color),
+      final textStyles = tester.widgetList<AnimatedDefaultTextStyle>(
+        find.byType(AnimatedDefaultTextStyle),
       );
+
+      for (final textStyle in textStyles) {
+        expect(textStyle.style.color, equals(color));
+      }
     });
 
     testWidgets(
-        'renders text using defaultColor from theme '
+        'renders text '
+        'using PuzzleTheme.defaultColor as text color '
         'if not provided', (tester) async {
       const themeColor = Colors.green;
 
@@ -123,12 +135,13 @@ void main() {
         themeBloc: themeBloc,
       );
 
-      final rootText = tester.widget<RichText>(find.byType(RichText));
-
-      expect(
-        rootText.text.style?.color,
-        equals(themeColor),
+      final textStyles = tester.widgetList<AnimatedDefaultTextStyle>(
+        find.byType(AnimatedDefaultTextStyle),
       );
+
+      for (final textStyle in textStyles) {
+        expect(textStyle.style.color, equals(themeColor));
+      }
     });
   });
 }

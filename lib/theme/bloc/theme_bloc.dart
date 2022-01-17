@@ -2,19 +2,36 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:very_good_slide_puzzle/simple/simple.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBloc({required this.themes}) : super(const ThemeState()) {
+  ThemeBloc({required List<PuzzleTheme> initialThemes})
+      : super(ThemeState(themes: initialThemes)) {
     on<ThemeChanged>(_onThemeChanged);
+    on<ThemeUpdated>(_onThemeUpdated);
   }
 
-  final List<PuzzleTheme> themes;
-
   void _onThemeChanged(ThemeChanged event, Emitter<ThemeState> emit) {
-    emit(ThemeState(theme: themes[event.themeIndex]));
+    emit(state.copyWith(theme: state.themes[event.themeIndex]));
+  }
+
+  void _onThemeUpdated(ThemeUpdated event, Emitter<ThemeState> emit) {
+    final themeIndex =
+        state.themes.indexWhere((theme) => theme.name == event.theme.name);
+
+    if (themeIndex != -1) {
+      final newThemes = [...state.themes];
+      newThemes[themeIndex] = event.theme;
+      emit(
+        state.copyWith(
+          themes: newThemes,
+          theme: event.theme,
+        ),
+      );
+    }
   }
 }
