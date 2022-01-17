@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
@@ -17,20 +15,11 @@ Future<T?> showAppDialog<T>({
           curve: Curves.decelerate,
         );
 
-        final backdropFilterAnimation =
-            Tween<double>(begin: 0, end: 5).animate(curvedAnimation);
-
-        return BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: backdropFilterAnimation.value,
-            sigmaY: backdropFilterAnimation.value,
-          ),
-          child: ScaleTransition(
-            scale: Tween<double>(begin: 0.8, end: 1).animate(curvedAnimation),
-            child: FadeTransition(
-              opacity: curvedAnimation,
-              child: widget,
-            ),
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.8, end: 1).animate(curvedAnimation),
+          child: FadeTransition(
+            opacity: curvedAnimation,
+            child: widget,
           ),
         );
       },
