@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
@@ -57,4 +57,6 @@ class MockAudioPlayer extends Mock implements AudioPlayer {}
 
 class MockPlatformHelper extends Mock implements PlatformHelper {}
 
-class MockTickerFuture extends Mock implements TickerFuture {}
+class MockAudioControlBloc
+    extends MockBloc<AudioControlEvent, AudioControlState>
+    implements AudioControlBloc {}

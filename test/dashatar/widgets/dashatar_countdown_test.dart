@@ -6,9 +6,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -16,6 +16,7 @@ void main() {
   group('DashatarCountdown', () {
     late DashatarPuzzleBloc dashatarPuzzleBloc;
     late DashatarThemeBloc dashatarThemeBloc;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       dashatarPuzzleBloc = MockDashatarPuzzleBloc();
@@ -34,33 +35,9 @@ void main() {
         Stream.value(dashatarThemeState),
         initialState: dashatarThemeState,
       );
-    });
 
-    testWidgets(
-        'adds TimerStarted to TimerBloc '
-        'when isCountdownRunning is true and '
-        'secondsToBegin is equal to 0', (tester) async {
-      final timerBloc = MockTimerBloc();
-
-      final state = DashatarPuzzleState(
-        isCountdownRunning: true,
-        secondsToBegin: 0,
-      );
-
-      whenListen(
-        dashatarPuzzleBloc,
-        Stream.value(state),
-        initialState: state,
-      );
-
-      await tester.pumpApp(
-        DashatarCountdown(),
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
-        dashatarThemeBloc: dashatarThemeBloc,
-        timerBloc: timerBloc,
-      );
-
-      verify(() => timerBloc.add(TimerStarted())).called(1);
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets(
@@ -94,6 +71,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       verify(() => puzzleBloc.add(PuzzleReset())).called(3);
@@ -105,6 +83,7 @@ void main() {
       final audioPlayer = MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.stop).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
@@ -126,6 +105,7 @@ void main() {
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       verify(() => audioPlayer.setAsset('assets/audio/shuffle.mp3')).called(1);
@@ -154,6 +134,7 @@ void main() {
           DashatarCountdown(),
           dashatarPuzzleBloc: dashatarPuzzleBloc,
           dashatarThemeBloc: dashatarThemeBloc,
+          audioControlBloc: audioControlBloc,
         );
 
         expect(
@@ -189,6 +170,7 @@ void main() {
           DashatarCountdown(),
           dashatarPuzzleBloc: dashatarPuzzleBloc,
           dashatarThemeBloc: dashatarThemeBloc,
+          audioControlBloc: audioControlBloc,
         );
 
         expect(find.byType(DashatarCountdownSecondsToBegin), findsNothing);
@@ -215,6 +197,7 @@ void main() {
           DashatarCountdown(),
           dashatarPuzzleBloc: dashatarPuzzleBloc,
           dashatarThemeBloc: dashatarThemeBloc,
+          audioControlBloc: audioControlBloc,
         );
 
         expect(find.byType(SizedBox), findsOneWidget);
@@ -242,6 +225,7 @@ void main() {
           DashatarCountdown(),
           dashatarPuzzleBloc: dashatarPuzzleBloc,
           dashatarThemeBloc: dashatarThemeBloc,
+          audioControlBloc: audioControlBloc,
         );
 
         expect(find.byType(SizedBox), findsOneWidget);
@@ -256,6 +240,7 @@ void main() {
       await tester.pumpApp(
         DashatarCountdown(),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(find.byType(SizedBox), findsOneWidget);
@@ -269,11 +254,22 @@ void main() {
       await tester.pumpApp(
         DashatarCountdown(),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(find.byType(SizedBox), findsOneWidget);
       expect(find.byType(DashatarCountdownSecondsToBegin), findsNothing);
       expect(find.byType(DashatarCountdownGo), findsNothing);
+    });
+
+    testWidgets('renders AudioControlListener', (tester) async {
+      await tester.pumpApp(
+        DashatarCountdown(),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      expect(find.byType(AudioControlListener), findsOneWidget);
     });
   });
 

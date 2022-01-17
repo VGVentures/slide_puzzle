@@ -52,11 +52,20 @@ class SimpleTheme extends PuzzleTheme {
   Color get menuInactiveColor => PuzzleColors.grey2;
 
   @override
+  String get audioControlOnAsset => 'assets/images/audio_control/simple_on.png';
+
+  @override
+  String get audioControlOffAsset =>
+      'assets/images/audio_control/simple_off.png';
+
+  @override
   PuzzleLayoutDelegate get layoutDelegate => const SimplePuzzleLayoutDelegate();
 
   @override
   List<Object?> get props => [
         name,
+        audioControlOnAsset,
+        audioControlOffAsset,
         hasTimer,
         nameColor,
         titleColor,

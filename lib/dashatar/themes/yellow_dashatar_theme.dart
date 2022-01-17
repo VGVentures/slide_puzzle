@@ -36,6 +36,10 @@ class YellowDashatarTheme extends DashatarTheme {
   String get successThemeAsset => 'assets/images/dashatar/success/yellow.png';
 
   @override
+  String get audioControlOffAsset =>
+      'assets/images/audio_control/yellow_dashatar_off.png';
+
+  @override
   String get audioAsset => 'assets/audio/sandwich.mp3';
 
   @override

@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
@@ -18,6 +19,7 @@ void main() {
     late DashatarThemeBloc dashatarThemeBloc;
     late DashatarTheme dashatarTheme;
     late ThemeBloc themeBloc;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       dashatarPuzzleBloc = MockDashatarPuzzleBloc();
@@ -48,6 +50,9 @@ void main() {
 
       when(() => theme.buttonColor).thenReturn(Colors.black);
       when(() => themeBloc.state).thenReturn(themeState);
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets(
@@ -61,6 +66,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(DashatarPuzzleActionButton));
@@ -81,6 +87,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(DashatarPuzzleActionButton));
@@ -103,6 +110,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(DashatarPuzzleActionButton));
@@ -127,6 +135,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(DashatarPuzzleActionButton));
@@ -143,6 +152,7 @@ void main() {
       final audioPlayer = MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.stop).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
@@ -157,6 +167,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(DashatarPuzzleActionButton));
@@ -176,6 +187,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -201,6 +213,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -218,12 +231,25 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
         find.byType(Tooltip),
         findsOneWidget,
       );
+    });
+
+    testWidgets('renders AudioControlListener', (tester) async {
+      await tester.pumpApp(
+        DashatarPuzzleActionButton(),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        themeBloc: themeBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      expect(find.byType(AudioControlListener), findsOneWidget);
     });
   });
 }

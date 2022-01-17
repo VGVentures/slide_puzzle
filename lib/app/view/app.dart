@@ -28,6 +28,15 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  static final audioControlAssets = [
+    'assets/images/audio_control/simple_on.png',
+    'assets/images/audio_control/simple_off.png',
+    'assets/images/audio_control/dashatar_on.png',
+    'assets/images/audio_control/green_dashatar_off.png',
+    'assets/images/audio_control/blue_dashatar_off.png',
+    'assets/images/audio_control/yellow_dashatar_off.png',
+  ];
+
   static final audioAssets = [
     'assets/audio/shuffle.mp3',
     'assets/audio/click.mp3',
@@ -122,6 +131,13 @@ class _AppState extends State<App> {
         Image.asset('assets/images/facebook_icon.png').image,
         context,
       );
+
+      for (final audioControlAsset in audioControlAssets) {
+        precacheImage(
+          Image.asset(audioControlAsset).image,
+          context,
+        );
+      }
 
       for (final audioAsset in audioAssets) {
         prefetchToMemory(audioAsset);

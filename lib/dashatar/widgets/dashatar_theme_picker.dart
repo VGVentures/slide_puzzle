@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
@@ -53,71 +54,74 @@ class _DashatarThemePickerState extends State<DashatarThemePicker> {
     final themeState = context.watch<DashatarThemeBloc>().state;
     final activeTheme = themeState.theme;
 
-    return ResponsiveLayoutBuilder(
-      small: (_, child) => child!,
-      medium: (_, child) => child!,
-      large: (_, child) => child!,
-      child: (currentSize) {
-        final isSmallSize = currentSize == ResponsiveLayoutSize.small;
-        final activeSize = isSmallSize
-            ? DashatarThemePicker._activeThemeSmallSize
-            : DashatarThemePicker._activeThemeNormalSize;
-        final inactiveSize = isSmallSize
-            ? DashatarThemePicker._inactiveThemeSmallSize
-            : DashatarThemePicker._inactiveThemeNormalSize;
+    return AudioControlListener(
+      audioPlayer: _audioPlayer,
+      child: ResponsiveLayoutBuilder(
+        small: (_, child) => child!,
+        medium: (_, child) => child!,
+        large: (_, child) => child!,
+        child: (currentSize) {
+          final isSmallSize = currentSize == ResponsiveLayoutSize.small;
+          final activeSize = isSmallSize
+              ? DashatarThemePicker._activeThemeSmallSize
+              : DashatarThemePicker._activeThemeNormalSize;
+          final inactiveSize = isSmallSize
+              ? DashatarThemePicker._inactiveThemeSmallSize
+              : DashatarThemePicker._inactiveThemeNormalSize;
 
-        return SizedBox(
-          key: const Key('dashatar_theme_picker'),
-          height: activeSize,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              themeState.themes.length,
-              (index) {
-                final theme = themeState.themes[index];
-                final isActiveTheme = theme == activeTheme;
-                final padding = index > 0 ? (isSmallSize ? 4.0 : 8.0) : 0.0;
-                final size = isActiveTheme ? activeSize : inactiveSize;
+          return SizedBox(
+            key: const Key('dashatar_theme_picker'),
+            height: activeSize,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                themeState.themes.length,
+                (index) {
+                  final theme = themeState.themes[index];
+                  final isActiveTheme = theme == activeTheme;
+                  final padding = index > 0 ? (isSmallSize ? 4.0 : 8.0) : 0.0;
+                  final size = isActiveTheme ? activeSize : inactiveSize;
 
-                return Padding(
-                  padding: EdgeInsets.only(left: padding),
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      key: Key('dashatar_theme_picker_$index'),
-                      onTap: () async {
-                        if (isActiveTheme) {
-                          return;
-                        }
+                  return Padding(
+                    padding: EdgeInsets.only(left: padding),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        key: Key('dashatar_theme_picker_$index'),
+                        onTap: () async {
+                          if (isActiveTheme) {
+                            return;
+                          }
 
-                        // Update the current Dashatar theme.
-                        context
-                            .read<DashatarThemeBloc>()
-                            .add(DashatarThemeChanged(themeIndex: index));
+                          // Update the current Dashatar theme.
+                          context
+                              .read<DashatarThemeBloc>()
+                              .add(DashatarThemeChanged(themeIndex: index));
 
-                        // Play the audio of the current Dashatar theme.
-                        await _audioPlayer.setAsset(theme.audioAsset);
-                        unawaited(_audioPlayer.play());
-                      },
-                      child: AnimatedContainer(
-                        width: size,
-                        height: size,
-                        curve: Curves.easeInOut,
-                        duration: const Duration(milliseconds: 350),
-                        child: Image.asset(
-                          theme.themeAsset,
-                          fit: BoxFit.fill,
-                          semanticLabel: theme.semanticsLabel(context),
+                          // Play the audio of the current Dashatar theme.
+                          await _audioPlayer.setAsset(theme.audioAsset);
+                          unawaited(_audioPlayer.play());
+                        },
+                        child: AnimatedContainer(
+                          width: size,
+                          height: size,
+                          curve: Curves.easeInOut,
+                          duration: const Duration(milliseconds: 350),
+                          child: Image.asset(
+                            theme.themeAsset,
+                            fit: BoxFit.fill,
+                            semanticLabel: theme.semanticsLabel(context),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

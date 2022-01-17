@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
@@ -15,6 +16,7 @@ void main() {
     late DashatarThemeBloc dashatarThemeBloc;
     late PuzzleBloc puzzleBloc;
     late TimerBloc timerBloc;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       dashatarThemeBloc = MockDashatarThemeBloc();
@@ -27,6 +29,9 @@ void main() {
 
       timerBloc = MockTimerBloc();
       when(() => timerBloc.state).thenReturn(TimerState());
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets('renders on a large display', (tester) async {
@@ -39,6 +44,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -60,6 +66,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -81,6 +88,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -100,6 +108,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -119,6 +128,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -138,6 +148,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -157,6 +168,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.
@@ -164,6 +176,31 @@ void main() {
 
       expect(
         find.byKey(Key('dashatar_share_dialog_close_button')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders AudioControlListeners', (tester) async {
+      await tester.pumpApp(
+        Scaffold(
+          body: DashatarShareDialog(),
+        ),
+        dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
+        timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      // Wait for the animation to complete.
+      await tester.pump(Duration(milliseconds: 1100 + 140));
+
+      expect(
+        find.byKey(Key('dashatar_share_dialog_success_audio_player')),
+        findsOneWidget,
+      );
+
+      expect(
+        find.byKey(Key('dashatar_share_dialog_click_audio_player')),
         findsOneWidget,
       );
     });
@@ -176,6 +213,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the animation to complete.

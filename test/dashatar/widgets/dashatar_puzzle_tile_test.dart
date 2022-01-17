@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -17,6 +18,7 @@ void main() {
     late DashatarPuzzleState dashatarPuzzleState;
     late DashatarThemeBloc dashatarThemeBloc;
     late DashatarTheme dashatarTheme;
+    late AudioControlBloc audioControlBloc;
     late PuzzleBloc puzzleBloc;
     late PuzzleState puzzleState;
     late Tile tile;
@@ -58,6 +60,9 @@ void main() {
         Stream.value(puzzleState),
         initialState: puzzleState,
       );
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     setUpAll(() {
@@ -74,6 +79,7 @@ void main() {
       final audioPlayer = MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.stop).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
@@ -97,6 +103,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       // Wait for the initialization of the audio player.
@@ -132,6 +139,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(IconButton));
@@ -161,6 +169,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await tester.tap(find.byType(IconButton));
@@ -182,6 +191,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -203,6 +213,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -224,6 +235,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -245,6 +257,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -274,6 +287,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -282,6 +296,23 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+
+    testWidgets('renders AudioControlListener', (tester) async {
+      await tester.pumpApp(
+        Scaffold(
+          body: DashatarPuzzleTile(
+            state: PuzzleState(),
+            tile: tile,
+          ),
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      expect(find.byType(AudioControlListener), findsOneWidget);
     });
 
     testWidgets(
@@ -309,6 +340,7 @@ void main() {
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);

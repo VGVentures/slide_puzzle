@@ -36,6 +36,10 @@ class GreenDashatarTheme extends DashatarTheme {
   String get successThemeAsset => 'assets/images/dashatar/success/green.png';
 
   @override
+  String get audioControlOffAsset =>
+      'assets/images/audio_control/green_dashatar_off.png';
+
+  @override
   String get audioAsset => 'assets/audio/skateboard.mp3';
 
   @override

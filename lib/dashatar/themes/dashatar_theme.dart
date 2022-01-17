@@ -17,6 +17,10 @@ abstract class DashatarTheme extends PuzzleTheme {
   String get name => 'Dashatar';
 
   @override
+  String get audioControlOnAsset =>
+      'assets/images/audio_control/dashatar_on.png';
+
+  @override
   bool get hasTimer => true;
 
   @override
@@ -95,6 +99,8 @@ abstract class DashatarTheme extends PuzzleTheme {
         menuActiveColor,
         menuUnderlineColor,
         menuInactiveColor,
+        audioControlOnAsset,
+        audioControlOffAsset,
         layoutDelegate,
         countdownColor,
         themeAsset,

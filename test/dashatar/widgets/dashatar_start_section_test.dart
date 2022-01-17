@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/simple/simple.dart';
@@ -20,6 +21,7 @@ void main() {
     late DashatarTheme dashatarTheme;
     late ThemeBloc themeBloc;
     late TimerBloc timerBloc;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       dashatarPuzzleBloc = MockDashatarPuzzleBloc();
@@ -51,6 +53,9 @@ void main() {
 
       timerBloc = MockTimerBloc();
       when(() => timerBloc.state).thenReturn(TimerState());
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets('renders PuzzleName', (tester) async {
@@ -175,6 +180,7 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
         themeBloc: themeBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(find.byType(DashatarPuzzleActionButton), findsOneWidget);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
@@ -25,7 +27,7 @@ class PuzzlePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => DashatarThemeBloc(
+          create: (_) => DashatarThemeBloc(
             themes: const [
               BlueDashatarTheme(),
               GreenDashatarTheme(),
@@ -34,7 +36,7 @@ class PuzzlePage extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (context) => DashatarPuzzleBloc(
+          create: (_) => DashatarPuzzleBloc(
             secondsToBegin: 3,
             ticker: const Ticker(),
           ),
@@ -48,9 +50,12 @@ class PuzzlePage extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (context) => TimerBloc(
+          create: (_) => TimerBloc(
             ticker: const Ticker(),
           ),
+        ),
+        BlocProvider(
+          create: (_) => AudioControlBloc(),
         ),
       ],
       child: const PuzzleView(),
@@ -156,8 +161,19 @@ class PuzzleHeader extends StatelessWidget {
     return SizedBox(
       height: 96,
       child: ResponsiveLayoutBuilder(
-        small: (context, child) => const Center(
-          child: PuzzleLogo(),
+        small: (context, child) => Stack(
+          children: [
+            const Align(
+              child: PuzzleLogo(),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 34),
+                child: AudioControl(key: audioControlKey),
+              ),
+            ),
+          ],
         ),
         medium: (context, child) => Padding(
           padding: const EdgeInsets.symmetric(
@@ -324,13 +340,30 @@ class PuzzleMenu extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        themes.length,
-        (index) => PuzzleMenuItem(
-          theme: themes[index],
-          themeIndex: index,
+      children: [
+        ...List.generate(
+          themes.length,
+          (index) => PuzzleMenuItem(
+            theme: themes[index],
+            themeIndex: index,
+          ),
         ),
-      ),
+        ResponsiveLayoutBuilder(
+          small: (_, child) => const SizedBox(),
+          medium: (_, child) => child!,
+          large: (_, child) => child!,
+          child: (currentSize) {
+            return Row(
+              children: [
+                const Gap(44),
+                AudioControl(
+                  key: audioControlKey,
+                )
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -461,3 +494,9 @@ final puzzleTitleKey = GlobalKey(debugLabel: 'puzzle_title');
 /// when changing a theme.
 final numberOfMovesAndTilesLeftKey =
     GlobalKey(debugLabel: 'number_of_moves_and_tiles_left');
+
+/// The global key of [AudioControl].
+///
+/// Used to animate the transition of [AudioControl]
+/// when changing a theme.
+final audioControlKey = GlobalKey(debugLabel: 'audio_control');

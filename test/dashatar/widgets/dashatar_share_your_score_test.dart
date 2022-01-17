@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 
 import '../../helpers/helpers.dart';
@@ -10,11 +12,15 @@ import '../../helpers/helpers.dart';
 void main() {
   group('DashatarShareYourScore', () {
     late DashatarShareDialogEnterAnimation animation;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       animation = DashatarShareDialogEnterAnimation(
         AnimationController(vsync: TestVSync()),
       );
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets('renders on a large display', (tester) async {
@@ -24,6 +30,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -39,6 +46,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -54,6 +62,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -67,6 +76,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -80,6 +90,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -93,6 +104,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -106,6 +118,7 @@ void main() {
         SingleChildScrollView(
           child: DashatarShareYourScore(animation: animation),
         ),
+        audioControlBloc: audioControlBloc,
       );
 
       expect(

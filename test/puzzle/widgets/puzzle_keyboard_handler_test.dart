@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -21,6 +22,7 @@ void main() {
     late PuzzleBloc puzzleBloc;
     late Puzzle puzzle;
     late AudioPlayer audioPlayer;
+    late AudioControlBloc audioControlBloc;
 
     const tile = Tile(
       value: 1,
@@ -51,9 +53,13 @@ void main() {
       audioPlayer = MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.stop).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets(
@@ -72,6 +78,7 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await simulateKeyDownEvent(
@@ -105,6 +112,7 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await simulateKeyDownEvent(
@@ -138,6 +146,7 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await simulateKeyDownEvent(
@@ -171,6 +180,7 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await simulateKeyDownEvent(
@@ -204,6 +214,7 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       await simulateKeyDownEvent(
@@ -225,9 +236,24 @@ void main() {
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(find.byKey(key), findsOneWidget);
+    });
+
+    testWidgets('renders AudioControlListener', (tester) async {
+      await tester.pumpApp(
+        PuzzleKeyboardHandler(
+          child: SizedBox(),
+        ),
+        themeBloc: themeBloc,
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        puzzleBloc: puzzleBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      expect(find.byType(AudioControlListener), findsOneWidget);
     });
   });
 }

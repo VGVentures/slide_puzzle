@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 
 import '../../helpers/helpers.dart';
@@ -12,6 +13,7 @@ void main() {
     late DashatarThemeBloc dashatarThemeBloc;
     late DashatarTheme dashatarTheme;
     late List<DashatarTheme> dashatarThemes;
+    late AudioControlBloc audioControlBloc;
 
     setUp(() {
       dashatarThemeBloc = MockDashatarThemeBloc();
@@ -27,6 +29,9 @@ void main() {
       );
 
       when(() => dashatarThemeBloc.state).thenReturn(dashatarThemeState);
+
+      audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
     });
 
     testWidgets('renders on a large display', (tester) async {
@@ -35,6 +40,7 @@ void main() {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -49,6 +55,7 @@ void main() {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -63,6 +70,7 @@ void main() {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(
@@ -77,6 +85,7 @@ void main() {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       for (final dashatarTheme in dashatarThemes) {
@@ -92,12 +101,23 @@ void main() {
       }
     });
 
+    testWidgets('renders AudioControlListener', (tester) async {
+      await tester.pumpApp(
+        DashatarThemePicker(),
+        dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
+      );
+
+      expect(find.byType(AudioControlListener), findsOneWidget);
+    });
+
     testWidgets(
         'each Image has semanticLabel '
         'from DashatarTheme.semanticsLabel', (tester) async {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       final BuildContext context =
@@ -121,6 +141,7 @@ void main() {
       await tester.pumpApp(
         DashatarThemePicker(),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       final index = dashatarThemes.indexOf(YellowDashatarTheme());
@@ -138,6 +159,7 @@ void main() {
       final audioPlayer = MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(() => audioPlayer.setVolume(any())).thenAnswer((_) async {});
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.stop).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
@@ -147,6 +169,7 @@ void main() {
           audioPlayer: () => audioPlayer,
         ),
         dashatarThemeBloc: dashatarThemeBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       final theme = YellowDashatarTheme();

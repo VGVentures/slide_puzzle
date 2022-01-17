@@ -72,6 +72,12 @@ abstract class PuzzleTheme extends Equatable {
   /// theme in menu.
   Color get menuInactiveColor;
 
+  /// The path to the asset with the unmuted audio control.
+  String get audioControlOnAsset;
+
+  /// The path to the asset with the muted audio control.
+  String get audioControlOffAsset;
+
   /// The puzzle layout delegate of this theme.
   ///
   /// Used for building sections of the puzzle UI.

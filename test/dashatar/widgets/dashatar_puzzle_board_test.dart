@@ -7,6 +7,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/timer/timer.dart';
@@ -39,6 +40,9 @@ void main() {
       when(() => timerBloc.state).thenReturn(TimerState());
       final controller = StreamController<PuzzleState>()..add(PuzzleState());
 
+      final audioControlBloc = MockAudioControlBloc();
+      when(() => audioControlBloc.state).thenReturn(AudioControlState());
+
       whenListen(
         puzzleBloc,
         controller.stream,
@@ -49,6 +53,7 @@ void main() {
         puzzleBloc: puzzleBloc,
         dashatarThemeBloc: dashatarThemeBloc,
         timerBloc: timerBloc,
+        audioControlBloc: audioControlBloc,
       );
 
       expect(find.byType(DashatarShareDialog), findsNothing);

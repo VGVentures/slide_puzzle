@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
@@ -87,16 +88,19 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
-      focusNode: _focusNode,
-      onKey: _handleKeyEvent,
-      child: Builder(
-        builder: (context) {
-          if (!_focusNode.hasFocus) {
-            FocusScope.of(context).requestFocus(_focusNode);
-          }
-          return widget.child;
-        },
+    return AudioControlListener(
+      audioPlayer: _audioPlayer,
+      child: RawKeyboardListener(
+        focusNode: _focusNode,
+        onKey: _handleKeyEvent,
+        child: Builder(
+          builder: (context) {
+            if (!_focusNode.hasFocus) {
+              FocusScope.of(context).requestFocus(_focusNode);
+            }
+            return widget.child;
+          },
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
@@ -121,47 +122,50 @@ class _DashatarShareButtonState extends State<DashatarShareButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      decoration: BoxDecoration(
-        border: Border.all(color: widget.color),
-        borderRadius: BorderRadius.circular(32),
-      ),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.zero,
-          primary: widget.color,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-          backgroundColor: Colors.transparent,
+    return AudioControlListener(
+      audioPlayer: _audioPlayer,
+      child: Container(
+        height: 56,
+        decoration: BoxDecoration(
+          border: Border.all(color: widget.color),
+          borderRadius: BorderRadius.circular(32),
         ),
-        onPressed: () async {
-          widget.onPressed();
-          unawaited(_audioPlayer.replay());
-        },
-        child: Row(
-          children: [
-            const Gap(12),
-            ClipRRect(
+        child: TextButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            primary: widget.color,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32),
-              child: Container(
-                alignment: Alignment.center,
-                width: 32,
-                height: 32,
-                color: widget.color,
-                child: widget.icon,
-              ),
             ),
-            const Gap(10),
-            Text(
-              widget.title,
-              style: PuzzleTextStyle.headline5.copyWith(
-                color: widget.color,
+            backgroundColor: Colors.transparent,
+          ),
+          onPressed: () async {
+            widget.onPressed();
+            unawaited(_audioPlayer.replay());
+          },
+          child: Row(
+            children: [
+              const Gap(12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 32,
+                  height: 32,
+                  color: widget.color,
+                  child: widget.icon,
+                ),
               ),
-            ),
-            const Gap(24),
-          ],
+              const Gap(10),
+              Text(
+                widget.title,
+                style: PuzzleTextStyle.headline5.copyWith(
+                  color: widget.color,
+                ),
+              ),
+              const Gap(24),
+            ],
+          ),
         ),
       ),
     );

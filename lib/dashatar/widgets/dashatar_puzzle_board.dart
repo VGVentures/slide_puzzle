@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
@@ -59,6 +60,9 @@ class _DashatarPuzzleBoardState extends State<DashatarPuzzleBoard> {
                   ),
                   BlocProvider.value(
                     value: context.read<TimerBloc>(),
+                  ),
+                  BlocProvider.value(
+                    value: context.read<AudioControlBloc>(),
                   ),
                 ],
                 child: const DashatarShareDialog(),
