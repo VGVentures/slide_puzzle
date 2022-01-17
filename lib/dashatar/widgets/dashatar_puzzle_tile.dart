@@ -9,6 +9,7 @@ import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
 
 abstract class _TileSize {
   static double small = 75;
@@ -39,17 +40,35 @@ class DashatarPuzzleTile extends StatefulWidget {
   final AudioPlayerFactory _audioPlayerFactory;
 
   @override
-  State<DashatarPuzzleTile> createState() => _DashatarPuzzleTileState();
+  State<DashatarPuzzleTile> createState() => DashatarPuzzleTileState();
 }
 
-class _DashatarPuzzleTileState extends State<DashatarPuzzleTile>
+/// The state of [DashatarPuzzleTile].
+@visibleForTesting
+class DashatarPuzzleTileState extends State<DashatarPuzzleTile>
     with SingleTickerProviderStateMixin {
   AudioPlayer? _audioPlayer;
   late final Timer _timer;
 
+  /// The controller that drives [_scale] animation.
+  late AnimationController _controller;
+  late Animation<double> _scale;
+
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: PuzzleThemeAnimationDuration.puzzleTileScale,
+    );
+
+    _scale = Tween<double>(begin: 1, end: 0.94).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0, 1, curve: Curves.easeInOut),
+      ),
+    );
 
     // Delay the initialization of the audio player for performance reasons,
     // to avoid dropping frames when the theme is changed.
@@ -92,34 +111,50 @@ class _DashatarPuzzleTileState extends State<DashatarPuzzleTile>
       curve: Curves.easeInOut,
       child: ResponsiveLayoutBuilder(
         small: (_, child) => SizedBox.square(
-          key: const Key('dashatar_puzzle_tile_small'),
+          key: Key('dashatar_puzzle_tile_small_${widget.tile.value}'),
           dimension: _TileSize.small,
           child: child,
         ),
         medium: (_, child) => SizedBox.square(
-          key: const Key('dashatar_puzzle_tile_medium'),
+          key: Key('dashatar_puzzle_tile_medium_${widget.tile.value}'),
           dimension: _TileSize.medium,
           child: child,
         ),
         large: (_, child) => SizedBox.square(
-          key: const Key('dashatar_puzzle_tile_large'),
+          key: Key('dashatar_puzzle_tile_large_${widget.tile.value}'),
           dimension: _TileSize.large,
           child: child,
         ),
-        child: (_) => IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: canPress
-              ? () {
-                  context.read<PuzzleBloc>().add(TileTapped(widget.tile));
-                  unawaited(_audioPlayer?.replay());
-                }
-              : null,
-          icon: Image.asset(
-            theme.dashAssetForTile(widget.tile),
-            semanticLabel: context.l10n.puzzleTileLabelText(
-              widget.tile.value.toString(),
-              widget.tile.currentPosition.x.toString(),
-              widget.tile.currentPosition.y.toString(),
+        child: (_) => MouseRegion(
+          onEnter: (_) {
+            if (canPress) {
+              _controller.forward();
+            }
+          },
+          onExit: (_) {
+            if (canPress) {
+              _controller.reverse();
+            }
+          },
+          child: ScaleTransition(
+            key: Key('dashatar_puzzle_tile_scale_${widget.tile.value}'),
+            scale: _scale,
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: canPress
+                  ? () {
+                      context.read<PuzzleBloc>().add(TileTapped(widget.tile));
+                      unawaited(_audioPlayer?.replay());
+                    }
+                  : null,
+              icon: Image.asset(
+                theme.dashAssetForTile(widget.tile),
+                semanticLabel: context.l10n.puzzleTileLabelText(
+                  widget.tile.value.toString(),
+                  widget.tile.currentPosition.x.toString(),
+                  widget.tile.currentPosition.y.toString(),
+                ),
+              ),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -183,7 +184,10 @@ void main() {
         puzzleBloc: puzzleBloc,
       );
 
-      expect(find.byKey(Key('dashatar_puzzle_tile_large')), findsOneWidget);
+      expect(
+        find.byKey(Key('dashatar_puzzle_tile_large_${tile.value}')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders a medium tile on a medium display', (tester) async {
@@ -201,7 +205,10 @@ void main() {
         puzzleBloc: puzzleBloc,
       );
 
-      expect(find.byKey(Key('dashatar_puzzle_tile_medium')), findsOneWidget);
+      expect(
+        find.byKey(Key('dashatar_puzzle_tile_medium_${tile.value}')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders a small tile on a small display', (tester) async {
@@ -219,7 +226,10 @@ void main() {
         puzzleBloc: puzzleBloc,
       );
 
-      expect(find.byKey(Key('dashatar_puzzle_tile_small')), findsOneWidget);
+      expect(
+        find.byKey(Key('dashatar_puzzle_tile_small_${tile.value}')),
+        findsOneWidget,
+      );
     });
 
     testWidgets(
@@ -272,6 +282,59 @@ void main() {
         ),
         findsOneWidget,
       );
+    });
+
+    testWidgets(
+        'scales IconButton '
+        'when hovered over', (tester) async {
+      when(() => dashatarPuzzleState.status)
+          .thenReturn(DashatarPuzzleStatus.started);
+
+      await tester.pumpApp(
+        Scaffold(
+          body: Column(
+            children: [
+              DashatarPuzzleTile(
+                state: PuzzleState(),
+                tile: tile,
+              ),
+              const SizedBox(
+                key: Key('__sized_box__'),
+                width: 20,
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        puzzleBloc: puzzleBloc,
+      );
+
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+      await gesture.moveTo(tester.getCenter(find.byType(IconButton)));
+      await tester.pumpAndSettle();
+
+      final scaleWithHover = tester
+          .widget<ScaleTransition>(
+            find.byKey(Key('dashatar_puzzle_tile_scale_${tile.value}')),
+          )
+          .scale
+          .value;
+
+      await gesture.moveTo(tester.getCenter(find.byKey(Key('__sized_box__'))));
+      await tester.pumpAndSettle();
+
+      final scaleWithoutHover = tester
+          .widget<ScaleTransition>(
+            find.byKey(Key('dashatar_puzzle_tile_scale_${tile.value}')),
+          )
+          .scale
+          .value;
+
+      expect(scaleWithHover, isNot(scaleWithoutHover));
     });
   });
 }
