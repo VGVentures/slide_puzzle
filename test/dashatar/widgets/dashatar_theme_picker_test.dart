@@ -123,13 +123,39 @@ void main() {
         dashatarThemeBloc: dashatarThemeBloc,
       );
 
-      final index = dashatarThemes.indexOf(GreenDashatarTheme());
+      final index = dashatarThemes.indexOf(YellowDashatarTheme());
 
       await tester.tap(find.byKey(Key('dashatar_theme_picker_$index')));
 
       verify(
         () => dashatarThemeBloc.add(DashatarThemeChanged(themeIndex: index)),
       ).called(1);
+    });
+
+    testWidgets(
+        'plays DashatarTheme.audioAsset sound '
+        'when tapped', (tester) async {
+      final audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
+
+      await tester.pumpApp(
+        DashatarThemePicker(
+          audioPlayer: () => audioPlayer,
+        ),
+        dashatarThemeBloc: dashatarThemeBloc,
+      );
+
+      final theme = YellowDashatarTheme();
+      final index = dashatarThemes.indexOf(theme);
+
+      await tester.tap(find.byKey(Key('dashatar_theme_picker_$index')));
+
+      verify(() => audioPlayer.setAsset(theme.audioAsset)).called(1);
+      verify(audioPlayer.play).called(1);
     });
   });
 }

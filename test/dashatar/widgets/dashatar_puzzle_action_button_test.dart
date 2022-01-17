@@ -137,6 +137,35 @@ void main() {
     });
 
     testWidgets(
+        'plays the click sound '
+        'when tapped and '
+        'DashatarPuzzleStatus is not loading', (tester) async {
+      final audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
+
+      when(() => dashatarPuzzleState.status)
+          .thenReturn(DashatarPuzzleStatus.notStarted);
+
+      await tester.pumpApp(
+        DashatarPuzzleActionButton(
+          audioPlayer: () => audioPlayer,
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+        themeBloc: themeBloc,
+      );
+
+      await tester.tap(find.byType(DashatarPuzzleActionButton));
+
+      verify(() => audioPlayer.setAsset('assets/audio/click.mp3')).called(1);
+      verify(audioPlayer.play).called(1);
+    });
+
+    testWidgets(
         'renders disabled PuzzleButton '
         'when DashatarPuzzleStatus is loading', (tester) async {
       when(() => dashatarPuzzleState.status)

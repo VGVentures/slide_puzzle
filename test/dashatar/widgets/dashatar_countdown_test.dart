@@ -99,6 +99,39 @@ void main() {
       verify(() => puzzleBloc.add(PuzzleReset())).called(3);
     });
 
+    testWidgets(
+        'plays the shuffle sound '
+        'when secondsToBegin is 3', (tester) async {
+      final audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
+
+      final state = DashatarPuzzleState(
+        isCountdownRunning: true,
+        secondsToBegin: 3,
+      );
+
+      whenListen(
+        dashatarPuzzleBloc,
+        Stream.value(state),
+        initialState: state,
+      );
+
+      await tester.pumpApp(
+        DashatarCountdown(
+          audioPlayer: () => audioPlayer,
+        ),
+        dashatarPuzzleBloc: dashatarPuzzleBloc,
+        dashatarThemeBloc: dashatarThemeBloc,
+      );
+
+      verify(() => audioPlayer.setAsset('assets/audio/shuffle.mp3')).called(1);
+      verify(audioPlayer.play).called(1);
+    });
+
     group('on a large display', () {
       testWidgets(
           'renders DashatarCountdownSecondsToBegin '

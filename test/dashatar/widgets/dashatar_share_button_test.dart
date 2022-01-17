@@ -74,4 +74,30 @@ void main() {
       ).called(1);
     });
   });
+
+  group('DashatarShareButton', () {
+    testWidgets('plays the click sound when tapped', (tester) async {
+      final audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
+
+      await tester.pumpApp(
+        DashatarShareButton(
+          title: 'title',
+          icon: SizedBox(),
+          onPressed: () {},
+          color: Colors.black,
+          audioPlayer: () => audioPlayer,
+        ),
+      );
+
+      await tester.tap(find.byType(DashatarShareButton));
+
+      verify(() => audioPlayer.setAsset('assets/audio/click.mp3')).called(1);
+      verify(audioPlayer.play).called(1);
+    });
+  });
 }

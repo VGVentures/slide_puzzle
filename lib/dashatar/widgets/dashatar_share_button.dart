@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
@@ -23,7 +26,7 @@ class DashatarTwitterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DashatarShareButton(
+    return DashatarShareButton(
       title: 'Twitter',
       icon: Image.asset(
         'assets/images/twitter_icon.png',
@@ -52,7 +55,7 @@ class DashatarFacebookButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DashatarShareButton(
+    return DashatarShareButton(
       title: 'Facebook',
       icon: Image.asset(
         'assets/images/facebook_icon.png',
@@ -65,14 +68,22 @@ class DashatarFacebookButton extends StatelessWidget {
   }
 }
 
-class _DashatarShareButton extends StatelessWidget {
-  const _DashatarShareButton({
+/// {@template dashatar_share_button}
+/// Displays a share button colored with [color] which
+/// displays the [icon] and [title] as its content.
+/// {@endtemplate}
+@visibleForTesting
+class DashatarShareButton extends StatefulWidget {
+  /// {@macro dashatar_share_button}
+  const DashatarShareButton({
     Key? key,
     required this.onPressed,
     required this.title,
     required this.icon,
     required this.color,
-  }) : super(key: key);
+    AudioPlayerFactory? audioPlayer,
+  })  : _audioPlayerFactory = audioPlayer ?? getAudioPlayer,
+        super(key: key);
 
   /// Called when the button is tapped or otherwise activated.
   final VoidCallback onPressed;
@@ -86,24 +97,49 @@ class _DashatarShareButton extends StatelessWidget {
   /// The color of this button.
   final Color color;
 
+  final AudioPlayerFactory _audioPlayerFactory;
+
+  @override
+  State<DashatarShareButton> createState() => _DashatarShareButtonState();
+}
+
+class _DashatarShareButtonState extends State<DashatarShareButton> {
+  late final AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = widget._audioPlayerFactory()
+      ..setAsset('assets/audio/click.mp3');
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        border: Border.all(color: color),
+        border: Border.all(color: widget.color),
         borderRadius: BorderRadius.circular(32),
       ),
       child: TextButton(
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
-          primary: color,
+          primary: widget.color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
           backgroundColor: Colors.transparent,
         ),
-        onPressed: onPressed,
+        onPressed: () async {
+          widget.onPressed();
+          unawaited(_audioPlayer.replay());
+        },
         child: Row(
           children: [
             const Gap(12),
@@ -113,15 +149,15 @@ class _DashatarShareButton extends StatelessWidget {
                 alignment: Alignment.center,
                 width: 32,
                 height: 32,
-                color: color,
-                child: icon,
+                color: widget.color,
+                child: widget.icon,
               ),
             ),
             const Gap(10),
             Text(
-              title,
+              widget.title,
               style: PuzzleTextStyle.headline5.copyWith(
-                color: color,
+                color: widget.color,
               ),
             ),
             const Gap(24),

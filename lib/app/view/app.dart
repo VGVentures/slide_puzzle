@@ -5,26 +5,49 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, avoid_print
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:http/http.dart' as http;
+import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({Key? key, ValueGetter<PlatformHelper>? platformHelperFactory})
+      : _platformHelperFactory = platformHelperFactory ?? getPlatformHelper,
+        super(key: key);
+
+  final ValueGetter<PlatformHelper> _platformHelperFactory;
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
+  static final audioAssets = [
+    'assets/audio/shuffle.mp3',
+    'assets/audio/click.mp3',
+    'assets/audio/dumbbell.mp3',
+    'assets/audio/sandwich.mp3',
+    'assets/audio/skateboard.mp3',
+    'assets/audio/success.mp3',
+    'assets/audio/tile_move.mp3',
+  ];
+
+  late final PlatformHelper _platformHelper;
+  late final Timer _timer;
+
   @override
   void initState() {
     super.initState();
 
-    Future<void>.delayed(const Duration(milliseconds: 20), () {
+    _platformHelper = widget._platformHelperFactory();
+
+    _timer = Timer(const Duration(milliseconds: 20), () {
       for (var i = 1; i <= 15; i++) {
         precacheImage(
           Image.asset('assets/images/dashatar/green/$i.png').image,
@@ -99,7 +122,31 @@ class _AppState extends State<App> {
         Image.asset('assets/images/facebook_icon.png').image,
         context,
       );
+
+      for (final audioAsset in audioAssets) {
+        prefetchToMemory(audioAsset);
+      }
     });
+  }
+
+  /// Prefetches the given [filePath] to memory.
+  Future<void> prefetchToMemory(String filePath) async {
+    if (_platformHelper.isWeb) {
+      // We rely on browser caching here. Once the browser downloads the file,
+      // the native implementation should be able to access it from cache.
+      await http.get(Uri.parse(filePath));
+      return;
+    }
+    throw UnimplementedError(
+      'The function `prefetchToMemory` is not implemented '
+      'for platforms other than Web.',
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

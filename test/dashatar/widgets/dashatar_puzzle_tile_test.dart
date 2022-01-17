@@ -66,9 +66,17 @@ void main() {
 
     testWidgets(
         'adds TileTapped to PuzzleBloc '
+        'and plays the tile_move sound '
         'when tapped and '
         'DashatarPuzzleStatus is started and '
         'PuzzleStatus is incomplete', (tester) async {
+      final audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
+
       final puzzle = MockPuzzle();
 
       when(puzzle.getDimension).thenReturn(4);
@@ -82,6 +90,7 @@ void main() {
           body: DashatarPuzzleTile(
             state: puzzleState,
             tile: tile,
+            audioPlayer: () => audioPlayer,
           ),
         ),
         dashatarPuzzleBloc: dashatarPuzzleBloc,
@@ -89,10 +98,16 @@ void main() {
         puzzleBloc: puzzleBloc,
       );
 
+      // Wait for the initialization of the audio player.
+      await tester.pump(Duration(seconds: 1));
+
       await tester.tap(find.byType(IconButton));
       await tester.pumpAndSettle();
 
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+      verify(() => audioPlayer.setAsset('assets/audio/tile_move.mp3'))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(

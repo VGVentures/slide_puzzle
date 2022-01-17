@@ -19,6 +19,8 @@ dependencies:
   gap: ^2.0.0
   google_fonts: ^2.1.0
   intl: ^0.17.0
+  just_audio: ^0.9.18
+  universal_platform: ^1.0.0+1
   url_launcher: ^6.0.17
 
 dev_dependencies:
@@ -32,6 +34,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
+    - assets/audio/
     - assets/images/
     - assets/images/dashatar/gallery/
     - assets/images/dashatar/success/

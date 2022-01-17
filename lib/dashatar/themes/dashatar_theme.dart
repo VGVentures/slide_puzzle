@@ -20,9 +20,6 @@ abstract class DashatarTheme extends PuzzleTheme {
   bool get hasTimer => true;
 
   @override
-  bool get hasCountdown => true;
-
-  @override
   Color get nameColor => PuzzleColors.white;
 
   @override
@@ -63,6 +60,9 @@ abstract class DashatarTheme extends PuzzleTheme {
   /// This asset is shown in the success state of the Dashatar puzzle.
   String get successThemeAsset;
 
+  /// The path to the audio asset of this theme.
+  String get audioAsset;
+
   /// The path to the directory with dash assets for all puzzle tiles.
   String get dashAssetsDirectory;
 
@@ -84,7 +84,6 @@ abstract class DashatarTheme extends PuzzleTheme {
   List<Object?> get props => [
         name,
         hasTimer,
-        hasCountdown,
         nameColor,
         titleColor,
         backgroundColor,
@@ -100,6 +99,7 @@ abstract class DashatarTheme extends PuzzleTheme {
         countdownColor,
         themeAsset,
         successThemeAsset,
+        audioAsset,
         dashAssetsDirectory
       ];
 }

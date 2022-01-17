@@ -36,5 +36,8 @@ class BlueDashatarTheme extends DashatarTheme {
   String get successThemeAsset => 'assets/images/dashatar/success/blue.png';
 
   @override
+  String get audioAsset => 'assets/audio/dumbbell.mp3';
+
+  @override
   String get dashAssetsDirectory => 'assets/images/dashatar/blue';
 }

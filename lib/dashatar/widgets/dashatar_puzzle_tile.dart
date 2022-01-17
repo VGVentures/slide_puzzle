@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
@@ -16,13 +20,15 @@ abstract class _TileSize {
 /// Displays the puzzle tile associated with [tile]
 /// based on the puzzle [state].
 /// {@endtemplate}
-class DashatarPuzzleTile extends StatelessWidget {
+class DashatarPuzzleTile extends StatefulWidget {
   /// {@macro dashatar_puzzle_tile}
   const DashatarPuzzleTile({
     Key? key,
     required this.tile,
     required this.state,
-  }) : super(key: key);
+    AudioPlayerFactory? audioPlayer,
+  })  : _audioPlayerFactory = audioPlayer ?? getAudioPlayer,
+        super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;
@@ -30,9 +36,39 @@ class DashatarPuzzleTile extends StatelessWidget {
   /// The state of the puzzle.
   final PuzzleState state;
 
+  final AudioPlayerFactory _audioPlayerFactory;
+
+  @override
+  State<DashatarPuzzleTile> createState() => _DashatarPuzzleTileState();
+}
+
+class _DashatarPuzzleTileState extends State<DashatarPuzzleTile>
+    with SingleTickerProviderStateMixin {
+  AudioPlayer? _audioPlayer;
+  late final Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Delay the initialization of the audio player for performance reasons,
+    // to avoid dropping frames when the theme is changed.
+    _timer = Timer(const Duration(seconds: 1), () {
+      _audioPlayer = widget._audioPlayerFactory()
+        ..setAsset('assets/audio/tile_move.mp3');
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _audioPlayer?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = state.puzzle.getDimension();
+    final size = widget.state.puzzle.getDimension();
     final theme = context.select((DashatarThemeBloc bloc) => bloc.state.theme);
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
@@ -45,10 +81,12 @@ class DashatarPuzzleTile extends StatelessWidget {
         ? const Duration(milliseconds: 800)
         : const Duration(milliseconds: 370);
 
+    final canPress = hasStarted && puzzleIncomplete;
+
     return AnimatedAlign(
       alignment: FractionalOffset(
-        (tile.currentPosition.x - 1) / (size - 1),
-        (tile.currentPosition.y - 1) / (size - 1),
+        (widget.tile.currentPosition.x - 1) / (size - 1),
+        (widget.tile.currentPosition.y - 1) / (size - 1),
       ),
       duration: movementDuration,
       curve: Curves.easeInOut,
@@ -70,15 +108,18 @@ class DashatarPuzzleTile extends StatelessWidget {
         ),
         child: (_) => IconButton(
           padding: EdgeInsets.zero,
-          onPressed: hasStarted && puzzleIncomplete
-              ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
+          onPressed: canPress
+              ? () {
+                  context.read<PuzzleBloc>().add(TileTapped(widget.tile));
+                  unawaited(_audioPlayer?.replay());
+                }
               : null,
           icon: Image.asset(
-            theme.dashAssetForTile(tile),
+            theme.dashAssetForTile(widget.tile),
             semanticLabel: context.l10n.puzzleTileLabelText(
-              tile.value.toString(),
-              tile.currentPosition.x.toString(),
-              tile.currentPosition.y.toString(),
+              widget.tile.value.toString(),
+              widget.tile.currentPosition.x.toString(),
+              widget.tile.currentPosition.y.toString(),
             ),
           ),
         ),

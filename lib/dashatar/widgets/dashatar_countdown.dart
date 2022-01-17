@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -10,9 +14,35 @@ import 'package:very_good_slide_puzzle/typography/typography.dart';
 /// {@template dashatar_countdown}
 /// Displays the countdown before the puzzle is started.
 /// {@endtemplate}
-class DashatarCountdown extends StatelessWidget {
+class DashatarCountdown extends StatefulWidget {
   /// {@macro dashatar_countdown}
-  const DashatarCountdown({Key? key}) : super(key: key);
+  const DashatarCountdown({
+    Key? key,
+    AudioPlayerFactory? audioPlayer,
+  })  : _audioPlayerFactory = audioPlayer ?? getAudioPlayer,
+        super(key: key);
+
+  final AudioPlayerFactory _audioPlayerFactory;
+
+  @override
+  State<DashatarCountdown> createState() => _DashatarCountdownState();
+}
+
+class _DashatarCountdownState extends State<DashatarCountdown> {
+  late final AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = widget._audioPlayerFactory()
+      ..setAsset('assets/audio/shuffle.mp3');
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +50,11 @@ class DashatarCountdown extends StatelessWidget {
       listener: (context, state) {
         if (!state.isCountdownRunning) {
           return;
+        }
+
+        // Play the shuffle sound when the countdown from 3 to 1 begins.
+        if (state.secondsToBegin == 3) {
+          unawaited(_audioPlayer.replay());
         }
 
         // Start the puzzle timer when the countdown finishes.
@@ -77,7 +112,7 @@ class DashatarCountdownSecondsToBegin extends StatefulWidget {
 
 class _DashatarCountdownSecondsToBeginState
     extends State<DashatarCountdownSecondsToBegin>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> inOpacity;
   late Animation<double> inScale;

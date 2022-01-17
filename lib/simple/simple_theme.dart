@@ -19,9 +19,6 @@ class SimpleTheme extends PuzzleTheme {
   bool get hasTimer => false;
 
   @override
-  bool get hasCountdown => false;
-
-  @override
   Color get nameColor => PuzzleColors.grey1;
 
   @override
@@ -61,7 +58,6 @@ class SimpleTheme extends PuzzleTheme {
   List<Object?> get props => [
         name,
         hasTimer,
-        hasCountdown,
         nameColor,
         titleColor,
         backgroundColor,

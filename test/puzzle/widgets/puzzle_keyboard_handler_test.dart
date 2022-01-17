@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
@@ -19,6 +20,7 @@ void main() {
     late DashatarPuzzleBloc dashatarPuzzleBloc;
     late PuzzleBloc puzzleBloc;
     late Puzzle puzzle;
+    late AudioPlayer audioPlayer;
 
     const tile = Tile(
       value: 1,
@@ -45,17 +47,28 @@ void main() {
       puzzle = MockPuzzle();
       when(() => puzzleState.puzzle).thenReturn(puzzle);
       when(() => puzzleBloc.state).thenReturn(puzzleState);
+
+      audioPlayer = MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+      when(audioPlayer.play).thenAnswer((_) async {});
+      when(audioPlayer.stop).thenAnswer((_) async {});
+      when(audioPlayer.dispose).thenAnswer((_) async {});
     });
 
     testWidgets(
         'adds TileTapped with a tile relative to the whitespace tile '
         'with offset (0, -1) '
+        'and plays the tile_move sound '
         'when arrow down is pressed', (tester) async {
       when(() => puzzle.getTileRelativeToWhitespaceTile(Offset(0, -1)))
           .thenReturn(tile);
 
       await tester.pumpApp(
-        PuzzleKeyboardHandler(child: SizedBox()),
+        PuzzleKeyboardHandler(
+          child: SizedBox(),
+          audioPlayer: () => audioPlayer,
+        ),
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
@@ -70,17 +83,25 @@ void main() {
           .called(1);
 
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+
+      verify(() => audioPlayer.setAsset('assets/audio/tile_move.mp3'))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(
         'adds TileTapped with a tile relative to the whitespace tile '
         'with offset (0, 1) '
+        'and plays the tile_move sound '
         'when arrow up is pressed', (tester) async {
       when(() => puzzle.getTileRelativeToWhitespaceTile(Offset(0, 1)))
           .thenReturn(tile);
 
       await tester.pumpApp(
-        PuzzleKeyboardHandler(child: SizedBox()),
+        PuzzleKeyboardHandler(
+          child: SizedBox(),
+          audioPlayer: () => audioPlayer,
+        ),
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
@@ -95,17 +116,25 @@ void main() {
           .called(1);
 
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+
+      verify(() => audioPlayer.setAsset('assets/audio/tile_move.mp3'))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(
         'adds TileTapped with a tile relative to the whitespace tile '
         'with offset (-1, 0) '
+        'and plays the tile_move sound '
         'when arrow right is pressed', (tester) async {
       when(() => puzzle.getTileRelativeToWhitespaceTile(Offset(-1, 0)))
           .thenReturn(tile);
 
       await tester.pumpApp(
-        PuzzleKeyboardHandler(child: SizedBox()),
+        PuzzleKeyboardHandler(
+          child: SizedBox(),
+          audioPlayer: () => audioPlayer,
+        ),
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
@@ -120,17 +149,25 @@ void main() {
           .called(1);
 
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+
+      verify(() => audioPlayer.setAsset('assets/audio/tile_move.mp3'))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(
         'adds TileTapped with a tile relative to the whitespace tile '
         'with offset (1, 0) '
+        'and plays the tile_move sound '
         'when arrow left is pressed', (tester) async {
       when(() => puzzle.getTileRelativeToWhitespaceTile(Offset(1, 0)))
           .thenReturn(tile);
 
       await tester.pumpApp(
-        PuzzleKeyboardHandler(child: SizedBox()),
+        PuzzleKeyboardHandler(
+          child: SizedBox(),
+          audioPlayer: () => audioPlayer,
+        ),
         themeBloc: themeBloc,
         dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
@@ -145,6 +182,10 @@ void main() {
           .called(1);
 
       verify(() => puzzleBloc.add(TileTapped(tile))).called(1);
+
+      verify(() => audioPlayer.setAsset('assets/audio/tile_move.mp3'))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(

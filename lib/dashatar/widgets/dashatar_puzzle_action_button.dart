@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
+import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
@@ -10,9 +14,35 @@ import 'package:very_good_slide_puzzle/timer/timer.dart';
 /// Displays the action button to start or shuffle the puzzle
 /// based on the current puzzle state.
 /// {@endtemplate}
-class DashatarPuzzleActionButton extends StatelessWidget {
+class DashatarPuzzleActionButton extends StatefulWidget {
   /// {@macro dashatar_puzzle_action_button}
-  const DashatarPuzzleActionButton({Key? key}) : super(key: key);
+  const DashatarPuzzleActionButton({Key? key, AudioPlayerFactory? audioPlayer})
+      : _audioPlayerFactory = audioPlayer ?? getAudioPlayer,
+        super(key: key);
+
+  final AudioPlayerFactory _audioPlayerFactory;
+
+  @override
+  State<DashatarPuzzleActionButton> createState() =>
+      _DashatarPuzzleActionButtonState();
+}
+
+class _DashatarPuzzleActionButtonState
+    extends State<DashatarPuzzleActionButton> {
+  late final AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = widget._audioPlayerFactory()
+      ..setAsset('assets/audio/click.mp3');
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +86,8 @@ class DashatarPuzzleActionButton extends StatelessWidget {
                           const PuzzleInitialized(shufflePuzzle: false),
                         );
                   }
+
+                  unawaited(_audioPlayer.replay());
                 },
           textColor: isLoading ? theme.defaultColor : null,
           child: Text(text),
