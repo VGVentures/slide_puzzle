@@ -334,7 +334,7 @@ void main() {
           .scale
           .value;
 
-      expect(scaleWithHover, isNot(scaleWithoutHover));
+      expect(scaleWithHover, lessThan(scaleWithoutHover));
     });
   });
 }
