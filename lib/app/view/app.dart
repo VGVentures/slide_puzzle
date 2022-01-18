@@ -28,6 +28,9 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  /// The path to local assets folder.
+  static const localAssetsPrefix = 'assets/';
+
   static final audioControlAssets = [
     'assets/images/audio_control/simple_on.png',
     'assets/images/audio_control/simple_off.png',
@@ -150,7 +153,7 @@ class _AppState extends State<App> {
     if (_platformHelper.isWeb) {
       // We rely on browser caching here. Once the browser downloads the file,
       // the native implementation should be able to access it from cache.
-      await http.get(Uri.parse(filePath));
+      await http.get(Uri.parse('$localAssetsPrefix$filePath'));
       return;
     }
     throw UnimplementedError(
