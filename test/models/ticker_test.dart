@@ -1,6 +1,6 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
+import 'package:nftpuzzlefun/models/models.dart';
 
 void main() {
   group('Ticker', () {

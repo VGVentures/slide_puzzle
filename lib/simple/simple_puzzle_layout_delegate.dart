@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/simple/simple.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
-import 'package:very_good_slide_puzzle/typography/typography.dart';
+import 'package:nftpuzzlefun/colors/colors.dart';
+import 'package:nftpuzzlefun/l10n/l10n.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/models/models.dart';
+import 'package:nftpuzzlefun/puzzle/puzzle.dart';
+import 'package:nftpuzzlefun/simple/simple.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
+import 'package:nftpuzzlefun/typography/typography.dart';
 
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI

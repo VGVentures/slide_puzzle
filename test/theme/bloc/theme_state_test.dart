@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
-import 'package:very_good_slide_puzzle/simple/simple.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/dashatar/dashatar.dart';
+import 'package:nftpuzzlefun/simple/simple.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
 

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/helpers/helpers.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/helpers/helpers.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 void main() {
   group('showAppDialog', () {

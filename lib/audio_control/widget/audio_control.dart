@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/audio_control/audio_control.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 /// {@template audio_control}
 /// Displays and allows to update the current audio status of the puzzle.

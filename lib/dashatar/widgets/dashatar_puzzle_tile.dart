@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
-import 'package:very_good_slide_puzzle/helpers/helpers.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
+import 'package:nftpuzzlefun/audio_control/audio_control.dart';
+import 'package:nftpuzzlefun/dashatar/dashatar.dart';
+import 'package:nftpuzzlefun/helpers/helpers.dart';
+import 'package:nftpuzzlefun/l10n/l10n.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/models/models.dart';
+import 'package:nftpuzzlefun/puzzle/puzzle.dart';
+import 'package:nftpuzzlefun/theme/themes/themes.dart';
 
 abstract class _TileSize {
   static double small = 75;

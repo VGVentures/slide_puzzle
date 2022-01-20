@@ -92,10 +92,10 @@ BEGIN
             VALUE "CompanyName", "com.nftpuzzlefun.nftpuzzlefun" "\0"
             VALUE "FileDescription", "A new Flutter project." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nft_puzzle_fun" "\0"
+            VALUE "InternalName", "nftpuzzlefun" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.nftpuzzlefun.nftpuzzlefun. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nft_puzzle_fun.exe" "\0"
-            VALUE "ProductName", "nft_puzzle_fun" "\0"
+            VALUE "OriginalFilename", "nftpuzzlefun.exe" "\0"
+            VALUE "ProductName", "nftpuzzlefun" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

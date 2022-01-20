@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gap/gap.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
 
 import '../helpers/helpers.dart';
 

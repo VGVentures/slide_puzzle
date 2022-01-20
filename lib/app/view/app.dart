@@ -12,9 +12,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
-import 'package:very_good_slide_puzzle/helpers/helpers.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:nftpuzzlefun/helpers/helpers.dart';
+import 'package:nftpuzzlefun/l10n/l10n.dart';
+import 'package:nftpuzzlefun/puzzle/puzzle.dart';
 
 class App extends StatefulWidget {
   const App({Key? key, ValueGetter<PlatformHelper>? platformHelperFactory})

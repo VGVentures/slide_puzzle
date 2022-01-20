@@ -2,8 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/simple/simple.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/simple/simple.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';

@@ -3,14 +3,14 @@ import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
-import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
-import 'package:very_good_slide_puzzle/helpers/helpers.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
-import 'package:very_good_slide_puzzle/timer/timer.dart';
+import 'package:nftpuzzlefun/audio_control/audio_control.dart';
+import 'package:nftpuzzlefun/dashatar/dashatar.dart';
+import 'package:nftpuzzlefun/helpers/helpers.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/models/models.dart';
+import 'package:nftpuzzlefun/puzzle/puzzle.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
+import 'package:nftpuzzlefun/timer/timer.dart';
 
 class MockPuzzleTheme extends Mock implements PuzzleTheme {}
 

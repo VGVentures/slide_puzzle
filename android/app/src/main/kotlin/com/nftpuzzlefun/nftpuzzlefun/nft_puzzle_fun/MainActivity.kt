@@ -1,4 +1,4 @@
-package com.nftpuzzlefun.nftpuzzlefun.nft_puzzle_fun
+package com.nftpuzzlefun.nftpuzzlefun
 
 import io.flutter.embedding.android.FlutterActivity
 

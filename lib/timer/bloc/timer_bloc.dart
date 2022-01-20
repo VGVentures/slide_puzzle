@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
+import 'package:nftpuzzlefun/models/models.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';

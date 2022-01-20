@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "nft_puzzle_fun")
-set(APPLICATION_ID "com.nftpuzzlefun.nftpuzzlefun.nft_puzzle_fun")
+set(BINARY_NAME "nftpuzzlefun")
+set(APPLICATION_ID "com.nftpuzzlefun.nftpuzzlefun")
 
 cmake_policy(SET CMP0063 NEW)
 

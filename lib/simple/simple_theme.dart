@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/simple/simple.dart';
-import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
+import 'package:nftpuzzlefun/colors/colors.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/simple/simple.dart';
+import 'package:nftpuzzlefun/theme/themes/themes.dart';
 
 /// {@template simple_theme}
 /// The simple puzzle theme.

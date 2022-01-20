@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/colors/colors.dart';
+import 'package:nftpuzzlefun/dashatar/dashatar.dart';
+import 'package:nftpuzzlefun/layout/layout.dart';
+import 'package:nftpuzzlefun/models/models.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 /// {@template dashatar_theme}
 /// The dashatar puzzle theme.

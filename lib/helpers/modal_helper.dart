@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
+import 'package:nftpuzzlefun/theme/theme.dart';
 
 /// Displays the [AppDialog] above the current contents of the app.
 Future<T?> showAppDialog<T>({

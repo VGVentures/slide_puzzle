@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
-import 'package:very_good_slide_puzzle/helpers/helpers.dart';
+import 'package:nftpuzzlefun/helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

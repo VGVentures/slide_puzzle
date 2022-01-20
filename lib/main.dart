@@ -7,8 +7,8 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'package:very_good_slide_puzzle/app/app.dart';
-import 'package:very_good_slide_puzzle/bootstrap.dart';
+import 'package:nftpuzzlefun/app/app.dart';
+import 'package:nftpuzzlefun/bootstrap.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';

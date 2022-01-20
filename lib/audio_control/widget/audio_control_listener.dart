@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
+import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 
 /// {@template audio_control_listener}
 /// Listens to the current audio status and mutes/unmutes [audioPlayer] accordingly.

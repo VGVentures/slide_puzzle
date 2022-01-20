@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/typography/typography.dart';
+import 'package:nftpuzzlefun/typography/typography.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

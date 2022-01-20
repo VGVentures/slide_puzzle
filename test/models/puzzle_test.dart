@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
+import 'package:nftpuzzlefun/models/models.dart';
 
 void main() {
   const unsolvable3x3Tile0 = Tile(

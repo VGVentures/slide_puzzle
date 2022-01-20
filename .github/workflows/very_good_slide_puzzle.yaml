@@ -1,4 +1,4 @@
-name: very_good_slide_puzzle
+name: nftpuzzlefun
 
 on: 
   pull_request:
@@ -6,7 +6,7 @@ on:
       - "lib/**"
       - "test/**"
       - "pubspec.yaml"
-      - ".github/workflows/very_good_slide_puzzle.yaml"
+      - ".github/workflows/nftpuzzlefun.yaml"
 
 jobs:
   build:
