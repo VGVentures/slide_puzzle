@@ -1,4 +1,4 @@
-# Slide Puzzle
+# NFT Puzzle Fun
 
 ![Photo Booth Header][logo]
 
