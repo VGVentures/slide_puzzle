@@ -153,3 +153,19 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
 [very_good_ventures_link]: https://verygood.ventures/
 [logo]: art/header.png
+
+
+
+*****
+# NEW README NFT PUZZLE FUN
+```
+npm install firebase
+npm install -g firebase-tools
+firebase login
+firebase init
+firebase deploy
+dart pub global activate flutterfire_cli
+flutterfire configure
+```
+
+https://firebase.flutter.dev/docs/overview/

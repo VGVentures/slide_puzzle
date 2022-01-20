@@ -1,9 +1,14 @@
 {
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
   "hosting": {
     "public": "build/web",
-    "site": "slide-puzzle-dev-34815",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "ignore": [".firebase", "firebase.json", "__/**"]
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }

@@ -125,3 +125,7 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+
+# custom
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json

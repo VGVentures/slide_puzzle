@@ -1,4 +1,4 @@
-package com.example.verygoodcore
+package com.nftpuzzlefun.nftpuzzlefun
 
 import io.flutter.embedding.android.FlutterActivity
 
