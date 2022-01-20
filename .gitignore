@@ -127,7 +127,8 @@ app.*.map.json
 !.idea/runConfigurations/
 
 # custom
-ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 .firebase/

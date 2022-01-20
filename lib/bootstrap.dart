@@ -11,6 +11,10 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 /// Custom instance of [BlocObserver] which logs
 /// any state changes and errors.
 class AppBlocObserver extends BlocObserver {
@@ -27,12 +31,26 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
+// # in class:
+FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+// FirebaseAnalyticsObserver _observer =
+//     FirebaseAnalyticsObserver(analytics: _analytics);
+
 /// Bootstrap is responsible for any common setup and calls
 /// [runApp] with the widget returned by [builder] in an error zone.
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // This uses firebase_options.dart
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // # in build:
+  await _analytics.logAppOpen();
 
   await BlocOverrides.runZoned(
     () async => await runZonedGuarded(
