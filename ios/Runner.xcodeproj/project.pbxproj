@@ -374,6 +374,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = K6NGB2HWMS;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "NFT Puzzle Fun";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -381,7 +382,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nftpuzzlefun.nftpuzzlefun.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nftpuzzlefun.nftpuzzlefun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -452,6 +453,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-stg";
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = K6NGB2HWMS;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "NFT Puzzle Fun";
 				INFOPLIST_FILE = Runner/Info.plist;
