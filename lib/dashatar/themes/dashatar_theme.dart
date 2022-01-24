@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as p;
 import 'package:nftpuzzlefun/colors/colors.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
 import 'package:nftpuzzlefun/models/models.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
+import 'package:path/path.dart' as p;
 
 /// {@template dashatar_theme}
 /// The dashatar puzzle theme.
