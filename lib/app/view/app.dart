@@ -143,7 +143,9 @@ class _AppState extends State<App> {
       }
 
       for (final audioAsset in audioAssets) {
-        prefetchToMemory(audioAsset);
+        if (_platformHelper.isWeb) {
+          prefetchToMemory(audioAsset);
+        }
       }
     });
   }
@@ -156,10 +158,11 @@ class _AppState extends State<App> {
       await http.get(Uri.parse('$localAssetsPrefix$filePath'));
       return;
     }
-    throw UnimplementedError(
-      'The function `prefetchToMemory` is not implemented '
-      'for platforms other than Web.',
-    );
+    // throw UnimplementedError(
+    //   'The function `prefetchToMemory` is not implemented '
+    //   'for platforms other than Web.',
+    // );
+    return;
   }
 
   @override
