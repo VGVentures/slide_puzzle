@@ -34,3 +34,8 @@ chrisfulton@pop-heiress nftpuzzlefun % cp -R ../nftpuzzlefun_with_keys_PRIVATE/n
 ## DESIGN
 - only pull nft from api once. the id and the image will never change so we can just cache it in firebase
 - the exception is watching collections will need to be updated all the time. we might need to run a cronjob on ec2 for that, or on blondie if it doesn't need a webhook
+
+## recreate firebase_options:
+```
+flutterfire.bat configure
+```
