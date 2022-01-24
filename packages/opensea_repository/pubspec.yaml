@@ -10,8 +10,9 @@ environment:
 dependencies:
   equatable: ^2.0.3
   json_annotation: ^4.0.0
-  opensea_api:
-    path: ../opensea_api
+#  opensea_api:
+#    path: ../opensea_api
+  opensea_dart: ^0.0.2
 
 dev_dependencies:
   coverage: ^1.0.3

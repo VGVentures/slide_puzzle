@@ -12,7 +12,6 @@ class Artwork extends Equatable {
     required this.name,
     required this.description,
     required this.creator,
-    required this.creatorProfileUrl,
     required this.creatorProfileImage,
   });
 
@@ -27,7 +26,6 @@ class Artwork extends Equatable {
   final String name;
   final String description;
   final String creator;
-  final String creatorProfileUrl;
   final String creatorProfileImage;
 
   @override
@@ -38,7 +36,6 @@ class Artwork extends Equatable {
         name,
         description,
         creator,
-        creatorProfileUrl,
         creatorProfileImage
       ];
 }

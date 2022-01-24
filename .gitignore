@@ -133,3 +133,4 @@ macos/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 .firebase/
 nftpuzzlefun.jks
+packages/opensea_repository/lib/src/api_key.dart
