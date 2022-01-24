@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:http/http.dart' as http;
-import 'package:opensea_api/opensea_api.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:opensea_api/opensea_api.dart';
 import 'package:test/test.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
@@ -91,11 +91,11 @@ void main() {
           actual,
           isA<Asset>()
               .having((l) => l.id, 'id', 74417323)
-              .having((l) => l.tokenId, 'token_id', "9999")
-              .having((l) => l.name, 'name', "Doodle #9999")
-              .having((l) => l.permalink, 'permalink', "https://opensea.io/assets/0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/9999")
-              .having((l) => l.imageUrl, 'image_url', "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ")
-              .having((l) => l.imagePreviewUrl, 'image_preview_url', "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ=s250")
+              .having((l) => l.tokenId, 'token_id', '9999')
+              .having((l) => l.name, 'name', 'Doodle #9999')
+              .having((l) => l.permalink, 'permalink', 'https://opensea.io/assets/0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/9999')
+              .having((l) => l.imageUrl, 'image_url', 'https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ')
+              .having((l) => l.imagePreviewUrl, 'image_preview_url', 'https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ=s250')
         );
       });
     });

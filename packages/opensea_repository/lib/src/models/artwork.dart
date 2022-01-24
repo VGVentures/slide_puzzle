@@ -16,7 +16,8 @@ class Artwork extends Equatable {
     required this.creatorProfileImage,
   });
 
-  factory Artwork.fromJson(Map<String, dynamic> json) => _$ArtworkFromJson(json);
+  factory Artwork.fromJson(Map<String, dynamic> json) =>
+      _$ArtworkFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArtworkToJson(this);
 
