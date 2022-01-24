@@ -39,3 +39,13 @@ chrisfulton@pop-heiress nftpuzzlefun % cp -R ../nftpuzzlefun_with_keys_PRIVATE/n
 ```
 flutterfire.bat configure
 ```
+
+## builder command
+```
+flutter packages pub run build_runner build
+```
+
+## run unit tests
+```
+flutter test --coverage
+```
