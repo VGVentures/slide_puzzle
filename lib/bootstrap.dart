@@ -13,7 +13,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 
-import 'firebase_options.dart';
+import 'package:nftpuzzlefun/firebase_options.dart';
 
 /// Custom instance of [BlocObserver] which logs
 /// any state changes and errors.

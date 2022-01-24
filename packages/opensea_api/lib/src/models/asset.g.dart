@@ -16,6 +16,7 @@ Asset _$AssetFromJson(Map<String, dynamic> json) {
       tokenId: $checkedConvert(json, 'token_id', (v) => v as String),
       permalink: $checkedConvert(json, 'permalink', (v) => v as String),
       name: $checkedConvert(json, 'name', (v) => v as String),
+      description: $checkedConvert(json, 'description', (v) => v as String),
       imagePreviewUrl:
           $checkedConvert(json, 'image_preview_url', (v) => v as String),
     );

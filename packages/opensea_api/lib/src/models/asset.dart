@@ -14,6 +14,7 @@ class Asset {
     required this.permalink,
     // required this.backgroundColor,
     required this.name,
+    required this.description,
     // required this.numSales,
     required this.imagePreviewUrl,
     // required this.creator,
@@ -29,6 +30,7 @@ class Asset {
   final String permalink;
   // final String backgroundColor;
   final String name;
+  final String description;
   // final int imagePreviewUrl; //NOTE!! no need to specify @JsonKey is image_preview_url, this is handled automatically in the builder with "snake"
   // @JsonKey(name: 'image_preview_url')
   final String imagePreviewUrl;
