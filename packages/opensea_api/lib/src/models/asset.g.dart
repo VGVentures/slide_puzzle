@@ -15,10 +15,7 @@ Asset _$AssetFromJson(Map<String, dynamic> json) {
       imageUrl: $checkedConvert(json, 'image_url', (v) => v as String),
       tokenId: $checkedConvert(json, 'token_id', (v) => v as String),
       permalink: $checkedConvert(json, 'permalink', (v) => v as String),
-      backgroundColor:
-          $checkedConvert(json, 'background_color', (v) => v as String),
       name: $checkedConvert(json, 'name', (v) => v as String),
-      numSales: $checkedConvert(json, 'num_sales', (v) => v as int),
       imagePreviewUrl:
           $checkedConvert(json, 'image_preview_url', (v) => v as String),
     );
@@ -26,8 +23,6 @@ Asset _$AssetFromJson(Map<String, dynamic> json) {
   }, fieldKeyMap: const {
     'imageUrl': 'image_url',
     'tokenId': 'token_id',
-    'backgroundColor': 'background_color',
-    'numSales': 'num_sales',
     'imagePreviewUrl': 'image_preview_url'
   });
 }

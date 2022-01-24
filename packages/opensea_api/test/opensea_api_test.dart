@@ -72,26 +72,32 @@ void main() {
         );
       });
 
-      // test('returns Asset on valid response', () async {
-      //   final response = MockResponse();
-      //   when(() => response.statusCode).thenReturn(200);
-      //   when(() => response.body).thenReturn(
-      //     '''[{
-      //       "id": 74417323,
-      //       "token_id": "9999",
-      //       "image_url": "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ"
-      //     }]''',
-      //   );
-      //   when(() => httpClient.get(any())).thenAnswer((_) async => response);
-      //   final actual = await metaOpenSeaApiClient.assetSearch(query);
-      //   expect(
-      //     actual,
-      //     isA<Asset>()
-      //         .having((l) => l.id, 'id', '74417323')
-      //         .having((l) => l.tokenId, 'token_id', "9999")
-      //         .having((l) => l.imageUrl, 'image_url', "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ"),
-      //   );
-      // });
+      test('returns Asset on valid response', () async {
+        final response = MockResponse();
+        when(() => response.statusCode).thenReturn(200);
+        when(() => response.body).thenReturn(
+          '''[{
+            "id": 74417323,
+            "token_id": "9999",
+            "name": "Doodle #9999",
+            "permalink": "https://opensea.io/assets/0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/9999",
+            "image_url": "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ",
+            "image_preview_url": "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ=s250"
+          }]''',
+        );
+        when(() => httpClient.get(any())).thenAnswer((_) async => response);
+        final actual = await metaOpenSeaApiClient.assetSearch(query);
+        expect(
+          actual,
+          isA<Asset>()
+              .having((l) => l.id, 'id', 74417323)
+              .having((l) => l.tokenId, 'token_id', "9999")
+              .having((l) => l.name, 'name', "Doodle #9999")
+              .having((l) => l.permalink, 'permalink', "https://opensea.io/assets/0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/9999")
+              .having((l) => l.imageUrl, 'image_url', "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ")
+              .having((l) => l.imagePreviewUrl, 'image_preview_url', "https://lh3.googleusercontent.com/CrSXeD3t60EdSZqBPSdzU82aA9zd5n5W5ap0Feg1efE7dB4NHjFU2sHTLAhem22Hezt9PSIPWFQUGoG_TJBzccwPGpzwyXoGbOHJtQ=s250")
+        );
+      });
     });
   });
 }

@@ -36,7 +36,7 @@ class OpenSeaApiClient {
     ) as List;
 
     if (assetJson.isEmpty) {
-      throw AssetIdRequestFailure();
+      throw AssetNotFoundFailure();
     }
 
     return Asset.fromJson(assetJson.first as Map<String, dynamic>);
