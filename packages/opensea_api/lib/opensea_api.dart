@@ -1,5 +1,6 @@
 library opensea_api;
 
+export 'src/opensea_api_client.dart';
 export 'src/models/models.dart';
 
 /// A Calculator.
