@@ -1,0 +1,1 @@
+// image_url, slug, id, name

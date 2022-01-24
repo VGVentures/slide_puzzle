@@ -1,0 +1,1 @@
+// id, image_url, token_id, permalink, background_color, name

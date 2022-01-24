@@ -27,3 +27,12 @@ curl --request GET \
      --header 'X-API-KEY: abcde123' \
      -o single_collection.json
 ```
+
+### retrieve multiple assets by collection
+```
+curl --request GET \
+     --url 'https://api.opensea.io/api/v1/assets?order_direction=desc&offset=0&limit=20&collection=doodles-official' \
+     --header 'Accept: application/json' \
+     --header 'X-API-KEY: abcde123' \
+     -o assets_by_collection.json
+```
