@@ -1,6 +1,6 @@
 name: nftpuzzlefun
-description: NFTP Puzzle Fun
-version: 1.0.0+5
+description: NFT Puzzle Fun
+version: 1.0.0+6
 publish_to: none
 
 environment:
@@ -15,20 +15,28 @@ dependencies:
   firebase_core: ^1.11.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.0
+  flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
+  flutter_services_binding: ^0.1.0
   gap: ^2.0.0
   google_fonts: ^2.1.0
+  hydrated_bloc: ^8.0.0
   intl: ^0.17.0
+  json_annotation: ^4.0.0
   just_audio: ^0.9.18
+  opensea_repository:
+    path: packages/opensea_repository
+  path_provider: ^2.0.3
   universal_platform: ^1.0.0+1
   url_launcher: ^6.0.17
 
 dev_dependencies:
   bloc_test: ^9.0.1
+  build_runner: ^1.10.0
   flutter_test:
     sdk: flutter
+  json_serializable: ^4.0.0
   mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
 
