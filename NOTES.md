@@ -49,3 +49,8 @@ flutter packages pub run build_runner build
 ```
 flutter test --coverage
 ```
+
+# localization builder command
+```
+flutter gen-l10n
+```
