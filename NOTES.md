@@ -54,3 +54,19 @@ flutter test --coverage
 ```
 flutter gen-l10n
 ```
+
+#### Flutter run web debugger on specific port to allow google auth to work:
+#### NOTE: You can just use port 5000 on localhost for web since that is in oauth already by default. I just chose a different port so it doesn't conflict with other open and running projects
+https://console.cloud.google.com/apis/credentials (add http://localhost:58149 and others in OAuth 2.0 Web application client)
+- https://nftpuzzlefun.web.app
+- http://localhost:58149
+- https://nftpuzzlefun.com
+```
+flutter run -d chrome --web-hostname localhost --web-port 58149
+```
+OR:
+```
+flutter run -d headless-server --web-hostname localhost --web-port 58149
+```
+https://stackoverflow.com/questions/58248277/how-to-specify-a-port-number-while-running-flutter-web
+
