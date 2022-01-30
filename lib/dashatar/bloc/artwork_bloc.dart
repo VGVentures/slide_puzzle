@@ -9,16 +9,111 @@ part 'artwork_state.dart';
 /// doc
 class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
   /// doc
-  ArtworkBloc({required List<Artwork> artworks})
-      : super(ArtworkState(artworks: artworks)) {
+  ArtworkBloc({
+    required ArtworkRepository artworkRepository,
+  })  : _artworkRepository = artworkRepository,
+        super(const ArtworkState()) {
+    on<ArtworkSubscriptionRequested>(_onSubscriptionRequested);
+
     // on<ArtworkEvent>(_onArtworkChanged);
     on<ArtworkChanged>(_onArtworkChanged);
   }
+
+  final ArtworkRepository _artworkRepository;
+
+  Future<void> _onSubscriptionRequested(
+    ArtworkSubscriptionRequested event,
+    Emitter<ArtworkState> emit,
+  ) async {
+    print('SUBSRIPTION REQUESTED');
+    emit(state.copyWith(status: () => ArtworkStatus.loading));
+
+    const collection = 'dartart';
+
+    try {
+      final artworks =
+          await _artworkRepository.getArtworksByCollection(collection);
+      print('HOPING');
+
+      emit(
+        state.copyWith(
+          status: () => ArtworkStatus.success,
+          artworks: () => artworks,
+        ),
+      );
+    } on Exception {
+      emit(state.copyWith(status: () => ArtworkStatus.failure));
+    }
+  }
+
+  // var artworks = await
+  //     _artworkRepository.getArtworksByCollection(collection);
+  // await emit.forEach<List<Artwork>>(
+  //   _artworkRepository.getArtworksByCollection(collection),
+  //   onData: (artworks) => state.copyWith(
+  //     status: () => ArtworkStatus.success,
+  //     artworks: () => artworks,
+  //   ),
+  //   onError: (_, __) => state.copyWith(
+  //     status: () => ArtworkStatus.failure,
+  //   ),
+  // );
+  // }
 
   void _onArtworkChanged(
     ArtworkChanged event,
     Emitter<ArtworkState> emit,
   ) {
-    emit(state.copyWith(artwork: state.artworks[event.artworkIndex]));
+    emit(state.copyWith(artwork: () => state.artworks[event.artworkIndex]));
   }
+
+  // Future<void> fetchArtworksByCollection(String? collection) async {
+  //   if (collection == null || collection.isEmpty) return;
+  //
+  //   // emit(state.copyWith(status: ArtworkStatus.loading));
+  //
+  //   try {
+  //     final artworks = Artwork.fromRepository(
+  //       await _weatherRepository.getWeather(collection),
+  //     );
+  //     final units = state.temperatureUnits;
+  //     final value = units.isFahrenheit
+  //         ? weather.temperature.value.toFahrenheit()
+  //         : weather.temperature.value;
+  //
+  //     // emit(
+  //     //   state.copyWith(
+  //     //     status: WeatherStatus.success,
+  //     //     temperatureUnits: units,
+  //     //     weather: weather.copyWith(temperature: Temperature(value: value)),
+  //     //   ),
+  //     // );
+  //   } on Exception {
+  //     emit(state.copyWith(status: WeatherStatus.failure));
+  //   }
+  // }
+
+  // Future<void> refreshWeather() async {
+  //   if (!state.status.isSuccess) return;
+  //   if (state.weather == Weather.empty) return;
+  //   try {
+  //     final weather = Weather.fromRepository(
+  //       await _weatherRepository.getWeather(state.weather.collection),
+  //     );
+  //     final units = state.temperatureUnits;
+  //     final value = units.isFahrenheit
+  //         ? weather.temperature.value.toFahrenheit()
+  //         : weather.temperature.value;
+  //
+  //     emit(
+  //       state.copyWith(
+  //         status: WeatherStatus.success,
+  //         temperatureUnits: units,
+  //         weather: weather.copyWith(temperature: Temperature(value: value)),
+  //       ),
+  //     );
+  //   } on Exception {
+  //     emit(state);
+  //   }
+  // }
 }

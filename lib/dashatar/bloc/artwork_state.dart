@@ -2,11 +2,16 @@
 
 part of 'artwork_bloc.dart';
 
+enum ArtworkStatus { initial, loading, success, failure }
+
 class ArtworkState extends Equatable {
   const ArtworkState({
-    required this.artworks,
+    this.status = ArtworkStatus.initial,
+    this.artworks = const [],
     this.artwork = const MyCustomArtworkOne(),
   });
+
+  final ArtworkStatus status;
 
   /// The list of all available [Artwork]s.
   final List<Artwork> artworks;
@@ -15,15 +20,17 @@ class ArtworkState extends Equatable {
   final Artwork artwork;
 
   @override
-  List<Object> get props => [artworks, artwork];
+  List<Object> get props => [status, artworks, artwork];
 
   ArtworkState copyWith({
-    List<Artwork>? artworks,
-    Artwork? artwork,
+    ArtworkStatus Function()? status,
+    List<Artwork> Function()? artworks,
+    Artwork Function()? artwork,
   }) {
     return ArtworkState(
-      artworks: artworks ?? this.artworks,
-      artwork: artwork ?? this.artwork,
+      status: status != null ? status() : this.status,
+      artworks: artworks != null ? artworks() : this.artworks,
+      artwork: artwork != null ? artwork() : this.artwork,
     );
   }
 }

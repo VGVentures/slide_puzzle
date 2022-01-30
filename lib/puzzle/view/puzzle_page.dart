@@ -11,6 +11,7 @@ import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 import 'package:nftpuzzlefun/timer/timer.dart';
 import 'package:nftpuzzlefun/typography/typography.dart';
+import 'package:opensea_repository/opensea_repository.dart';
 
 /// {@template puzzle_page}
 /// The root page of the puzzle UI.
@@ -57,6 +58,11 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (_) => AudioControlBloc(),
         ),
+        BlocProvider(
+          create: (_) => ArtworkBloc(
+            artworkRepository: context.read<ArtworkRepository>(),
+          )..add(const ArtworkSubscriptionRequested()),
+        ),
       ],
       child: const PuzzleView(),
     );
@@ -73,6 +79,8 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    // final artworks =
+    //     context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artworks);
 
     /// Shuffle only if the current theme is Simple.
     final shufflePuzzle = theme is SimpleTheme;

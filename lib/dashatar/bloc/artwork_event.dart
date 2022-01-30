@@ -4,6 +4,13 @@ part of 'artwork_bloc.dart';
 
 abstract class ArtworkEvent extends Equatable {
   const ArtworkEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class ArtworkSubscriptionRequested extends ArtworkEvent {
+  const ArtworkSubscriptionRequested();
 }
 
 class ArtworkChanged extends ArtworkEvent {
