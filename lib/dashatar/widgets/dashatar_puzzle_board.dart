@@ -56,6 +56,9 @@ class _DashatarPuzzleBoardState extends State<DashatarPuzzleBoard> {
                     value: context.read<DashatarThemeBloc>(),
                   ),
                   BlocProvider.value(
+                    value: context.read<ArtworkBloc>(),
+                  ),
+                  BlocProvider.value(
                     value: context.read<PuzzleBloc>(),
                   ),
                   BlocProvider.value(

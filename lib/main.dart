@@ -5,20 +5,20 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// import 'package:flutter/foundation.dart';
-// import 'package:logging/logging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import 'package:nftpuzzlefun/app/app.dart';
 import 'package:nftpuzzlefun/bootstrap.dart';
 
 
 void main() {
-  // _setupLogging();
+  _setupLogging();
   bootstrap(() => const App());
 }
 
-// void _setupLogging() {
-//   Logger.root.level = Level.ALL;
-//   Logger.root.onRecord.listen((rec) {
-//     debugPrint('${rec.level.name}: ${rec.time}: ${rec.message}');
-//   });
-// }
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    debugPrint('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
+}

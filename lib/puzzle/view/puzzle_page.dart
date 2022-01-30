@@ -60,7 +60,7 @@ class PuzzlePage extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => ArtworkBloc(
-            artworkRepository: context.read<ArtworkRepository>(),
+            artworkRepository: ArtworkRepository(),
           )..add(const ArtworkSubscriptionRequested()),
         ),
       ],
@@ -79,8 +79,10 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    // final artworks =
-    //     context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artworks);
+    final artworks =
+      context.select((ArtworkBloc artworksbloc) => artworksbloc.state.artworks);
+    final artwork =
+      context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
 
     /// Shuffle only if the current theme is Simple.
     final shufflePuzzle = theme is SimpleTheme;
@@ -126,6 +128,8 @@ class _Puzzle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
+    final artwork = context.select((ArtworkBloc bloc) => bloc.state.artwork);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return LayoutBuilder(

@@ -52,7 +52,9 @@ class _DashatarThemePickerState extends State<DashatarThemePicker> {
   @override
   Widget build(BuildContext context) {
     final themeState = context.watch<DashatarThemeBloc>().state;
+    final artworkState = context.watch<ArtworkBloc>().state;
     final activeTheme = themeState.theme;
+    final activeArtwork = artworkState.artwork;
 
     return AudioControlListener(
       audioPlayer: _audioPlayer,
