@@ -91,7 +91,9 @@ class DashatarPuzzleTileState extends State<DashatarPuzzleTile>
     final size = widget.state.puzzle.getDimension();
     final theme = context.select((DashatarThemeBloc bloc) => bloc.state.theme);
     final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
-    final artworkSplitImages = context.select((ArtworkBloc bloc) => bloc.state.artworkSplitImages);
+    final artwork = context.select((ArtworkBloc bloc) => bloc.state.artwork);
+    final artworkSplitImages =
+        context.select((ArtworkBloc bloc) => bloc.state.artworkSplitImages);
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == DashatarPuzzleStatus.started;
@@ -145,24 +147,26 @@ class DashatarPuzzleTileState extends State<DashatarPuzzleTile>
               key: Key('dashatar_puzzle_tile_scale_${widget.tile.value}'),
               scale: _scale,
               child: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: canPress
-                    ? () {
-                        context.read<PuzzleBloc>().add(TileTapped(widget.tile));
-                        unawaited(_audioPlayer?.replay());
-                      }
-                    : null,
-                icon: artworkSplitImages[theme.][(widget.tile.value - 1)]
-                // Image.asset(
-                //   // TODO: replace this w dynamic tile widgets - squaresplitter
-                //   theme.dashAssetForTile(widget.tile),
-                //   semanticLabel: context.l10n.puzzleTileLabelText(
-                //     widget.tile.value.toString(),
-                //     widget.tile.currentPosition.x.toString(),
-                //     widget.tile.currentPosition.y.toString(),
-                //   ),
-                // ),
-              ),
+                  padding: EdgeInsets.zero,
+                  onPressed: canPress
+                      ? () {
+                          context
+                              .read<PuzzleBloc>()
+                              .add(TileTapped(widget.tile));
+                          unawaited(_audioPlayer?.replay());
+                        }
+                      : null,
+                  icon: artworkSplitImages[artwork][(widget.tile.value - 1)]
+                  // Image.asset(
+                  //   // TODO: replace this w dynamic tile widgets - squaresplitter
+                  //   theme.dashAssetForTile(widget.tile),
+                  //   semanticLabel: context.l10n.puzzleTileLabelText(
+                  //     widget.tile.value.toString(),
+                  //     widget.tile.currentPosition.x.toString(),
+                  //     widget.tile.currentPosition.y.toString(),
+                  //   ),
+                  // ),
+                  ),
             ),
           ),
         ),

@@ -33,7 +33,8 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     debugPrint('SUBSCRIPTION REQUESTED');
     emit(state.copyWith(status: () => ArtworkStatus.loading));
 
-    const collection = 'dartart';
+    // a few to try: doodles-official, dartart, themushroompeople
+    const collection = 'doodles-official';
 
     try {
       final artworks =
@@ -84,7 +85,7 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     ArtworkChanged event,
     Emitter<ArtworkState> emit,
   ) {
-    emit(state.copyWith(artwork: () => state.artworks[event.artworkIndex]));
+    emit(state.copyWith(artwork: () => event.artworkIndex));
   }
 
   // Future<void> fetchArtworksByCollection(String? collection) async {

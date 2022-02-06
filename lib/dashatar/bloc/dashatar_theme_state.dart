@@ -5,7 +5,7 @@ part of 'dashatar_theme_bloc.dart';
 class DashatarThemeState extends Equatable {
   const DashatarThemeState({
     required this.themes,
-    this.theme = const GreenDashatarTheme(),
+    this.theme = const BlueDashatarTheme(),
   });
 
   /// The list of all available [DashatarTheme]s.

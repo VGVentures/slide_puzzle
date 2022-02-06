@@ -101,6 +101,10 @@ class _DashatarThemePickerState extends State<DashatarThemePicker> {
                               .read<DashatarThemeBloc>()
                               .add(DashatarThemeChanged(themeIndex: index));
 
+                          context
+                              .read<ArtworkBloc>()
+                              .add(ArtworkChanged(artworkIndex: index));
+
                           // Play the audio of the current Dashatar theme.
                           await _audioPlayer.setAsset(theme.audioAsset);
                           unawaited(_audioPlayer.play());
