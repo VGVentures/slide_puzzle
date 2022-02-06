@@ -61,7 +61,8 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (_) => ArtworkBloc(
             artworkRepository: ArtworkRepository(),
-          )..add(const ArtworkSubscriptionRequested()),
+            )..add(const ArtworkSubscriptionRequested()
+          ),
         ),
       ],
       child: const PuzzleView(),
@@ -79,10 +80,10 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final artworks =
-      context.select((ArtworkBloc artworksbloc) => artworksbloc.state.artworks);
+    final artworks = context
+        .select((ArtworkBloc artworksbloc) => artworksbloc.state.artworks);
     final artwork =
-      context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
+        context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
 
     /// Shuffle only if the current theme is Simple.
     final shufflePuzzle = theme is SimpleTheme;

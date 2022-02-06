@@ -80,6 +80,7 @@ class _DashatarThemePickerState extends State<DashatarThemePicker> {
                 themeState.themes.length,
                 (index) {
                   final theme = themeState.themes[index];
+                  final artworkFromList = artworkState.artworks[index];
                   final isActiveTheme = theme == activeTheme;
                   final padding = index > 0 ? (isSmallSize ? 4.0 : 8.0) : 0.0;
                   final size = isActiveTheme ? activeSize : inactiveSize;
@@ -109,8 +110,8 @@ class _DashatarThemePickerState extends State<DashatarThemePicker> {
                           height: size,
                           curve: Curves.easeInOut,
                           duration: const Duration(milliseconds: 350),
-                          child: Image.asset(
-                            theme.themeAsset,
+                          child: Image.network(
+                            artworkFromList.imageUrl,
                             fit: BoxFit.fill,
                             semanticLabel: theme.semanticsLabel(context),
                           ),

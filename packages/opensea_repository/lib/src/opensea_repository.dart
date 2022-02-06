@@ -21,16 +21,17 @@ class ArtworkRepository {
     final myArtworks = await _artworkApiClient
         .getAssets(limit: '3', offset: '0', collection: collection)
         .then(myArtworkConverter);
-    print('GETMY ASSETS');
+    print('GET MY ASSETS');
 
     return myArtworks;
   }
 
   List<Artwork> myArtworkConverter(AssetsObject value) {
+    // TODO: move squaresplitter stuff here  rather then in the bloc? Might make it easier to cache the cut images either locally or in firebase
     final artworksList = <Artwork>[];
     value.assets?.forEach((element) {
-      print('NEXT');
-      print(element);
+      // print('NEXT');
+      // print(element);
       final singleArtwork = Artwork(
         creator: element.creator?.user.toString() as String,
         name: element.name.toString(),

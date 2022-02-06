@@ -8,6 +8,7 @@ class ArtworkState extends Equatable {
   const ArtworkState({
     this.status = ArtworkStatus.initial,
     this.artworks = const [],
+    this.artworkSplitImages = const [],
     this.artwork = const MyCustomArtworkOne(),
   });
 
@@ -15,21 +16,24 @@ class ArtworkState extends Equatable {
 
   /// The list of all available [Artwork]s.
   final List<Artwork> artworks;
+  final List<List<Image>> artworkSplitImages;
 
   /// Currently selected [Artwork].
   final Artwork artwork;
 
   @override
-  List<Object> get props => [status, artworks, artwork];
+  List<Object> get props => [status, artworks, artworkSplitImages, artwork];
 
   ArtworkState copyWith({
     ArtworkStatus Function()? status,
     List<Artwork> Function()? artworks,
+    List<List<Image>> Function()? artworkSplitImages,
     Artwork Function()? artwork,
   }) {
     return ArtworkState(
       status: status != null ? status() : this.status,
       artworks: artworks != null ? artworks() : this.artworks,
+      artworkSplitImages: artworkSplitImages != null ? artworkSplitImages() : this.artworkSplitImages,
       artwork: artwork != null ? artwork() : this.artwork,
     );
   }

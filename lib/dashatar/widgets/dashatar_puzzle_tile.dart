@@ -90,6 +90,8 @@ class DashatarPuzzleTileState extends State<DashatarPuzzleTile>
   Widget build(BuildContext context) {
     final size = widget.state.puzzle.getDimension();
     final theme = context.select((DashatarThemeBloc bloc) => bloc.state.theme);
+    final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
+    final artworkSplitImages = context.select((ArtworkBloc bloc) => bloc.state.artworkSplitImages);
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
     final hasStarted = status == DashatarPuzzleStatus.started;
@@ -150,14 +152,16 @@ class DashatarPuzzleTileState extends State<DashatarPuzzleTile>
                         unawaited(_audioPlayer?.replay());
                       }
                     : null,
-                icon: Image.asset(
-                  theme.dashAssetForTile(widget.tile),
-                  semanticLabel: context.l10n.puzzleTileLabelText(
-                    widget.tile.value.toString(),
-                    widget.tile.currentPosition.x.toString(),
-                    widget.tile.currentPosition.y.toString(),
-                  ),
-                ),
+                icon: artworkSplitImages[theme.][(widget.tile.value - 1)]
+                // Image.asset(
+                //   // TODO: replace this w dynamic tile widgets - squaresplitter
+                //   theme.dashAssetForTile(widget.tile),
+                //   semanticLabel: context.l10n.puzzleTileLabelText(
+                //     widget.tile.value.toString(),
+                //     widget.tile.currentPosition.x.toString(),
+                //     widget.tile.currentPosition.y.toString(),
+                //   ),
+                // ),
               ),
             ),
           ),

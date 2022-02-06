@@ -1,6 +1,11 @@
+// import 'dart:ui';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+// import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:nftpuzzlefun/dashatar/artworks/my_custom_artwork_one.dart';
+import 'package:nftpuzzlefun/helpers/squaresplitter.dart';
 import 'package:opensea_repository/opensea_repository.dart';
 
 part 'artwork_event.dart';
@@ -25,7 +30,7 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     ArtworkSubscriptionRequested event,
     Emitter<ArtworkState> emit,
   ) async {
-    print('SUBSRIPTION REQUESTED');
+    debugPrint('SUBSCRIPTION REQUESTED');
     emit(state.copyWith(status: () => ArtworkStatus.loading));
 
     const collection = 'dartart';
@@ -33,12 +38,27 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     try {
       final artworks =
           await _artworkRepository.getArtworksByCollection(collection);
-      print('HOPING');
+      debugPrint('COLLECTION RECEIVED');
+      
+      /// Process images
+      final artworkSplitImages = List<List<Image>>.empty(growable: true);
+
+      for (final artwork in artworks) {
+        // artworkSplitImages[aIndex]
+        final mySplitImages = await splitImage(
+            inputImage: artwork.imageUrl,
+            horizontalPieceCount: 4,
+            verticalPieceCount: 4,
+        );
+        artworkSplitImages.add(mySplitImages);
+        debugPrint(artwork.imageUrl);
+      }
 
       emit(
         state.copyWith(
           status: () => ArtworkStatus.success,
           artworks: () => artworks,
+          artworkSplitImages: () => artworkSplitImages,
         ),
       );
     } on Exception {

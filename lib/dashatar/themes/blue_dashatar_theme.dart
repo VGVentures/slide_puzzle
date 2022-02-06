@@ -30,7 +30,7 @@ class BlueDashatarTheme extends DashatarTheme {
   Color get countdownColor => PuzzleColors.blue50;
 
   @override
-  String get themeAsset => 'assets/images/dashatar/gallery/blue.png';
+  String get themeAsset => 'https://lh3.googleusercontent.com/Yd_G8wkjv1zm5m0aOocKVIJXFYAK_mukcLAwE1dF7bJWDXw_KQ-LqrKsoPXvpcGIZLl7-zfAZKr9cIJwiGuiPvB07ZOV85x-_vDk6w=s128';
 
   @override
   String get successThemeAsset => 'assets/images/dashatar/success/blue.png';
