@@ -1,10 +1,11 @@
 // import 'dart:ui';
+import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nftpuzzlefun/dashatar/artworks/my_custom_artwork_one.dart';
+// import 'package:nftpuzzlefun/dashatar/artworks/my_custom_artwork_one.dart';
 import 'package:nftpuzzlefun/helpers/squaresplitter.dart';
 import 'package:opensea_repository/opensea_repository.dart';
 
@@ -33,7 +34,8 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     debugPrint('SUBSCRIPTION REQUESTED');
     emit(state.copyWith(status: () => ArtworkStatus.loading));
 
-    // a few to try: doodles-official, dartart, themushroompeople, copypasteearth
+    // a few to try: doodles-official, dartart, themushroompeople,
+    // copypasteearth, para-bellum-by-matty-mariansky
     const collection = 'doodles-official';
 
     try {

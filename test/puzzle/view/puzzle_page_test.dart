@@ -10,7 +10,7 @@ import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
 import 'package:nftpuzzlefun/puzzle/puzzle.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 import 'package:nftpuzzlefun/timer/timer.dart';
 
@@ -54,8 +54,7 @@ void main() {
       expect(
         initialThemes,
         equals([
-          SimpleTheme(),
-          GreenDashatarTheme(),
+          BlueDashatarTheme(),
         ]),
       );
     });
@@ -654,7 +653,7 @@ void main() {
       testWidgets(
           'renders PuzzleMenuItem '
           'for each theme in ThemeState', (tester) async {
-        final themes = [SimpleTheme(), GreenDashatarTheme()];
+        final themes = [BlueDashatarTheme()];
         final themeState = ThemeState(themes: themes, theme: themes[1]);
         when(() => themeBloc.state).thenReturn(themeState);
 
@@ -708,8 +707,8 @@ void main() {
 
       setUp(() {
         tappedTheme = GreenDashatarTheme();
-        themes = [SimpleTheme(), tappedTheme];
-        themeState = ThemeState(themes: themes, theme: SimpleTheme());
+        themes = [BlueDashatarTheme(), tappedTheme];
+        themeState = ThemeState(themes: themes, theme: BlueDashatarTheme());
 
         when(() => themeBloc.state).thenReturn(themeState);
       });
@@ -780,8 +779,8 @@ void main() {
 
           await tester.pumpApp(
             PuzzleMenuItem(
-              theme: SimpleTheme(),
-              themeIndex: themes.indexOf(SimpleTheme()),
+              theme: BlueDashatarTheme(),
+              themeIndex: themes.indexOf(BlueDashatarTheme()),
             ),
             themeBloc: themeBloc,
             puzzleBloc: puzzleBloc,
@@ -802,14 +801,14 @@ void main() {
           when(() => themeBloc.state).thenReturn(
             ThemeState(
               themes: themes,
-              theme: SimpleTheme(),
+              theme: BlueDashatarTheme(),
             ),
           );
 
           await tester.pumpApp(
             PuzzleMenuItem(
-              theme: GreenDashatarTheme(),
-              themeIndex: themes.indexOf(GreenDashatarTheme()),
+              theme: BlueDashatarTheme(),
+              themeIndex: themes.indexOf(BlueDashatarTheme()),
             ),
             themeBloc: themeBloc,
             puzzleBloc: puzzleBloc,

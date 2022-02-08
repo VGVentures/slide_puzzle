@@ -3,7 +3,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -45,7 +45,7 @@ void main() {
         setUp: () {
           themes = [
             /// Name: 'Simple'
-            SimpleTheme(),
+            BlueDashatarTheme(),
 
             ///  Name: 'Dashatar'
             GreenDashatarTheme(),
@@ -57,7 +57,7 @@ void main() {
           ThemeState(
             themes: const [
               /// Name: 'Simple'
-              SimpleTheme(),
+              BlueDashatarTheme(),
 
               ///  Name: 'Dashatar'
               YellowDashatarTheme(),

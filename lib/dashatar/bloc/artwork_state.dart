@@ -33,7 +33,9 @@ class ArtworkState extends Equatable {
     return ArtworkState(
       status: status != null ? status() : this.status,
       artworks: artworks != null ? artworks() : this.artworks,
-      artworkSplitImages: artworkSplitImages != null ? artworkSplitImages() : this.artworkSplitImages,
+      artworkSplitImages: artworkSplitImages != null
+          ? artworkSplitImages()
+          : this.artworkSplitImages,
       artwork: artwork != null ? artwork() : this.artwork,
     );
   }

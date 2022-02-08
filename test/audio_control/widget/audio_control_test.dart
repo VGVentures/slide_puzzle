@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -20,8 +20,8 @@ void main() {
     setUp(() {
       themeBloc = MockThemeBloc();
       final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
-        theme: SimpleTheme(),
+        themes: [BlueDashatarTheme()],
+        theme: BlueDashatarTheme(),
       );
       when(() => themeBloc.state).thenReturn(themeState);
 
@@ -71,8 +71,8 @@ void main() {
         'with PuzzleTheme.audioControlOnAsset '
         'when the audio is unmuted', (tester) async {
       final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
-        theme: SimpleTheme(),
+        themes: [BlueDashatarTheme()],
+        theme: BlueDashatarTheme(),
       );
       when(() => themeBloc.state).thenReturn(themeState);
 
@@ -90,7 +90,7 @@ void main() {
           (widget) =>
               widget is Image &&
               (widget.image as AssetImage).assetName ==
-                  SimpleTheme().audioControlOnAsset,
+                  BlueDashatarTheme().audioControlOnAsset,
         ),
         findsOneWidget,
       );
@@ -101,8 +101,8 @@ void main() {
         'with PuzzleTheme.audioControlOffAsset '
         'when the audio is muted', (tester) async {
       final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
-        theme: GreenDashatarTheme(),
+        themes: [BlueDashatarTheme()],
+        theme: BlueDashatarTheme(),
       );
       when(() => themeBloc.state).thenReturn(themeState);
 
@@ -120,7 +120,7 @@ void main() {
           (widget) =>
               widget is Image &&
               (widget.image as AssetImage).assetName ==
-                  GreenDashatarTheme().audioControlOffAsset,
+                  BlueDashatarTheme().audioControlOffAsset,
         ),
         findsOneWidget,
       );

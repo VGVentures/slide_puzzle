@@ -7,11 +7,16 @@ import 'package:nftpuzzlefun/l10n/l10n.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
 import 'package:nftpuzzlefun/models/models.dart';
 import 'package:nftpuzzlefun/puzzle/puzzle.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 import 'package:nftpuzzlefun/timer/timer.dart';
 import 'package:nftpuzzlefun/typography/typography.dart';
 import 'package:opensea_repository/opensea_repository.dart';
+
+// import '../../collections/collections_theme.dart';
+import '../../collections/collections.dart';
+import '../../dashatar/bloc/collections_bloc.dart';
+import '../../helpers/modal_helper.dart';
 
 /// {@template puzzle_page}
 /// The root page of the puzzle UI.
@@ -45,7 +50,6 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (context) => ThemeBloc(
             initialThemes: [
-              const SimpleTheme(),
               context.read<DashatarThemeBloc>().state.theme,
             ],
           ),
@@ -61,8 +65,12 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (_) => ArtworkBloc(
             artworkRepository: ArtworkRepository(),
-            )..add(const ArtworkSubscriptionRequested()
-          ),
+          )..add(const ArtworkSubscriptionRequested()),
+        ),
+        BlocProvider(
+          create: (_) => CollectionsBloc(
+            artworkRepository: ArtworkRepository(),
+          )..add(const CollectionsSubscriptionRequested()),
         ),
       ],
       child: const PuzzleView(),
@@ -86,7 +94,8 @@ class PuzzleView extends StatelessWidget {
         context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
 
     /// Shuffle only if the current theme is Simple.
-    final shufflePuzzle = theme is SimpleTheme;
+    // final shufflePuzzle = theme is SimpleTheme;
+    // const shufflePuzzle = 0; // deprecated
 
     return Scaffold(
       body: AnimatedContainer(
@@ -107,8 +116,8 @@ class PuzzleView extends StatelessWidget {
               BlocProvider(
                 create: (context) => PuzzleBloc(4)
                   ..add(
-                    PuzzleInitialized(
-                      shufflePuzzle: shufflePuzzle,
+                    const PuzzleInitialized(
+                      shufflePuzzle: false,
                     ),
                   ),
               ),
@@ -129,16 +138,14 @@ class _Puzzle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
-    final artwork = context.select((ArtworkBloc bloc) => bloc.state.artwork);
+    // final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
+    // final artwork = context.select((ArtworkBloc bloc) => bloc.state.artwork);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
           children: [
-            if (theme is SimpleTheme)
-              theme.layoutDelegate.backgroundBuilder(state),
             SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -152,8 +159,7 @@ class _Puzzle extends StatelessWidget {
                 ),
               ),
             ),
-            if (theme is! SimpleTheme)
-              theme.layoutDelegate.backgroundBuilder(state),
+            theme.layoutDelegate.backgroundBuilder(state),
           ],
         );
       },
@@ -354,13 +360,43 @@ class PuzzleMenu extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ...List.generate(
-          themes.length,
-          (index) => PuzzleMenuItem(
-            theme: themes[index],
-            themeIndex: index,
-          ),
-        ),
+        TextButton.icon(
+            onPressed: () async {
+              debugPrint('CLICKME');
+              await showAppDialog<void>(
+              context: context,
+              child: MultiBlocProvider(
+              providers: [
+              BlocProvider.value(
+              value: context.read<DashatarThemeBloc>(),
+              ),
+              BlocProvider.value(
+              value: context.read<ArtworkBloc>(),
+              ),
+              BlocProvider.value(
+              value: context.read<PuzzleBloc>(),
+              ),
+              BlocProvider.value(
+              value: context.read<TimerBloc>(),
+              ),
+              BlocProvider.value(
+              value: context.read<AudioControlBloc>(),
+              ),
+              ],
+              child: const CollectionChooser(),
+              ),
+              );
+            },
+            icon: const Icon(Icons.icecream_outlined),
+            label: const Text('Collections')),
+
+        // ...List.generate(
+        //   themes.length,
+        //   (index) => PuzzleMenuItem(
+        //     theme: themes[index],
+        //     themeIndex: index,
+        //   ),
+        // ),
         ResponsiveLayoutBuilder(
           small: (_, child) => const SizedBox(),
           medium: (_, child) => child!,
@@ -464,8 +500,8 @@ class PuzzleMenuItem extends StatelessWidget {
 
                 // Initialize the puzzle board for the newly selected theme.
                 context.read<PuzzleBloc>().add(
-                      PuzzleInitialized(
-                        shufflePuzzle: theme is SimpleTheme,
+                      const PuzzleInitialized(
+                        shufflePuzzle: false,
                       ),
                     );
               },

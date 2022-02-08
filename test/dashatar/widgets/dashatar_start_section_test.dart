@@ -7,7 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
 import 'package:nftpuzzlefun/puzzle/puzzle.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 import 'package:nftpuzzlefun/timer/timer.dart';
 
@@ -45,7 +45,7 @@ void main() {
 
       when(() => dashatarThemeBloc.state).thenReturn(dashatarThemeState);
 
-      final theme = SimpleTheme();
+      final theme = BlueDashatarTheme();
       final themeState = ThemeState(themes: [theme], theme: theme);
       themeBloc = MockThemeBloc();
 

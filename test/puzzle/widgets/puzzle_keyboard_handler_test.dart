@@ -10,7 +10,7 @@ import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
 import 'package:nftpuzzlefun/models/models.dart';
 import 'package:nftpuzzlefun/puzzle/puzzle.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -34,8 +34,8 @@ void main() {
       themeBloc = MockThemeBloc();
       when(() => themeBloc.state).thenReturn(
         ThemeState(
-          themes: [SimpleTheme(), GreenDashatarTheme()],
-          theme: SimpleTheme(),
+          themes: [BlueDashatarTheme()],
+          theme: BlueDashatarTheme(),
         ),
       );
 
@@ -204,8 +204,8 @@ void main() {
         'Dashatar puzzle is not started', (tester) async {
       when(() => themeBloc.state).thenReturn(
         ThemeState(
-          themes: [SimpleTheme(), GreenDashatarTheme()],
-          theme: GreenDashatarTheme(),
+          themes: [BlueDashatarTheme()],
+          theme: BlueDashatarTheme(),
         ),
       );
 

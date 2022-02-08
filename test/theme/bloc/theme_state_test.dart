@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
-import 'package:nftpuzzlefun/simple/simple.dart';
+// import 'package:nftpuzzlefun/simple/simple.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -27,33 +27,33 @@ void main() {
 
     test('default theme is SimpleTheme', () {
       expect(
-        ThemeState(themes: const [SimpleTheme()]).theme,
-        equals(SimpleTheme()),
+        ThemeState(themes: const [BlueDashatarTheme()]).theme,
+        equals(BlueDashatarTheme()),
       );
     });
 
     group('copyWith', () {
       test('updates themes', () {
-        final themesA = [SimpleTheme(), GreenDashatarTheme()];
-        final themesB = [SimpleTheme(), YellowDashatarTheme()];
+        final themesA = [BlueDashatarTheme(), GreenDashatarTheme()];
+        final themesB = [BlueDashatarTheme(), YellowDashatarTheme()];
 
         expect(
           ThemeState(
             themes: themesA,
-            theme: SimpleTheme(),
+            theme: BlueDashatarTheme(),
           ).copyWith(themes: themesB),
           equals(
             ThemeState(
               themes: themesB,
-              theme: SimpleTheme(),
+              theme: BlueDashatarTheme(),
             ),
           ),
         );
       });
 
       test('updates theme', () {
-        final themes = [SimpleTheme(), YellowDashatarTheme()];
-        final themeA = SimpleTheme();
+        final themes = [BlueDashatarTheme(), YellowDashatarTheme()];
+        final themeA = BlueDashatarTheme();
         final themeB = YellowDashatarTheme();
 
         expect(
