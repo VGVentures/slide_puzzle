@@ -3,7 +3,8 @@ import 'dart:async';
 // import 'package:opensea_api/opensea_api.dart';
 // import 'package:opensea_dart/enums/enums.dart';
 import 'package:opensea_dart/opensea_dart.dart';
-import 'package:opensea_dart/pojo/assets_object.dart';
+import 'package:opensea_dart/pojo/assets_object.dart' as assetsapi;
+import 'package:opensea_dart/pojo/collection_object.dart' as collectionapi;
 import 'package:opensea_repository/opensea_repository.dart';
 import 'api_key.dart';
 
@@ -16,7 +17,7 @@ class ArtworkRepository {
   final OpenSea _artworkApiClient;
 
   Future<List<Artwork>> getArtworksByCollection(String collection) async {
-    ///getAssets
+    /// getAssets
     // orderBy: OrderBy.saleDate, orderDirection: OrderDirection.asc (optional)
     final myArtworks = await _artworkApiClient
         .getAssets(limit: '3', offset: '0', collection: collection)
@@ -26,7 +27,42 @@ class ArtworkRepository {
     return myArtworks;
   }
 
-  List<Artwork> myArtworkConverter(AssetsObject value) {
+  Future<List<Collection>> getCollectionsByCollectionList(
+      List<String> collections) async {
+    /// getCollection
+    final collectionsList = <Collection>[];
+
+    for (final collectionSlug in collections) {
+      final myCollection = await _artworkApiClient.getCollection(collectionSlug)
+      .then(myCollectionConverter);
+      print('GET MY COLLECTION');
+      collectionsList.add(myCollection);
+    }
+    return collectionsList;
+  }
+
+  Collection myCollectionConverter(collectionapi.CollectionObject value) {
+    // final collectionsList = <Collection>[];
+    // value.collection?.forEach((element) {
+      // print('NEXT');
+      // print(element);
+      final singleCollection = Collection(
+        slug: value.collection!.slug.toString(),
+        name: value.collection!.name.toString(),
+        description: value.collection!.description.toString(),
+        imageUrl: value.collection!.imageUrl.toString(),
+        bannerImageUrl: value.collection!.bannerImageUrl.toString(),
+      );
+
+      // collectionsList.add(singleCollection);
+    // }
+    // );
+
+    // print(value);
+    return singleCollection;
+  }
+
+  List<Artwork> myArtworkConverter(assetsapi.AssetsObject value) {
     // TODO: move squaresplitter stuff here  rather then in the bloc? Might make it easier to cache the cut images either locally or in firebase
     final artworksList = <Artwork>[];
     value.assets?.forEach((element) {

@@ -33,7 +33,7 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     debugPrint('SUBSCRIPTION REQUESTED');
     emit(state.copyWith(status: () => ArtworkStatus.loading));
 
-    // a few to try: doodles-official, dartart, themushroompeople
+    // a few to try: doodles-official, dartart, themushroompeople, copypasteearth
     const collection = 'doodles-official';
 
     try {
