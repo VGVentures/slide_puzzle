@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:nftpuzzlefun/audio_control/audio_control.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
+import 'package:nftpuzzlefun/dashatar/widgets/collection_chooser.dart';
 import 'package:nftpuzzlefun/l10n/l10n.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
 import 'package:nftpuzzlefun/models/models.dart';
@@ -14,7 +15,6 @@ import 'package:nftpuzzlefun/typography/typography.dart';
 import 'package:opensea_repository/opensea_repository.dart';
 
 // import '../../collections/collections_theme.dart';
-import '../../collections/collections.dart';
 import '../../dashatar/bloc/collections_bloc.dart';
 import '../../helpers/modal_helper.dart';
 
