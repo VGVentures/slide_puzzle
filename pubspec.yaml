@@ -8,12 +8,12 @@ environment:
   flutter: 2.8.0
 
 dependencies:
-  bloc: ^8.0.1
+  bloc: ^8.0.2
   equatable: ^2.0.3
   fake_async: ^1.2.0
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.0
+  flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   gap: ^2.0.0
@@ -24,7 +24,7 @@ dependencies:
   url_launcher: ^6.0.17
 
 dev_dependencies:
-  bloc_test: ^9.0.1
+  bloc_test: ^9.0.2
   flutter_test:
     sdk: flutter
   mocktail: ^0.2.0
