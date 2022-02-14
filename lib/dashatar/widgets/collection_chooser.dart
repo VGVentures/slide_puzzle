@@ -83,9 +83,15 @@ class _CollectionChooserState extends State<CollectionChooser>
                                   opacity: animation.scoreOpacity.value,
                                   child: ListView(
                                     shrinkWrap: true,
-                                    children: const [
+                                    children: [
                                       CollectionTile(slug: 'one', name: 'one', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
+                                      Container(
+                                        height: 20,
+                                      ),
                                       CollectionTile(slug: 'one', name: 'two', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
+                                      Container(
+                                        height: 20,
+                                      ),
                                       CollectionTile(slug: 'one', name: 'three', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
                                     ],
                                   ),
