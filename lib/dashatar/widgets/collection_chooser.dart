@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs
+// import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nftpuzzlefun/colors/colors.dart';
+import 'package:nftpuzzlefun/dashatar/bloc/collections_bloc.dart';
 import 'package:nftpuzzlefun/dashatar/widgets/collection_chooser_animated_builder.dart';
 import 'package:nftpuzzlefun/dashatar/widgets/collection_tile.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
-
 
 class CollectionChooser extends StatefulWidget {
   const CollectionChooser({Key? key}) : super(key: key);
@@ -38,8 +41,12 @@ class _CollectionChooserState extends State<CollectionChooser>
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
+    final collections =
+        context.select((CollectionsBloc bloc) => bloc.state.collections);
+    final collectionsState = context.watch<CollectionsBloc>().state;
+    final currentCollection = collectionsState.selectedCollection;
 
+    return ResponsiveLayoutBuilder(
       small: (_, child) => child!,
       medium: (_, child) => child!,
       large: (_, child) => child!,
@@ -47,14 +54,14 @@ class _CollectionChooserState extends State<CollectionChooser>
         final padding = currentSize == ResponsiveLayoutSize.large
             ? const EdgeInsets.fromLTRB(68, 82, 68, 73)
             : (currentSize == ResponsiveLayoutSize.medium
-            ? const EdgeInsets.fromLTRB(48, 54, 48, 53)
-            : const EdgeInsets.fromLTRB(20, 99, 20, 76));
+                ? const EdgeInsets.fromLTRB(48, 54, 48, 53)
+                : const EdgeInsets.fromLTRB(20, 99, 20, 76));
 
         final closeIconOffset = currentSize == ResponsiveLayoutSize.large
             ? const Offset(44, 37)
             : (currentSize == ResponsiveLayoutSize.medium
-            ? const Offset(25, 28)
-            : const Offset(17, 63));
+                ? const Offset(25, 28)
+                : const Offset(17, 63));
 
         final crossAxisAlignment = currentSize == ResponsiveLayoutSize.large
             ? CrossAxisAlignment.start
@@ -81,19 +88,35 @@ class _CollectionChooserState extends State<CollectionChooser>
                                 position: animation.scoreOffset,
                                 child: Opacity(
                                   opacity: animation.scoreOpacity.value,
-                                  child: ListView(
+                                  child: ListView.separated(
+                                    itemCount: 5,
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const Divider(),
                                     shrinkWrap: true,
-                                    children: [
-                                      CollectionTile(slug: 'one', name: 'one', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
-                                      Container(
-                                        height: 20,
-                                      ),
-                                      CollectionTile(slug: 'one', name: 'two', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
-                                      Container(
-                                        height: 20,
-                                      ),
-                                      CollectionTile(slug: 'one', name: 'three', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
-                                    ],
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return CollectionTile(
+                                          slug: collections[index].slug,
+                                          name: collections[index].name,
+                                          description:
+                                              collections[index].description,
+                                          imageUrl: collections[index].imageUrl,
+                                          bannerImageUrl: collections[index]
+                                              .bannerImageUrl);
+                                    },
+                                    // children: collections,
+                                    // children: [
+                                    //   CollectionTile(slug: 'one', name: 'one', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
+                                    //   Container(
+                                    //     height: 20,
+                                    //   ),
+                                    //   CollectionTile(slug: 'one', name: 'two', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
+                                    //   Container(
+                                    //     height: 20,
+                                    //   ),
+                                    //   CollectionTile(slug: 'one', name: 'three', description: 'Para Bellum  by Matty Mariansky - Art Blocks Curated', imageUrl: 'https://lh3.googleusercontent.com/1taWf5X3ymTt_QMBGLJ7nvfMVptJyxAxW2wplDIFWE0n_4BVxG9RYw6X6y4N991oP24_ERLt_sexJv1602DT_J6VeCcAyFIt6KG-', bannerImageUrl: 'https://lh3.googleusercontent.com/5-KeOMqOlfC7D6etYVEcrEiPcRy_QB-KPS3uOeGu7hMsPorzvPNtJOVrQRb1rxjHFcFsyXEQmTdj7bvqlbAQD5foHQxbTEgb5GPaMLg=s2500'),
+                                    // ],
                                   ),
                                 ),
                               ),
@@ -134,7 +157,6 @@ class _CollectionChooserState extends State<CollectionChooser>
           ],
         );
       },
-
     );
   }
 }

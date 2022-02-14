@@ -42,7 +42,7 @@ class CollectionTile extends StatelessWidget {
               imageUrl: imageUrl,
             ),
             Container(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20),
               child: Text(
                 name,
                 style: const TextStyle(
@@ -52,7 +52,7 @@ class CollectionTile extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(bottom: 20.0),
+              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: Text(
                 description,
                 style: const TextStyle(

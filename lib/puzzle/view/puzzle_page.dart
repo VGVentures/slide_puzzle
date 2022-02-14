@@ -364,27 +364,30 @@ class PuzzleMenu extends StatelessWidget {
             onPressed: () async {
               debugPrint('CLICKME');
               await showAppDialog<void>(
-              context: context,
-              child: MultiBlocProvider(
-              providers: [
-              BlocProvider.value(
-              value: context.read<DashatarThemeBloc>(),
-              ),
-              BlocProvider.value(
-              value: context.read<ArtworkBloc>(),
-              ),
-              BlocProvider.value(
-              value: context.read<PuzzleBloc>(),
-              ),
-              BlocProvider.value(
-              value: context.read<TimerBloc>(),
-              ),
-              BlocProvider.value(
-              value: context.read<AudioControlBloc>(),
-              ),
-              ],
-              child: const CollectionChooser(),
-              ),
+                context: context,
+                child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: context.read<DashatarThemeBloc>(),
+                    ),
+                    BlocProvider.value(
+                      value: context.read<ArtworkBloc>(),
+                    ),
+                    BlocProvider.value(
+                      value: context.read<CollectionsBloc>(),
+                    ),
+                    BlocProvider.value(
+                      value: context.read<PuzzleBloc>(),
+                    ),
+                    BlocProvider.value(
+                      value: context.read<TimerBloc>(),
+                    ),
+                    BlocProvider.value(
+                      value: context.read<AudioControlBloc>(),
+                    ),
+                  ],
+                  child: const CollectionChooser(),
+                ),
               );
             },
             icon: const Icon(Icons.icecream_outlined),

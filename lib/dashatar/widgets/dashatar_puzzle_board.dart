@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nftpuzzlefun/audio_control/audio_control.dart';
+import 'package:nftpuzzlefun/dashatar/bloc/collections_bloc.dart';
 import 'package:nftpuzzlefun/dashatar/dashatar.dart';
 import 'package:nftpuzzlefun/helpers/helpers.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
@@ -57,6 +58,9 @@ class _DashatarPuzzleBoardState extends State<DashatarPuzzleBoard> {
                   ),
                   BlocProvider.value(
                     value: context.read<ArtworkBloc>(),
+                  ),
+                  BlocProvider.value(
+                    value: context.read<CollectionsBloc>(),
                   ),
                   BlocProvider.value(
                     value: context.read<PuzzleBloc>(),
