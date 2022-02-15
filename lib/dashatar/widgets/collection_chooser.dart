@@ -89,6 +89,7 @@ class _CollectionChooserState extends State<CollectionChooser>
                                 child: Opacity(
                                   opacity: animation.scoreOpacity.value,
                                   child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
                                     itemCount: 7,
                                     separatorBuilder:
                                         (BuildContext context, int index) =>
