@@ -17,26 +17,32 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
   /// doc
   ArtworkBloc({
     required ArtworkRepository artworkRepository,
+    // required String selectedCollection,
   })  : _artworkRepository = artworkRepository,
+        // _selectedCollection = selectedCollection,
         super(const ArtworkState()) {
     on<ArtworkSubscriptionRequested>(_onSubscriptionRequested);
 
     // on<ArtworkEvent>(_onArtworkChanged);
     on<ArtworkChanged>(_onArtworkChanged);
+    // on<ArtworkCollectionChanged>(_onArtworkCollectionChanged);
   }
 
   final ArtworkRepository _artworkRepository;
+  // final String _selectedCollection;
 
   Future<void> _onSubscriptionRequested(
     ArtworkSubscriptionRequested event,
     Emitter<ArtworkState> emit,
+      // String selectedCollection,
   ) async {
-    debugPrint('SUBSCRIPTION REQUESTED');
     emit(state.copyWith(status: () => ArtworkStatus.loading));
 
     // a few to try: doodles-official, dartart, themushroompeople,
     // copypasteearth, para-bellum-by-matty-mariansky
-    const collection = 'doodles-official';
+    // const collection = 'doodles-official';
+    final collection = event.collectionSlug;
+    debugPrint('SUBSCRIPTION REQUESTED $collection');
 
     try {
       final artworks =

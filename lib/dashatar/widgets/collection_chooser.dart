@@ -89,7 +89,7 @@ class _CollectionChooserState extends State<CollectionChooser>
                                 child: Opacity(
                                   opacity: animation.scoreOpacity.value,
                                   child: ListView.separated(
-                                    itemCount: 5,
+                                    itemCount: 7,
                                     separatorBuilder:
                                         (BuildContext context, int index) =>
                                             const Divider(),

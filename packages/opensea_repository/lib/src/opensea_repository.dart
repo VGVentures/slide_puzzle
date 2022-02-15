@@ -22,7 +22,7 @@ class ArtworkRepository {
     final myArtworks = await _artworkApiClient
         .getAssets(limit: '3', offset: '0', collection: collection)
         .then(myArtworkConverter);
-    print('GET MY ASSETS');
+    print('GET MY ASSETS $collection');
 
     return myArtworks;
   }

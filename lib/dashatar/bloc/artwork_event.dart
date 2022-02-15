@@ -10,7 +10,12 @@ abstract class ArtworkEvent extends Equatable {
 }
 
 class ArtworkSubscriptionRequested extends ArtworkEvent {
-  const ArtworkSubscriptionRequested();
+  const ArtworkSubscriptionRequested({required this.collectionSlug});
+
+  final String collectionSlug;
+
+  @override
+  List<Object> get props => [collectionSlug];
 }
 
 class ArtworkChanged extends ArtworkEvent {
@@ -22,3 +27,4 @@ class ArtworkChanged extends ArtworkEvent {
   @override
   List<Object> get props => [artworkIndex];
 }
+

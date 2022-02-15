@@ -35,8 +35,11 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
       'doodles-official',
       'dartart',
       'themushroompeople',
-      'copypasteearth',
-      'para-bellum-by-matty-mariansky'
+      // 'copypasteearth',
+      'empresses',
+      'persona-lamps',
+      'para-bellum-by-matty-mariansky',
+      'genesis-by-dca',
     ];
 
     try {

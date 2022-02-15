@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nftpuzzlefun/dashatar/bloc/bloc.dart';
+import 'package:nftpuzzlefun/dashatar/bloc/collections_bloc.dart';
 import 'package:nftpuzzlefun/dashatar/widgets/collection_banner.dart';
 
 /// individual collection item to show in the chooser listview
@@ -23,6 +25,13 @@ class CollectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final collectionsState = context.watch<CollectionsBloc>().state;
+    final artworkState = context.watch<ArtworkBloc>().state;
+    final currentCollection = collectionsState.selectedCollection;
+    final isActiveCollection = slug == currentCollection;
+    // debugPrint('current' + currentCollection);
+
+
     // TODO: make collection item look nice in list format
     return Container(
       clipBehavior: Clip.antiAlias,
@@ -31,9 +40,24 @@ class CollectionTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           // TODO: if not current collection, set current collection and close the modal
-          debugPrint('ok' + slug);
+          // debugPrint('ok' + slug);
+          if (isActiveCollection) {
+            return;
+          }
+          context
+              .read<CollectionsBloc>()
+              .add(CollectionsChanged(collectionSlug: slug));
+          context
+              .read<ArtworkBloc>()
+              .add(const ArtworkChanged(artworkIndex: 0));
+          debugPrint('collectionsState ${collectionsState.selectedCollection}');
+          debugPrint('artworkState ${artworkState.artwork}');
+          context.read<ArtworkBloc>().add(ArtworkSubscriptionRequested(
+            collectionSlug: slug,
+          ));
+          Navigator.of(context).pop();
         },
         child: Column(
           children: [

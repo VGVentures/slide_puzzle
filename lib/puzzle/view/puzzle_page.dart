@@ -63,14 +63,18 @@ class PuzzlePage extends StatelessWidget {
           create: (_) => AudioControlBloc(),
         ),
         BlocProvider(
-          create: (_) => ArtworkBloc(
-            artworkRepository: ArtworkRepository(),
-          )..add(const ArtworkSubscriptionRequested()),
-        ),
-        BlocProvider(
           create: (_) => CollectionsBloc(
             artworkRepository: ArtworkRepository(),
           )..add(const CollectionsSubscriptionRequested()),
+        ),
+        BlocProvider(
+          create: (context) => ArtworkBloc(
+            artworkRepository: ArtworkRepository(),
+            // selectedCollection:
+            //     context.read<CollectionsBloc>().state.selectedCollection,
+          )..add(ArtworkSubscriptionRequested(
+              collectionSlug:
+                  context.read<CollectionsBloc>().state.selectedCollection)),
         ),
       ],
       child: const PuzzleView(),
