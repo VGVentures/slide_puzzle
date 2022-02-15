@@ -27,6 +27,3 @@ class TileTapped extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
-class PuzzleReset extends PuzzleEvent {
-  const PuzzleReset();
-}

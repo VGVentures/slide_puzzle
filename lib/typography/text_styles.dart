@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/typography/typography.dart';
+import 'package:very_good_slide_puzzle/typography/font_weights.dart';
 
 /// Defines text styles for the puzzle UI.
 class PuzzleTextStyle {
@@ -131,12 +130,13 @@ class PuzzleTextStyle {
   }
 
   static const _baseTextStyle = TextStyle(
-    fontFamily: 'GoogleSans',
+    fontFamily: 'Raleway',
     color: PuzzleColors.black,
     fontWeight: PuzzleFontWeight.regular,
   );
 
-  static final _bodyTextStyle = GoogleFonts.roboto(
+  static const _bodyTextStyle = TextStyle(
+    fontFamily: 'Raleway',
     color: PuzzleColors.black,
     fontWeight: PuzzleFontWeight.regular,
   );

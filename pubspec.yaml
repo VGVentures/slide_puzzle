@@ -18,40 +18,13 @@ dependencies:
     sdk: flutter
   gap: ^2.0.0
   google_fonts: ^2.1.0
-  intl: ^0.17.0
-  just_audio: ^0.9.18
   universal_platform: ^1.0.0+1
   url_launcher: ^6.0.17
 
 dev_dependencies:
-  bloc_test: ^9.0.1
   flutter_test:
     sdk: flutter
-  mocktail: ^0.2.0
-  very_good_analysis: ^2.4.0
 
 flutter:
   generate: true
   uses-material-design: true
-  assets:
-    - assets/audio/
-    - assets/images/
-    - assets/images/audio_control/
-    - assets/images/dashatar/gallery/
-    - assets/images/dashatar/success/
-    - assets/images/dashatar/green/
-    - assets/images/dashatar/blue/
-    - assets/images/dashatar/yellow/
-  fonts:
-    - family: GoogleSans
-      fonts:
-        - asset: assets/fonts/GoogleSans-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/GoogleSans-BoldItalic.ttf
-          weight: 700
-          style: italic
-        - asset: assets/fonts/GoogleSans-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/GoogleSans-Italic.ttf
-          weight: 400
-          style: italic

@@ -1,9 +1,7 @@
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
+import 'package:very_good_slide_puzzle/models/tile.dart';
 
 // A 3x3 puzzle board visualization:
 //
@@ -50,19 +48,6 @@ class Puzzle extends Equatable {
   /// Gets the single whitespace tile object in the puzzle.
   Tile getWhitespaceTile() {
     return tiles.singleWhere((tile) => tile.isWhitespace);
-  }
-
-  /// Gets the tile relative to the whitespace tile in the puzzle
-  /// defined by [relativeOffset].
-  Tile? getTileRelativeToWhitespaceTile(Offset relativeOffset) {
-    final whitespaceTile = getWhitespaceTile();
-    return tiles.singleWhereOrNull(
-      (tile) =>
-          tile.currentPosition.x ==
-              whitespaceTile.currentPosition.x + relativeOffset.dx &&
-          tile.currentPosition.y ==
-              whitespaceTile.currentPosition.y + relativeOffset.dy,
-    );
   }
 
   /// Gets the number of tiles that are currently in their correct position.

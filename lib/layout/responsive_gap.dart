@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
+import 'package:very_good_slide_puzzle/layout/responsive_layout_builder.dart';
 
 /// {@template responsive_gap}
 /// A wrapper around [Gap] that renders a [small], [medium]

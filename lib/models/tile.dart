@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
+import 'package:very_good_slide_puzzle/models/position.dart';
 
 /// {@template tile}
 /// Model for a puzzle tile.
@@ -38,9 +38,9 @@ class Tile extends Equatable {
 
   @override
   List<Object> get props => [
-        value,
-        correctPosition,
-        currentPosition,
-        isWhitespace,
-      ];
+    value,
+    correctPosition,
+    currentPosition,
+    isWhitespace,
+  ];
 }

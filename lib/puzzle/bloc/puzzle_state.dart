@@ -12,7 +12,6 @@ class PuzzleState extends Equatable {
     this.puzzleStatus = PuzzleStatus.incomplete,
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
     this.numberOfCorrectTiles = 0,
-    this.numberOfMoves = 0,
     this.lastTappedTile,
   });
 
@@ -37,13 +36,6 @@ class PuzzleState extends Equatable {
   /// Number of tiles currently not in their correct position.
   int get numberOfTilesLeft => puzzle.tiles.length - numberOfCorrectTiles - 1;
 
-  /// Number representing how many moves have been made on the current puzzle.
-  ///
-  /// The number of moves is not always the same as the total number of tiles
-  /// moved. If a row/column of 2+ tiles are moved from one tap, one move is
-  /// added.
-  final int numberOfMoves;
-
   PuzzleState copyWith({
     Puzzle? puzzle,
     PuzzleStatus? puzzleStatus,
@@ -57,7 +49,6 @@ class PuzzleState extends Equatable {
       puzzleStatus: puzzleStatus ?? this.puzzleStatus,
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
-      numberOfMoves: numberOfMoves ?? this.numberOfMoves,
       lastTappedTile: lastTappedTile ?? this.lastTappedTile,
     );
   }
@@ -68,7 +59,6 @@ class PuzzleState extends Equatable {
         puzzleStatus,
         tileMovementStatus,
         numberOfCorrectTiles,
-        numberOfMoves,
         lastTappedTile,
       ];
 }
