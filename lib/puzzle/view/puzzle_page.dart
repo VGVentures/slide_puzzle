@@ -97,17 +97,28 @@ class PuzzleView extends StatelessWidget {
     // final artwork =
     //     context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
 
-    // final artworkState =
-    // context.select((ArtworkBloc bloc) => bloc.state.status);
-    // final collectionsState =
-    // context.select((CollectionsBloc bloc) => bloc.state.status);
-    //
-    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
-    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
-    // if (isLoadedArtwork == false || isLoadedCollections == false) {
-    //   return const CircularProgressIndicator();
-    // }
+    final artworkState =
+        context.select((ArtworkBloc bloc) => bloc.state.status);
+    final collectionsState =
+        context.select((CollectionsBloc bloc) => bloc.state.status);
 
+    final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    if (isLoadedArtwork == false || isLoadedCollections == false) {
+      return Scaffold(
+        body: Container(
+          // TODO: This color should come from theme but theme isn't
+          //  available yet? Maybe make this part of the splash screen somehow
+          color: Colors.blue,
+          child: const Align(
+            child: CircularProgressIndicator(
+              color: Colors.deepOrange,
+              backgroundColor: Colors.green,
+            ),
+          ),
+        ),
+      );
+    }
 
     /// Shuffle only if the current theme is Simple.
     // final shufflePuzzle = theme is SimpleTheme;
@@ -169,7 +180,6 @@ class _Puzzle extends StatelessWidget {
     //   return const CircularProgressIndicator();
     // }
 
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
@@ -205,6 +215,17 @@ class PuzzleHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final artworkState =
+    // context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    // context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
+
     return SizedBox(
       height: 96,
       child: ResponsiveLayoutBuilder(
@@ -263,6 +284,17 @@ class PuzzleLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
+    // final artworkState =
+    //     context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    //     context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
+
     return AppFlutterLogo(
       key: puzzleLogoKey,
       isColored: theme.isLogoColored,
@@ -282,16 +314,16 @@ class PuzzleSections extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-    final artworkState =
-    context.select((ArtworkBloc bloc) => bloc.state.status);
-    final collectionsState =
-    context.select((CollectionsBloc bloc) => bloc.state.status);
-
-    final isLoadedArtwork = artworkState == ArtworkStatus.success;
-    final isLoadedCollections = collectionsState == CollectionsStatus.success;
-    if (isLoadedArtwork == false || isLoadedCollections == false) {
-      return const CircularProgressIndicator();
-    }
+    // final artworkState =
+    //     context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    //     context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
 
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
@@ -337,14 +369,14 @@ class PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
-    // final artworkState =
-    //     context.select((ArtworkBloc bloc) => bloc.state.status);
-    // final collectionsState =
-    //     context.select((CollectionsBloc bloc) => bloc.state.status);
 
     final size = puzzle.getDimension();
     if (size == 0) return const CircularProgressIndicator();
 
+    // final artworkState =
+    //     context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    //     context.select((CollectionsBloc bloc) => bloc.state.status);
     // final isLoadedArtwork = artworkState == ArtworkStatus.success;
     // final isLoadedCollections = collectionsState == CollectionsStatus.success;
     // if (isLoadedArtwork == false || isLoadedCollections == false) {
@@ -406,6 +438,17 @@ class PuzzleMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final themes = context.select((ThemeBloc bloc) => bloc.state.themes);
 
+    // final artworkState =
+    //     context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    //     context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -440,7 +483,7 @@ class PuzzleMenu extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.icecream_outlined),
-            label: const Text('Collections')),
+            label: const Text('Choose a Collection')),
 
         // ...List.generate(
         //   themes.length,
