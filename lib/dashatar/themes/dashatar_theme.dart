@@ -34,10 +34,7 @@ abstract class DashatarTheme extends PuzzleTheme {
 
   @override
   Color get pressedColor => PuzzleColors.white2;
-
-  @override
-  bool get isLogoColored => false;
-
+  
   @override
   Color get menuActiveColor => PuzzleColors.white;
 
@@ -95,7 +92,6 @@ abstract class DashatarTheme extends PuzzleTheme {
         buttonColor,
         hoverColor,
         pressedColor,
-        isLogoColored,
         menuActiveColor,
         menuUnderlineColor,
         menuInactiveColor,

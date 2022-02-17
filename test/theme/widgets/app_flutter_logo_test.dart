@@ -46,7 +46,6 @@ void main() {
         'when isColored is true', (tester) async {
       await tester.pumpApp(
         AppFlutterLogo(
-          isColored: true,
           height: 18,
         ),
       );
@@ -67,7 +66,6 @@ void main() {
         'when isColored is false', (tester) async {
       await tester.pumpApp(
         AppFlutterLogo(
-          isColored: false,
         ),
       );
 

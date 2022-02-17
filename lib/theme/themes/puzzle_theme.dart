@@ -48,12 +48,6 @@ abstract class PuzzleTheme extends Equatable {
   /// that was pressed.
   Color get pressedColor;
 
-  /// Whether Flutter logo is colored or white.
-  ///
-  /// Applied to the color of [AppFlutterLogo] displayed
-  /// in the top left corner of the header.
-  bool get isLogoColored;
-
   /// The active menu color.
   ///
   /// Applied to the text color of the currently active

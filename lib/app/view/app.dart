@@ -100,11 +100,7 @@ class _AppState extends State<App> {
         context,
       );
       precacheImage(
-        Image.asset('assets/images/logo_flutter_color.png').image,
-        context,
-      );
-      precacheImage(
-        Image.asset('assets/images/logo_flutter_white.png').image,
+        Image.asset('assets/images/simple_logo_with_text_344x96.png').image,
         context,
       );
       precacheImage(

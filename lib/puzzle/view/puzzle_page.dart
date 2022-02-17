@@ -297,7 +297,6 @@ class PuzzleLogo extends StatelessWidget {
 
     return AppFlutterLogo(
       key: puzzleLogoKey,
-      isColored: theme.isLogoColored,
     );
   }
 }

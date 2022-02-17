@@ -9,21 +9,15 @@ class AppFlutterLogo extends StatelessWidget {
   /// {@macro app_flutter_logo}
   const AppFlutterLogo({
     Key? key,
-    this.isColored = true,
     this.height,
   }) : super(key: key);
-
-  /// Whether this logo is colored.
-  final bool isColored;
 
   /// The optional height of this logo.
   final double? height;
 
   @override
   Widget build(BuildContext context) {
-    final assetName = isColored
-        ? 'assets/images/logo_flutter_color.png'
-        : 'assets/images/logo_flutter_white.png';
+    const assetName = 'assets/images/simple_logo_with_text_344x96.png';
 
     return AnimatedSwitcher(
       duration: PuzzleThemeAnimationDuration.logoChange,
