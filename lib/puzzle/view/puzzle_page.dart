@@ -92,10 +92,22 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final artworks = context
-        .select((ArtworkBloc artworksbloc) => artworksbloc.state.artworks);
-    final artwork =
-        context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
+    // final artworks = context
+    //     .select((ArtworkBloc artworksbloc) => artworksbloc.state.artworks);
+    // final artwork =
+    //     context.select((ArtworkBloc artworkbloc) => artworkbloc.state.artwork);
+
+    // final artworkState =
+    // context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    // context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
+
 
     /// Shuffle only if the current theme is Simple.
     // final shufflePuzzle = theme is SimpleTheme;
@@ -145,6 +157,18 @@ class _Puzzle extends StatelessWidget {
     // final artworks = context.select((ArtworkBloc bloc) => bloc.state.artworks);
     // final artwork = context.select((ArtworkBloc bloc) => bloc.state.artwork);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
+
+    // final artworkState =
+    // context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    // context.select((CollectionsBloc bloc) => bloc.state.status);
+    //
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
+
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -258,6 +282,17 @@ class PuzzleSections extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
+    final artworkState =
+    context.select((ArtworkBloc bloc) => bloc.state.status);
+    final collectionsState =
+    context.select((CollectionsBloc bloc) => bloc.state.status);
+
+    final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    if (isLoadedArtwork == false || isLoadedCollections == false) {
+      return const CircularProgressIndicator();
+    }
+
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
         children: [
@@ -302,9 +337,19 @@ class PuzzleBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final puzzle = context.select((PuzzleBloc bloc) => bloc.state.puzzle);
+    // final artworkState =
+    //     context.select((ArtworkBloc bloc) => bloc.state.status);
+    // final collectionsState =
+    //     context.select((CollectionsBloc bloc) => bloc.state.status);
 
     final size = puzzle.getDimension();
     if (size == 0) return const CircularProgressIndicator();
+
+    // final isLoadedArtwork = artworkState == ArtworkStatus.success;
+    // final isLoadedCollections = collectionsState == CollectionsStatus.success;
+    // if (isLoadedArtwork == false || isLoadedCollections == false) {
+    //   return const CircularProgressIndicator();
+    // }
 
     return PuzzleKeyboardHandler(
       child: BlocListener<PuzzleBloc, PuzzleState>(
