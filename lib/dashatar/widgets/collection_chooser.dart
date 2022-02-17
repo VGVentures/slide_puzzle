@@ -104,7 +104,7 @@ class _CollectionChooserState extends State<CollectionChooser>
                                               collections[index].description,
                                           imageUrl: collections[index].imageUrl,
                                           bannerImageUrl: collections[index]
-                                              .bannerImageUrl);
+                                              .bannerImageUrl,);
                                     },
                                     // children: collections,
                                     // children: [

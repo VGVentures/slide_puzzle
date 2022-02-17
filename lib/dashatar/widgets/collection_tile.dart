@@ -46,12 +46,19 @@ class CollectionTile extends StatelessWidget {
           if (isActiveCollection) {
             return;
           }
+
           context
               .read<CollectionsBloc>()
               .add(CollectionsChanged(collectionSlug: slug));
+
+          context
+              .read<DashatarThemeBloc>()
+              .add(const DashatarThemeChanged(themeIndex: 0));
+
           context
               .read<ArtworkBloc>()
               .add(const ArtworkChanged(artworkIndex: 0));
+
           debugPrint('collectionsState ${collectionsState.selectedCollection}');
           debugPrint('artworkState ${artworkState.artwork}');
           context.read<ArtworkBloc>().add(ArtworkSubscriptionRequested(
