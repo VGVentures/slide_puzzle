@@ -35,24 +35,24 @@ dependencies:
 dev_dependencies:
   bloc_test: ^9.0.1
   build_runner: ^1.10.0
+  flutter_launcher_icons: "^0.9.2"
   flutter_test:
     sdk: flutter
   json_serializable: ^6.1.4
   mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
-  flutter_launcher_icons: "^0.9.2"
 
 
 flutter_icons:
-  #  image_path: "assets/icons/icon-128x128.png"
+#  image_path: "assets/icons/icon-128x128.png"
   image_path_android: "assets/images/icon-1024.png"
   image_path_ios: "assets/images/icon-1024.png"
-  #android: true # can specify file name here e.g. "ic_launcher"
+#  android: true # can specify file name here e.g. "ic_launcher"
   android: "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
   remove_alpha_ios: true
   adaptive_icon_background: "assets/images/mipmap-xxxhdpi#ic_background.png" # only available for Android 8.0 devices and above
-  #adaptive_icon_background: "#3f5254"
+#  adaptive_icon_background: "#3f5254"
   adaptive_icon_foreground: "assets/images/mipmap-xxxhdpi#ic_foreground.png" # only available for Android 8.0 devices and above
 
 

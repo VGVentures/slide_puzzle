@@ -34,7 +34,7 @@ abstract class DashatarTheme extends PuzzleTheme {
 
   @override
   Color get pressedColor => PuzzleColors.white2;
-  
+
   @override
   Color get menuActiveColor => PuzzleColors.white;
 
