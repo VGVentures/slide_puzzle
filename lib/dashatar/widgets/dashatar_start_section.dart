@@ -5,6 +5,7 @@ import 'package:nftpuzzlefun/l10n/l10n.dart';
 import 'package:nftpuzzlefun/layout/layout.dart';
 import 'package:nftpuzzlefun/puzzle/puzzle.dart';
 import 'package:nftpuzzlefun/theme/theme.dart';
+import 'package:nftpuzzlefun/theme/widgets/puzzle_creator_byline.dart';
 
 /// {@template dashatar_start_section}
 /// Displays the start section of the puzzle based on [state].
@@ -23,6 +24,7 @@ class DashatarStartSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final status =
         context.select((DashatarPuzzleBloc bloc) => bloc.state.status);
+    final artworkState = context.watch<ArtworkBloc>().state;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +40,16 @@ class DashatarStartSection extends StatelessWidget {
         const ResponsiveGap(large: 16),
         PuzzleTitle(
           key: puzzleTitleKey,
-          title: context.l10n.puzzleChallengeTitle,
+          title: artworkState.selectedArtwork!.name,
+        ),
+        const ResponsiveGap(
+          small: 12,
+          medium: 16,
+          large: 32,
+        ),
+        PuzzleCreatorByline(
+          key: puzzleCreatorBylineKey,
+          creator: artworkState.selectedArtwork!.creator,
         ),
         const ResponsiveGap(
           small: 12,

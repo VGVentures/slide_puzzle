@@ -631,6 +631,11 @@ final puzzleNameKey = GlobalKey(debugLabel: 'puzzle_name');
 /// Used to animate the transition of [PuzzleTitle] when changing a theme.
 final puzzleTitleKey = GlobalKey(debugLabel: 'puzzle_title');
 
+/// The global key of [PuzzleCreatorByline].
+///
+/// Used to animate the transition of [PuzzleCreatorByline] when changing a theme.
+final puzzleCreatorBylineKey = GlobalKey(debugLabel: 'puzzle_creator');
+
 /// The global key of [NumberOfMovesAndTilesLeft].
 ///
 /// Used to animate the transition of [NumberOfMovesAndTilesLeft]

@@ -69,7 +69,7 @@ class ArtworkRepository {
       // print('NEXT');
       // print(element);
       final singleArtwork = Artwork(
-        creator: element.creator?.user.toString() as String,
+        creator: element.creator?.user?.username.toString() as String,
         name: element.name.toString(),
         description: element.description.toString(),
         id: int.parse(element.id.toString()),

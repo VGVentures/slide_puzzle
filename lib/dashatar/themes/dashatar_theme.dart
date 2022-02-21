@@ -30,6 +30,9 @@ abstract class DashatarTheme extends PuzzleTheme {
   Color get titleColor => PuzzleColors.white;
 
   @override
+  Color get creatorColor => PuzzleColors.white;
+
+  @override
   Color get hoverColor => PuzzleColors.black2;
 
   @override
@@ -87,6 +90,7 @@ abstract class DashatarTheme extends PuzzleTheme {
         hasTimer,
         nameColor,
         titleColor,
+        creatorColor,
         backgroundColor,
         defaultColor,
         buttonColor,

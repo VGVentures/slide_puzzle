@@ -68,6 +68,7 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
           status: () => ArtworkStatus.success,
           artworks: () => artworks,
           artworkSplitImages: () => artworkSplitImages,
+          selectedArtwork: () => artworks[0],
         ),
       );
     } on Exception {
