@@ -56,7 +56,11 @@ class DashatarStartSection extends StatelessWidget {
           medium: 18,
           large: 32,
         ),
-        const BuyNowButton(),
+        ResponsiveLayoutBuilder(
+          small: (_, __) => const Center(child: BuyNowButton()),
+          medium: (_, __) => const Center(child: BuyNowButton()),
+          large: (_, __) => const BuyNowButton(),
+        ),
         const ResponsiveGap(
           small: 12,
           medium: 16,
