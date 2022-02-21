@@ -56,8 +56,8 @@ class _BuyNowButtonState extends State<BuyNowButton> {
               ? null
               : () {
                   debugPrint('clicked');
-                  
-                  openLink(selectedArtwork?.permalink as String);
+                  final affLink = '${selectedArtwork?.permalink}?ref=0x9c6f4531928eb78d0f758702cbd82672f9c3e670';
+                  openLink(affLink);
                 },
           textColor: isLoading ? theme.defaultColor : null,
           child: Text(text),
