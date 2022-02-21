@@ -8,6 +8,14 @@
     "@puzzleRestartTooltip": {
         "description": "Shown as a tooltip for the puzzle restart button"
     },
+    "buyNowTooltip": "Click here to see this NFT's web page",
+    "@buyNowTooltip": {
+        "description": "Shown as a tooltip for the buy now button"
+    },
+    "buyNow": "Buy Now",
+    "@buyNow": {
+        "description": "Shown as the buy now button for selected artwork"
+    },
     "puzzleChallengeTitle": "Puzzle Challenge",
     "@puzzleChallengeTitle": {
         "description": "Shown as the title of the puzzle"

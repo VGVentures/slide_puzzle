@@ -9,6 +9,7 @@ import 'package:nftpuzzlefun/typography/typography.dart';
 /// {@endtemplate}
 class PuzzleCreatorByline extends StatelessWidget {
   /// {@macro puzzle_creator}
+  // TODO(angwonson): add creator's avatar
   const PuzzleCreatorByline({
     Key? key,
     required this.creator,

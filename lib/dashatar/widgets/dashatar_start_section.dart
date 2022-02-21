@@ -52,6 +52,12 @@ class DashatarStartSection extends StatelessWidget {
           creator: artworkState.selectedArtwork!.creator,
         ),
         const ResponsiveGap(
+          small: 8,
+          medium: 18,
+          large: 32,
+        ),
+        const BuyNowButton(),
+        const ResponsiveGap(
           small: 12,
           medium: 16,
           large: 32,
