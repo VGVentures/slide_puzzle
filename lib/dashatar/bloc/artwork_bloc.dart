@@ -93,7 +93,11 @@ class ArtworkBloc extends Bloc<ArtworkEvent, ArtworkState> {
     ArtworkChanged event,
     Emitter<ArtworkState> emit,
   ) {
-    emit(state.copyWith(artwork: () => event.artworkIndex));
+    final mySelectedArtwork = state.artworks[event.artworkIndex];
+    emit(state.copyWith(
+      artwork: () => event.artworkIndex,
+      selectedArtwork: () => mySelectedArtwork,
+    ));
   }
 
   // Future<void> fetchArtworksByCollection(String? collection) async {

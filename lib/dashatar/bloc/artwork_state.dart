@@ -10,6 +10,7 @@ class ArtworkState extends Equatable {
     this.artworks = const [],
     this.artworkSplitImages = const [],
     this.artwork = 0,
+    this.selectedArtwork,
   });
 
   final ArtworkStatus status;
@@ -20,6 +21,7 @@ class ArtworkState extends Equatable {
 
   /// Currently selected [Artwork].
   final int artwork;
+  final Artwork? selectedArtwork;
 
   @override
   List<Object> get props => [status, artworks, artworkSplitImages, artwork];
@@ -29,6 +31,7 @@ class ArtworkState extends Equatable {
     List<Artwork> Function()? artworks,
     List<List<Image>> Function()? artworkSplitImages,
     int Function()? artwork,
+    Artwork Function()? selectedArtwork,
   }) {
     return ArtworkState(
       status: status != null ? status() : this.status,
@@ -37,6 +40,7 @@ class ArtworkState extends Equatable {
           ? artworkSplitImages()
           : this.artworkSplitImages,
       artwork: artwork != null ? artwork() : this.artwork,
+      selectedArtwork: selectedArtwork != null ? selectedArtwork() : this.selectedArtwork,
     );
   }
 }
