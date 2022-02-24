@@ -184,12 +184,10 @@ class SimplePuzzleTile extends StatelessWidget {
         foregroundColor: MaterialStateProperty.all(PuzzleColors.white),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
               (states) {
-            if (tile.value == state.lastTappedTile?.value) {
-              return theme.pressedColor;
-            } else if (states.contains(MaterialState.hovered)) {
+            if (states.contains(MaterialState.hovered)) {
               return theme.hoverColor;
             } else {
-              return theme.defaultColor;
+              return tile.tileColor;
             }
           },
         ),
@@ -199,6 +197,7 @@ class SimplePuzzleTile extends StatelessWidget {
           : null,
       child: Text(
         tile.value.toString(),
+        style: TextStyle(color: Colors.black38),
       ),
     );
   }

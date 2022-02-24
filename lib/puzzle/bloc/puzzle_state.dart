@@ -12,7 +12,6 @@ class PuzzleState extends Equatable {
     this.puzzleStatus = PuzzleStatus.incomplete,
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
     this.numberOfCorrectTiles = 0,
-    this.lastTappedTile,
   });
 
   /// [Puzzle] containing the current tile arrangement.
@@ -23,12 +22,6 @@ class PuzzleState extends Equatable {
 
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
-
-  /// Represents the last tapped tile of the puzzle.
-  ///
-  /// The value is `null` if the user has not interacted with
-  /// the puzzle yet.
-  final Tile? lastTappedTile;
 
   /// Number of tiles currently in their correct position.
   final int numberOfCorrectTiles;
@@ -49,7 +42,6 @@ class PuzzleState extends Equatable {
       puzzleStatus: puzzleStatus ?? this.puzzleStatus,
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
-      lastTappedTile: lastTappedTile ?? this.lastTappedTile,
     );
   }
 
@@ -59,6 +51,5 @@ class PuzzleState extends Equatable {
         puzzleStatus,
         tileMovementStatus,
         numberOfCorrectTiles,
-        lastTappedTile,
       ];
 }

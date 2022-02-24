@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/models/position.dart';
 import 'package:very_good_slide_puzzle/models/tile.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -21,10 +22,8 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   final Random? random;
 
-  void _onPuzzleInitialized(
-      PuzzleInitialized event,
-      Emitter<PuzzleState> emit,
-      ) {
+  void _onPuzzleInitialized(PuzzleInitialized event,
+      Emitter<PuzzleState> emit,) {
     final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
@@ -124,26 +123,29 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
 
   /// Build a list of tiles - giving each tile their correct position and a
   /// current position.
-  List<Tile> _getTileListFromPositions(
-      int size,
+  List<Tile> _getTileListFromPositions(int size,
       List<Position> correctPositions,
-      List<Position> currentPositions,
-      ) {
+      List<Position> currentPositions,) {
     final whitespacePosition = Position(x: size, y: size);
     return [
       for (int i = 1; i <= size * size; i++)
         if (i == size * size)
           Tile(
-            value: i,
-            correctPosition: whitespacePosition,
-            currentPosition: currentPositions[i - 1],
-            isWhitespace: true,
+              value: i,
+              correctPosition: whitespacePosition,
+              currentPosition: currentPositions[i - 1],
+              isWhitespace: true,
+              tileColor: Colors.white
           )
         else
           Tile(
-            value: i,
-            correctPosition: correctPositions[i - 1],
-            currentPosition: currentPositions[i - 1],
+              value: i,
+              correctPosition: correctPositions[i - 1],
+              currentPosition: currentPositions[i - 1],
+              tileColor: HSVColor.fromAHSV(1,
+                  (correctPositions[i - 1].y - 1) * 80,
+                  (1.0/size) * correctPositions[i - 1].x,
+                  1.0).toColor()
           )
     ];
   }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:very_good_slide_puzzle/models/position.dart';
 
@@ -11,6 +13,7 @@ class Tile extends Equatable {
     required this.correctPosition,
     required this.currentPosition,
     this.isWhitespace = false,
+    required this.tileColor
   });
 
   /// Value representing the correct position of [Tile] in a list.
@@ -26,6 +29,9 @@ class Tile extends Equatable {
   /// Denotes if the [Tile] is the whitespace tile or not.
   final bool isWhitespace;
 
+  /// Color of the tile
+  final Color tileColor;
+
   /// Create a copy of this [Tile] with updated current position.
   Tile copyWith({required Position currentPosition}) {
     return Tile(
@@ -33,6 +39,7 @@ class Tile extends Equatable {
       correctPosition: correctPosition,
       currentPosition: currentPosition,
       isWhitespace: isWhitespace,
+      tileColor: tileColor
     );
   }
 

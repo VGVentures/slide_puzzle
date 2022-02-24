@@ -30,26 +30,21 @@ class PuzzleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 10),
-        decoration: const BoxDecoration(color: Colors.white),
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) =>
-              PuzzleBloc(3)
-                ..add(
-                  const PuzzleInitialized(
-                    shufflePuzzle: true,
-                  ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+            PuzzleBloc(3)
+              ..add(
+                const PuzzleInitialized(
+                  shufflePuzzle: true,
                 ),
-            ),
-          ],
-          child: const _Puzzle(
-            key: Key('puzzle_view_puzzle'),
+              ),
           ),
+        ],
+        child: const _Puzzle(
+          key: Key('puzzle_view_puzzle'),
         ),
       ),
     );
@@ -139,8 +134,7 @@ class PuzzleBoard extends StatelessWidget {
               key: Key('puzzle_tile_${tile.value.toString()}'),
               tile: tile,
             ),
-      )
-          .toList(),
+      ).toList(),
     );
   }
 }
