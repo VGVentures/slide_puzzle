@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -6,13 +8,13 @@ import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/simple/simple.dart';
+import 'package:very_good_slide_puzzle/rotade/rotade.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI
-/// that uses a [SimpleTheme].
+/// that uses a [RotadeTheme].
 /// {@endtemplate}
 class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   /// {@macro simple_puzzle_layout_delegate}
@@ -27,7 +29,7 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         padding: const EdgeInsets.only(left: 50, right: 32),
         child: child,
       ),
-      child: (_) => SimpleStartSection(state: state),
+      child: (_) => RotadeStartSection(state: state),
     );
   }
 
@@ -40,8 +42,8 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           medium: 48,
         ),
         ResponsiveLayoutBuilder(
-          small: (_, child) => const SimplePuzzleShuffleButton(),
-          medium: (_, child) => const SimplePuzzleShuffleButton(),
+          small: (_, child) => const RotadePuzzleShuffleButton(),
+          medium: (_, child) => const RotadePuzzleShuffleButton(),
           large: (_, __) => const SizedBox(),
         ),
         const ResponsiveGap(
@@ -101,7 +103,7 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         ResponsiveLayoutBuilder(
           small: (_, __) => SizedBox.square(
             dimension: _BoardSize.small,
-            child: SimplePuzzleBoard(
+            child: RotadePuzzleBoard(
               key: const Key('simple_puzzle_board_small'),
               size: size,
               tiles: tiles,
@@ -110,7 +112,7 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           ),
           medium: (_, __) => SizedBox.square(
             dimension: _BoardSize.medium,
-            child: SimplePuzzleBoard(
+            child: RotadePuzzleBoard(
               key: const Key('simple_puzzle_board_medium'),
               size: size,
               tiles: tiles,
@@ -118,7 +120,7 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
           ),
           large: (_, __) => SizedBox.square(
             dimension: _BoardSize.large,
-            child: SimplePuzzleBoard(
+            child: RotadePuzzleBoard(
               key: const Key('simple_puzzle_board_large'),
               size: size,
               tiles: tiles,
@@ -135,20 +137,20 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget tileBuilder(Tile tile, PuzzleState state) {
     return ResponsiveLayoutBuilder(
-      small: (_, __) => SimplePuzzleTile(
-        key: Key('simple_puzzle_tile_${tile.value}_small'),
+      small: (_, __) => RotadePuzzleTile(
+        key: Key('rotade_puzzle_tile_${tile.value}_small'),
         tile: tile,
         tileFontSize: _TileFontSize.small,
         state: state,
       ),
-      medium: (_, __) => SimplePuzzleTile(
-        key: Key('simple_puzzle_tile_${tile.value}_medium'),
+      medium: (_, __) => RotadePuzzleTile(
+        key: Key('rotade_puzzle_tile_${tile.value}_medium'),
         tile: tile,
         tileFontSize: _TileFontSize.medium,
         state: state,
       ),
-      large: (_, __) => SimplePuzzleTile(
-        key: Key('simple_puzzle_tile_${tile.value}_large'),
+      large: (_, __) => RotadePuzzleTile(
+        key: Key('rotade_puzzle_tile_${tile.value}_large'),
         tile: tile,
         tileFontSize: _TileFontSize.large,
         state: state,
@@ -165,13 +167,13 @@ class RotadePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   List<Object?> get props => [];
 }
 
-/// {@template simple_start_section}
+/// {@template rotade_start_section}
 /// Displays the start section of the puzzle based on [state].
 /// {@endtemplate}
 @visibleForTesting
-class SimpleStartSection extends StatelessWidget {
-  /// {@macro simple_start_section}
-  const SimpleStartSection({
+class RotadeStartSection extends StatelessWidget {
+  /// {@macro rotade_start_section}
+  const RotadeStartSection({
     Key? key,
     required this.state,
   }) : super(key: key);
@@ -193,7 +195,7 @@ class SimpleStartSection extends StatelessWidget {
           key: puzzleNameKey,
         ),
         const ResponsiveGap(large: 16),
-        SimplePuzzleTitle(
+        RotadePuzzleTitle(
           status: state.puzzleStatus,
         ),
         const ResponsiveGap(
@@ -213,23 +215,23 @@ class SimpleStartSection extends StatelessWidget {
         ResponsiveLayoutBuilder(
           small: (_, __) => const SizedBox(),
           medium: (_, __) => const SizedBox(),
-          large: (_, __) => const SimplePuzzleShuffleButton(),
+          large: (_, __) => const RotadePuzzleShuffleButton(),
         ),
       ],
     );
   }
 }
 
-/// {@template simple_puzzle_title}
+/// {@template rotade_puzzle_title}
 /// Displays the title of the puzzle based on [status].
 ///
 /// Shows the success state when the puzzle is completed,
 /// otherwise defaults to the Puzzle Challenge title.
 /// {@endtemplate}
 @visibleForTesting
-class SimplePuzzleTitle extends StatelessWidget {
-  /// {@macro simple_puzzle_title}
-  const SimplePuzzleTitle({
+class RotadePuzzleTitle extends StatelessWidget {
+  /// {@macro rotade_puzzle_title}
+  const RotadePuzzleTitle({
     Key? key,
     required this.status,
   }) : super(key: key);
@@ -254,14 +256,14 @@ abstract class _BoardSize {
   static double large = 472;
 }
 
-/// {@template simple_puzzle_board}
+/// {@template rotade_puzzle_board}
 /// Display the board of the puzzle in a [size]x[size] layout
 /// filled with [tiles]. Each tile is spaced with [spacing].
 /// {@endtemplate}
 @visibleForTesting
-class SimplePuzzleBoard extends StatelessWidget {
-  /// {@macro simple_puzzle_board}
-  const SimplePuzzleBoard({
+class RotadePuzzleBoard extends StatelessWidget {
+  /// {@macro rotade_puzzle_board}
+  const RotadePuzzleBoard({
     Key? key,
     required this.size,
     required this.tiles,
@@ -279,15 +281,80 @@ class SimplePuzzleBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: size,
-      mainAxisSpacing: spacing,
-      crossAxisSpacing: spacing,
-      children: tiles,
+    return Stack(
+      children: [
+        Stack(
+          children: [
+            GridView.count(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: size,
+              mainAxisSpacing: spacing,
+              crossAxisSpacing: spacing,
+              children: tiles,
+            ),
+            ResponsiveLayoutBuilder(
+              small: (p0, p1) => GridView.count(
+                crossAxisCount: sqrt(_findRotadeCount(size)).toInt(),
+                padding: const EdgeInsets.all(40),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
+                children: List<Widget>.generate(
+                  sqrt(_findRotadeCount(size)).toInt() *
+                      sqrt(_findRotadeCount(size)).toInt(),
+                  (index) => _RotadeButton(
+                    size: size,
+                    spacing: spacing,
+                    rotadeButtonSize: _RotadeButtonSize.small,
+                  ),
+                ),
+              ),
+              medium: (p0, p1) => GridView.count(
+                crossAxisCount: sqrt(_findRotadeCount(size)).toInt(),
+                padding: const EdgeInsets.all(54),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
+                children: List<Widget>.generate(
+                  sqrt(_findRotadeCount(size)).toInt() *
+                      sqrt(_findRotadeCount(size)).toInt(),
+                  (index) => _RotadeButton(
+                    size: size,
+                    spacing: spacing,
+                    rotadeButtonSize: _RotadeButtonSize.medium,
+                  ),
+                ),
+              ),
+              large: (p0, p1) => GridView.count(
+                crossAxisCount: sqrt(_findRotadeCount(size)).toInt(),
+                padding: const EdgeInsets.all(60),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
+                children: List<Widget>.generate(
+                  sqrt(_findRotadeCount(size)).toInt() *
+                      sqrt(_findRotadeCount(size)).toInt(),
+                  (index) => _RotadeButton(
+                    size: size,
+                    spacing: spacing,
+                    rotadeButtonSize: _RotadeButtonSize.large,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
+  }
+
+  int _findRotadeCount(int? _size) {
+    return (size - 1) * (size - 1);
   }
 }
 
@@ -297,14 +364,14 @@ abstract class _TileFontSize {
   static double large = 54;
 }
 
-/// {@template simple_puzzle_tile}
+/// {@template rotade_puzzle_tile}
 /// Displays the puzzle tile associated with [tile] and
 /// the font size of [tileFontSize] based on the puzzle [state].
 /// {@endtemplate}
 @visibleForTesting
-class SimplePuzzleTile extends StatelessWidget {
-  /// {@macro simple_puzzle_tile}
-  const SimplePuzzleTile({
+class RotadePuzzleTile extends StatelessWidget {
+  /// {@macro rotade_puzzle_tile}
+  const RotadePuzzleTile({
     Key? key,
     required this.tile,
     required this.tileFontSize,
@@ -368,9 +435,9 @@ class SimplePuzzleTile extends StatelessWidget {
 /// Displays the button to shuffle the puzzle.
 /// {@endtemplate}
 @visibleForTesting
-class SimplePuzzleShuffleButton extends StatelessWidget {
+class RotadePuzzleShuffleButton extends StatelessWidget {
   /// {@macro puzzle_shuffle_button}
-  const SimplePuzzleShuffleButton({Key? key}) : super(key: key);
+  const RotadePuzzleShuffleButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -390,6 +457,56 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
           Text(context.l10n.puzzleShuffle),
         ],
       ),
+    );
+  }
+}
+
+enum _RotadeButtonSize { small, medium, large }
+
+class _RotadeButton extends StatelessWidget {
+  const _RotadeButton({
+    Key? key,
+    this.size,
+    this.spacing,
+    this.rotadeButtonSize,
+  }) : super(key: key);
+  final int? size;
+  final double? spacing;
+  final _RotadeButtonSize? rotadeButtonSize;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (rotadeButtonSize) {
+      case _RotadeButtonSize.small:
+        return IconButton(
+          icon: const Icon(
+            Icons.rotate_right,
+            size: 20,
+          ),
+          onPressed: () {},
+        );
+      case _RotadeButtonSize.medium:
+        return IconButton(
+          icon: const Icon(
+            Icons.rotate_right,
+          ),
+          onPressed: () {},
+        );
+      case _RotadeButtonSize.large:
+        return IconButton(
+          icon: const Icon(
+            Icons.rotate_right,
+          ),
+          onPressed: () {},
+        );
+      default:
+        break;
+    }
+    return IconButton(
+      icon: const Icon(
+        Icons.rotate_right,
+      ),
+      onPressed: () {},
     );
   }
 }
