@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 
 part 'puzzle_event.dart';
@@ -14,6 +15,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleReset>(_onPuzzleReset);
+    on<TilesRotated>(_onTilesRotated);
   }
 
   final int _size;
@@ -70,6 +72,38 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
       emit(
         state.copyWith(tileMovementStatus: TileMovementStatus.cannotBeMoved),
       );
+    }
+  }
+
+  void _onTilesRotated(TilesRotated event, Emitter<PuzzleState> emit) {
+    if (state.puzzleStatus == PuzzleStatus.incomplete) {
+      final mutablePuzzle = Puzzle(tiles: [...state.puzzle.tiles]);
+      // final puzzle = mutablePuzzle.moveTiles(tappedTile, []);
+
+      final puzzle = mutablePuzzle.rotateTiles(event.index);
+
+      if (puzzle.isComplete()) {
+        emit(
+          state.copyWith(
+            puzzle: puzzle.sort(),
+            puzzleStatus: PuzzleStatus.complete,
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+            // lastTappedTile: tappedTile,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            puzzle: puzzle.sort(),
+            tileMovementStatus: TileMovementStatus.moved,
+            numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+            numberOfMoves: state.numberOfMoves + 1,
+            // lastTappedTile: tappedTile,
+          ),
+        );
+      }
     }
   }
 

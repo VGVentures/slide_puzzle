@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 
 // A 3x3 puzzle board visualization:
@@ -212,6 +214,46 @@ class Puzzle extends Equatable {
         return tileA.currentPosition.compareTo(tileB.currentPosition);
       });
     return Puzzle(tiles: sortedTiles);
+  }
+
+  /// Rotate all tiles related to the rotated Btn
+  Puzzle rotateTiles(int? rotatedBtnIndex) {
+    // manually assign topLeft position based on 4x4 grid tiles
+    const directions = {0: 0, 1: 1, 2: 2, 3: 4, 4: 5, 5: 6, 6: 8, 7: 9, 8: 10};
+
+    final tileSize = sqrt(tiles.length).toInt();
+    final topLeft = directions[rotatedBtnIndex] ?? 0;
+
+    final topLeftPos = tiles[topLeft].currentPosition;
+
+    // top left will move to top right
+    tiles[topLeft] = tiles[topLeft].copyWith(
+      currentPosition: Position(x: topLeftPos.x + 1, y: topLeftPos.y),
+    );
+
+    // top right
+    tiles[topLeft + 1] = tiles[topLeft + 1].copyWith(
+      currentPosition: Position(x: topLeftPos.x + 1, y: topLeftPos.y + 1),
+    );
+
+    // bottom right 
+    tiles[topLeft + tileSize + 1] = tiles[topLeft + tileSize + 1].copyWith(
+      currentPosition: Position(x: topLeftPos.x, y: topLeftPos.y + 1),
+    );
+    // bottom left (will move to topLeft)
+    tiles[topLeft + tileSize] = tiles[topLeft + tileSize].copyWith(
+      currentPosition: Position(x: topLeftPos.x, y: topLeftPos.y),
+    );
+    
+    // TODO(aiman5252): get the rotateButtonIndex from layout
+
+    // TODO(prabowomurti): calculate new position of tiles based on the rotatedBtnIndex
+    // int topLeft = rotatedBtnIndex;
+    // int topRight = rotatedBtnIndex + 1;
+    // int bottomLeft = tileSize + topLeft;
+    // int bottomRight = tileSize + topRight;
+
+    return Puzzle(tiles: tiles);
   }
 
   @override

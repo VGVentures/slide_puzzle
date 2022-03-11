@@ -30,3 +30,13 @@ class TileTapped extends PuzzleEvent {
 class PuzzleReset extends PuzzleEvent {
   const PuzzleReset();
 }
+
+class TilesRotated extends PuzzleEvent {
+  const TilesRotated(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+
+}

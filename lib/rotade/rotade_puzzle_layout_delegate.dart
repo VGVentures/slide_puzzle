@@ -306,6 +306,7 @@ class RotadePuzzleBoard extends StatelessWidget {
                   sqrt(_findRotadeCount(size)).toInt() *
                       sqrt(_findRotadeCount(size)).toInt(),
                   (index) => _RotadeButton(
+                    index: index,
                     size: size,
                     spacing: spacing,
                     rotadeButtonSize: _RotadeButtonSize.small,
@@ -323,6 +324,7 @@ class RotadePuzzleBoard extends StatelessWidget {
                   sqrt(_findRotadeCount(size)).toInt() *
                       sqrt(_findRotadeCount(size)).toInt(),
                   (index) => _RotadeButton(
+                    index: index,
                     size: size,
                     spacing: spacing,
                     rotadeButtonSize: _RotadeButtonSize.medium,
@@ -340,6 +342,7 @@ class RotadePuzzleBoard extends StatelessWidget {
                   sqrt(_findRotadeCount(size)).toInt() *
                       sqrt(_findRotadeCount(size)).toInt(),
                   (index) => _RotadeButton(
+                    index: index,
                     size: size,
                     spacing: spacing,
                     rotadeButtonSize: _RotadeButtonSize.large,
@@ -469,44 +472,39 @@ class _RotadeButton extends StatelessWidget {
     this.size,
     this.spacing,
     this.rotadeButtonSize,
+    required this.index,
   }) : super(key: key);
   final int? size;
   final double? spacing;
   final _RotadeButtonSize? rotadeButtonSize;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     switch (rotadeButtonSize) {
+      case null:
       case _RotadeButtonSize.small:
         return IconButton(
           icon: const Icon(
             Icons.rotate_right,
             size: 20,
           ),
-          onPressed: () {},
+          onPressed: () => context.read<PuzzleBloc>().add(TilesRotated(index)),
         );
       case _RotadeButtonSize.medium:
         return IconButton(
           icon: const Icon(
             Icons.rotate_right,
           ),
-          onPressed: () {},
+          onPressed: () => context.read<PuzzleBloc>().add(TilesRotated(index)),
         );
       case _RotadeButtonSize.large:
         return IconButton(
           icon: const Icon(
             Icons.rotate_right,
           ),
-          onPressed: () {},
+          onPressed: () => context.read<PuzzleBloc>().add(TilesRotated(index)),
         );
-      default:
-        break;
     }
-    return IconButton(
-      icon: const Icon(
-        Icons.rotate_right,
-      ),
-      onPressed: () {},
-    );
   }
 }
