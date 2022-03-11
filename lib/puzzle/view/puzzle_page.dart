@@ -454,7 +454,8 @@ class PuzzleMenuItem extends StatelessWidget {
                 // Initialize the puzzle board for the newly selected theme.
                 context.read<PuzzleBloc>().add(
                       PuzzleInitialized(
-                        shufflePuzzle: theme is SimpleTheme || theme is RotadeTheme,
+                        shufflePuzzle: 
+                          [SimpleTheme,RotadeTheme].contains(theme.runtimeType),
                       ),
                     );
               },
