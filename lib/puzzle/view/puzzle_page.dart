@@ -132,24 +132,33 @@ class PuzzleSections extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = SimpleTheme();
     return ResponsiveLayoutBuilder(
-      small: (context, child) => Column(
-        children: [
-          theme.layoutDelegate.startSectionBuilder(),
-          PuzzleMenuItem(),
-          PuzzleBoard()
-        ],
-      ),
-      medium: (context, child) => Column(
-        children: const [
-          PuzzleBoard()
-        ],
-      ),
-      large: (context, child) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          PuzzleBoard(),
-        ],
-      ),
+      small: (context, child) =>
+          Column(
+            children: [
+              theme.layoutDelegate.startSectionBuilder(),
+              PuzzleMenuItem(),
+              PuzzleBoard()
+            ],
+          ),
+      medium: (context, child) =>
+          Column(
+            children: [
+              theme.layoutDelegate.startSectionBuilder(),
+              PuzzleMenuItem(),
+              PuzzleBoard()
+            ],
+          ),
+      large: (context, child) =>
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                  child: theme.layoutDelegate.startSectionBuilder()
+              ),
+              PuzzleBoard(),
+              Padding(padding: EdgeInsets.all(50))
+            ],
+          ),
     );
   }
 }

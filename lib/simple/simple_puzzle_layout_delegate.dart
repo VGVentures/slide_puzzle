@@ -9,6 +9,8 @@ import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
 import 'package:very_good_slide_puzzle/simple/simple_theme.dart';
 import 'package:very_good_slide_puzzle/typography/text_styles.dart';
 
+import '../puzzle/view/puzzle_page.dart';
+
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI
 /// that uses a [SimpleTheme].
@@ -20,19 +22,25 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget startSectionBuilder() {
     return ResponsiveLayoutBuilder(
-      small: (_, child) => Padding(
-        padding: const EdgeInsets.all(5),
-        child: child,
-      ),
-      medium: (_, child) => Padding(
-        padding: const EdgeInsets.all(5),
-        child: child,
-      ),
-      large: (_, child) => Padding(
-        padding: const EdgeInsets.all(5),
-        child: child,
-      ),
-
+        small: (_, child) =>
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: child,
+            ),
+        medium: (_, child) =>
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: child,
+            ),
+        large: (_, child) =>
+            Column(
+              children: [
+                const ResponsiveGap(
+                  large: 200,
+                ),
+                PuzzleMenuItem()
+              ]
+            )
     );
   }
 
