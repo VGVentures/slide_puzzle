@@ -137,7 +137,8 @@ class PuzzleSections extends StatelessWidget {
             children: [
               theme.layoutDelegate.startSectionBuilder(),
               PuzzleMenuItem(),
-              PuzzleBoard()
+              PuzzleBoard(),
+              theme.layoutDelegate.endSectionBuilder()
             ],
           ),
       medium: (context, child) =>
@@ -145,7 +146,8 @@ class PuzzleSections extends StatelessWidget {
             children: [
               theme.layoutDelegate.startSectionBuilder(),
               PuzzleMenuItem(),
-              PuzzleBoard()
+              PuzzleBoard(),
+              theme.layoutDelegate.endSectionBuilder()
             ],
           ),
       large: (context, child) =>

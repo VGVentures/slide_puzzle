@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/layout/puzzle_layout_delegate.dart';
@@ -20,6 +21,24 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   const SimplePuzzleLayoutDelegate();
 
   @override
+  Widget endSectionBuilder() {
+    return Column(
+      children: [
+        const ResponsiveGap(
+          small: 10,
+          medium: 10,
+          large: 10,
+        ),
+        ResponsiveLayoutBuilder(
+          small: (_, child) => const SimplePuzzleShuffleButton(),
+          medium: (_, child) => const SimplePuzzleShuffleButton(),
+          large: (_, __) => const SizedBox(),
+        )
+      ],
+    );
+  }
+
+  @override
   Widget startSectionBuilder() {
     return ResponsiveLayoutBuilder(
         small: (_, child) =>
@@ -35,10 +54,10 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         large: (_, child) =>
             Column(
               children: [
-                const ResponsiveGap(
-                  large: 200,
-                ),
-                PuzzleMenuItem()
+                Gap(200),
+                PuzzleMenuItem(),
+                Gap(20),
+                SimplePuzzleShuffleButton()
               ]
             )
     );
@@ -232,6 +251,24 @@ class SimplePuzzleTile extends StatelessWidget {
             style: TextStyle(color: Colors.black38),
           ),
         )
+    );
+  }
+}
+
+class SimplePuzzleShuffleButton extends StatelessWidget {
+  /// {@macro puzzle_shuffle_button}
+  const SimplePuzzleShuffleButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          primary: PuzzleColors.blue50,
+          padding: EdgeInsets.all(20.0),
+          textStyle: const TextStyle(fontSize: 26),
+      ),
+      onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
+      child: Text("shuffle")
     );
   }
 }

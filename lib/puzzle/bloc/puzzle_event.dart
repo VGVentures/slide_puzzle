@@ -35,3 +35,7 @@ class HintTapped extends PuzzleEvent {
   @override
   List<Object> get props => [isHintVisible];
 }
+
+class PuzzleReset extends PuzzleEvent {
+  const PuzzleReset();
+}

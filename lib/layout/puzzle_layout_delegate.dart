@@ -20,6 +20,16 @@ abstract class PuzzleLayoutDelegate extends Equatable {
   /// on a tablet/mobile.
   Widget startSectionBuilder();
 
+  /// A widget builder for the end section of the puzzle based on
+  /// the puzzle [state].
+  ///
+  /// This section corresponds to:
+  /// - the right side of the puzzle UI (to the right of the puzzle board)
+  /// on a desktop.
+  /// - the bottom side of the puzzle UI (below the puzzle board)
+  /// on a tablet/mobile.
+  Widget endSectionBuilder();
+
   /// A widget builder for the puzzle board.
   ///
   /// The board should have a dimension of [size]

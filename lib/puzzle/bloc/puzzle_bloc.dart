@@ -17,6 +17,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<HintTapped>(_onHintTapped);
+    on<PuzzleReset>(_onPuzzleReset);
   }
 
   final int _size;
@@ -75,6 +76,16 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     emit(
       state.copyWith(
         isHintVisible: event.isHintVisible
+      ),
+    );
+  }
+
+  void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(_size);
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
       ),
     );
   }
