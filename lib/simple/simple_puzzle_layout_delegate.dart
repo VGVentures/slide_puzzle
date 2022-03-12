@@ -18,6 +18,25 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   const SimplePuzzleLayoutDelegate();
 
   @override
+  Widget startSectionBuilder() {
+    return ResponsiveLayoutBuilder(
+      small: (_, child) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: child,
+      ),
+      medium: (_, child) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: child,
+      ),
+      large: (_, child) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: child,
+      ),
+
+    );
+  }
+
+  @override
   Widget boardBuilder(int size, List<Widget> tiles) {
     return Column(
       children: [

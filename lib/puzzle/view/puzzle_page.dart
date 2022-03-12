@@ -31,6 +31,9 @@ class PuzzleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: const Text('Color Slider Puzzle')
+      ),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -67,7 +70,6 @@ class _Puzzle extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    PuzzleMenuItem(),
                     PuzzleSections(),
                   ],
                 ),
@@ -128,9 +130,12 @@ class PuzzleSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = SimpleTheme();
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
-        children: const [
+        children: [
+          theme.layoutDelegate.startSectionBuilder(),
+          PuzzleMenuItem(),
           PuzzleBoard()
         ],
       ),

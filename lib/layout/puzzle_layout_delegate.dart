@@ -10,6 +10,16 @@ abstract class PuzzleLayoutDelegate extends Equatable {
   /// {@macro puzzle_layout_delegate}
   const PuzzleLayoutDelegate();
 
+  /// A widget builder for the start section of the puzzle based on
+  /// the puzzle [state].
+  ///
+  /// This section corresponds to:
+  /// - the left side of the puzzle UI (to the left of the puzzle board)
+  /// on a desktop.
+  /// - the top side of the puzzle UI (above the puzzle board)
+  /// on a tablet/mobile.
+  Widget startSectionBuilder();
+
   /// A widget builder for the puzzle board.
   ///
   /// The board should have a dimension of [size]
