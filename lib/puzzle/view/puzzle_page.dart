@@ -66,7 +66,8 @@ class _Puzzle extends StatelessWidget {
                   minHeight: constraints.maxHeight,
                 ),
                 child: Column(
-                  children: const [
+                  children: [
+                    PuzzleMenuItem(),
                     PuzzleSections(),
                   ],
                 ),
@@ -75,6 +76,45 @@ class _Puzzle extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class PuzzleMenuItem extends StatefulWidget {
+  @override
+  PuzzleMenuItemState createState() => PuzzleMenuItemState();
+}
+
+class PuzzleMenuItemState extends State<PuzzleMenuItem> {
+  final isSelected = <bool>[true, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ToggleButtons(
+            isSelected: isSelected,
+            onPressed: (int index) {
+              setState(() {
+                isSelected[index] = true;
+                isSelected[(index+1)%2] = false;
+              });
+              context.read<PuzzleBloc>().add(
+                  HintTapped(index == 0 ? true : false)
+              );
+            },
+            children: [
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('Hints')
+              ),
+              Padding(padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('No hints')
+              )
+            ]
+        )
+      ],
     );
   }
 }

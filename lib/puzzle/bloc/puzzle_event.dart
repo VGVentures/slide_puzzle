@@ -27,3 +27,11 @@ class TileTapped extends PuzzleEvent {
   List<Object> get props => [tile];
 }
 
+class HintTapped extends PuzzleEvent {
+  const HintTapped(this.isHintVisible);
+
+  final bool isHintVisible;
+
+  @override
+  List<Object> get props => [isHintVisible];
+}
