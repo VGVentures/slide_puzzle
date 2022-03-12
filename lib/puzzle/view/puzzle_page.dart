@@ -4,6 +4,7 @@ import 'package:very_good_slide_puzzle/layout/responsive_layout_builder.dart';
 import 'package:very_good_slide_puzzle/models/tile.dart';
 import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
 import 'package:very_good_slide_puzzle/simple/simple_theme.dart';
+import 'package:very_good_slide_puzzle/colors/colors.dart';
 
 /// {@template puzzle_page}
 /// The root page of the puzzle UI.
@@ -96,11 +97,15 @@ class PuzzleMenuItemState extends State<PuzzleMenuItem> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ToggleButtons(
+            textStyle: const TextStyle(fontSize: 18),
+            selectedColor: PuzzleColors.white,
+            fillColor: PuzzleColors.blue50,
+            borderRadius: BorderRadius.circular(24),
             isSelected: isSelected,
             onPressed: (int index) {
               setState(() {
                 isSelected[index] = true;
-                isSelected[(index+1)%2] = false;
+                isSelected[(index + 1) % 2] = false;
               });
               context.read<PuzzleBloc>().add(
                   HintTapped(index == 0 ? true : false)
@@ -108,10 +113,11 @@ class PuzzleMenuItemState extends State<PuzzleMenuItem> {
             },
             children: [
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                   child: Text('Hints')
               ),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 16.0),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                   child: Text('No hints')
               )
             ]

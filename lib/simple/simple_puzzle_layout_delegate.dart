@@ -68,8 +68,8 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
     return Column(
       children: [
         const ResponsiveGap(
-          small: 32,
-          medium: 48,
+          small: 10,
+          medium: 10,
           large: 96,
         ),
         ResponsiveLayoutBuilder(
@@ -264,8 +264,11 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           primary: PuzzleColors.blue50,
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
           textStyle: const TextStyle(fontSize: 26),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0)
+          )
       ),
       onPressed: () => context.read<PuzzleBloc>().add(const PuzzleReset()),
       child: Text("shuffle")
