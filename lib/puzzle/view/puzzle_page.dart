@@ -322,9 +322,11 @@ class _PuzzleTile extends StatelessWidget {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
     final state = context.select((PuzzleBloc bloc) => bloc.state);
 
-    return tile.isWhitespace
-        ? theme.layoutDelegate.whitespaceTileBuilder()
-        : theme.layoutDelegate.tileBuilder(tile, state);
+    return theme is RotadeTheme
+        ? theme.layoutDelegate.tileBuilder(tile, state)
+        : tile.isWhitespace
+            ? theme.layoutDelegate.whitespaceTileBuilder()
+            : theme.layoutDelegate.tileBuilder(tile, state);
   }
 }
 
@@ -454,8 +456,8 @@ class PuzzleMenuItem extends StatelessWidget {
                 // Initialize the puzzle board for the newly selected theme.
                 context.read<PuzzleBloc>().add(
                       PuzzleInitialized(
-                        shufflePuzzle: 
-                          [SimpleTheme,RotadeTheme].contains(theme.runtimeType),
+                        shufflePuzzle: [SimpleTheme, RotadeTheme]
+                            .contains(theme.runtimeType),
                       ),
                     );
               },
