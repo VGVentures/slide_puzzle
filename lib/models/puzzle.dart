@@ -219,10 +219,12 @@ class Puzzle extends Equatable {
   /// Rotate all tiles related to the rotated Btn
   Puzzle rotateTiles(int? rotatedBtnIndex) {
     // manually assign topLeft position based on 4x4 grid tiles
-    const directions = {0: 0, 1: 1, 2: 2, 3: 4, 4: 5, 5: 6, 6: 8, 7: 9, 8: 10};
+    // const directions = {0: 0, 1: 1, 2: 2, 3: 4, 4: 5, 5: 6, 6: 8, 7: 9, 8: 10};
 
     final tileSize = sqrt(tiles.length).toInt();
-    final topLeft = directions[rotatedBtnIndex] ?? 0;
+    // final topLeft = directions[rotatedBtnIndex] ?? 0;
+    final topLeft = (rotatedBtnIndex! ~/ (tileSize - 1)) * tileSize +
+        (rotatedBtnIndex % (tileSize - 1));
 
     final topLeftPos = tiles[topLeft].currentPosition;
 
@@ -236,22 +238,15 @@ class Puzzle extends Equatable {
       currentPosition: Position(x: topLeftPos.x + 1, y: topLeftPos.y + 1),
     );
 
-    // bottom right 
+    // bottom right
     tiles[topLeft + tileSize + 1] = tiles[topLeft + tileSize + 1].copyWith(
       currentPosition: Position(x: topLeftPos.x, y: topLeftPos.y + 1),
     );
+
     // bottom left (will move to topLeft)
     tiles[topLeft + tileSize] = tiles[topLeft + tileSize].copyWith(
       currentPosition: Position(x: topLeftPos.x, y: topLeftPos.y),
     );
-    
-    // TODO(aiman5252): get the rotateButtonIndex from layout
-
-    // TODO(prabowomurti): calculate new position of tiles based on the rotatedBtnIndex
-    // int topLeft = rotatedBtnIndex;
-    // int topRight = rotatedBtnIndex + 1;
-    // int bottomLeft = tileSize + topLeft;
-    // int bottomRight = tileSize + topRight;
 
     return Puzzle(tiles: tiles);
   }
