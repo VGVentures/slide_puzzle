@@ -9,6 +9,7 @@ import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/rotade/rotade.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 /// {@template puzzle_keyboard_handler}
@@ -64,7 +65,7 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
         context.read<DashatarPuzzleBloc>().state.status !=
             DashatarPuzzleStatus.started);
 
-    if (event is RawKeyDownEvent && canMoveTiles) {
+    if (event is RawKeyDownEvent && canMoveTiles && theme is !RotadeTheme) {
       final puzzle = context.read<PuzzleBloc>().state.puzzle;
       final physicalKey = event.data.physicalKey;
 
