@@ -42,7 +42,7 @@ class PuzzleView extends StatelessWidget {
             PuzzleBloc(3)
               ..add(
                 const PuzzleInitialized(
-                  shufflePuzzle: true,
+                  shufflePuzzle: false,
                 ),
               ),
           ),
