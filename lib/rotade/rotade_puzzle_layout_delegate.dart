@@ -420,7 +420,6 @@ class RotadePuzzleTile extends StatelessWidget {
         ),
       ),
       onPressed: null, // disable tapping on tile
-      // TODO(aiman5252): how to disable keyboard arrows
       child: Text(
         tile.value.toString(),
         semanticsLabel: context.l10n.puzzleTileLabelText(

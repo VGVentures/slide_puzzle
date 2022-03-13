@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 
@@ -219,7 +218,8 @@ class Puzzle extends Equatable {
   /// Rotate all tiles related to the rotated Btn
   Puzzle rotateTiles(int? rotatedBtnIndex) {
     // manually assign topLeft position based on 4x4 grid tiles
-    // const directions = {0: 0, 1: 1, 2: 2, 3: 4, 4: 5, 5: 6, 6: 8, 7: 9, 8: 10};
+    // const directions = {0: 0, 1: 1, 2: 2, 3: 4, 4: 5,
+    // 5: 6, 6: 8, 7: 9, 8: 10};
 
     final tileSize = sqrt(tiles.length).toInt();
     // final topLeft = directions[rotatedBtnIndex] ?? 0;
