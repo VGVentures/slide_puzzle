@@ -7,10 +7,9 @@ import 'package:very_good_slide_puzzle/layout/responsive_gap.dart';
 import 'package:very_good_slide_puzzle/layout/responsive_layout_builder.dart';
 import 'package:very_good_slide_puzzle/models/tile.dart';
 import 'package:very_good_slide_puzzle/puzzle/bloc/puzzle_bloc.dart';
+import 'package:very_good_slide_puzzle/puzzle/view/puzzle_page.dart';
 import 'package:very_good_slide_puzzle/simple/simple_theme.dart';
 import 'package:very_good_slide_puzzle/typography/text_styles.dart';
-
-import '../puzzle/view/puzzle_page.dart';
 
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI
@@ -19,6 +18,37 @@ import '../puzzle/view/puzzle_page.dart';
 class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   /// {@macro simple_puzzle_layout_delegate}
   const SimplePuzzleLayoutDelegate();
+
+  Widget instructions() {
+    return RichText(
+        text: TextSpan(
+            style: TextStyle(color: Colors.black),
+            children: [
+              TextSpan(text: "Press the "),
+              TextSpan(text: "shuffle ",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: "button to start/restart game"),
+            ]
+        )
+    );
+  }
+
+  Widget header(Widget? child) {
+    return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: child,
+          ),
+          instructions(),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: child,
+          ),
+          PuzzleMenuItem(),
+        ]
+    );
+  }
 
   @override
   Widget endSectionBuilder() {
@@ -41,24 +71,18 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   @override
   Widget startSectionBuilder() {
     return ResponsiveLayoutBuilder(
-        small: (_, child) =>
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: child,
-            ),
-        medium: (_, child) =>
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: child,
-            ),
+        small: (_, child) => header(child),
+        medium: (_, child) => header(child),
         large: (_, child) =>
             Column(
-              children: [
-                Gap(200),
-                PuzzleMenuItem(),
-                Gap(20),
-                SimplePuzzleShuffleButton()
-              ]
+                children: [
+                  Gap(200),
+                  instructions(),
+                  Gap(5),
+                  PuzzleMenuItem(),
+                  Gap(20),
+                  SimplePuzzleShuffleButton()
+                ]
             )
     );
   }
