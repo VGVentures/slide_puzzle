@@ -65,7 +65,7 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
         context.read<DashatarPuzzleBloc>().state.status !=
             DashatarPuzzleStatus.started);
 
-    if (event is RawKeyDownEvent && canMoveTiles && theme is !RotadeTheme) {
+    if (event is RawKeyDownEvent && canMoveTiles && theme is! RotadeTheme) {
       final puzzle = context.read<PuzzleBloc>().state.puzzle;
       final physicalKey = event.data.physicalKey;
 
